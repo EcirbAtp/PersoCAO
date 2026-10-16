@@ -61,7 +61,7 @@ Dix-huit besoins de haut niveau, dont neuf indispensables pour le socle. Chacun 
 | BES-F-13 | Automatiser des tâches par script (macros). | Souhaitable | Socle v2 | CU-06 |
 | BES-F-14 | Calculer par éléments finis la tenue d'une pièce ou d'un assemblage (contraintes, déformations), dans un module complet qui inclut les outils de résistance des matériaux (poutres, flexion, torsion, flambement) avec leurs équations de référence, documentées et vérifiées sur des cas connus. | Souhaitable | Version intermédiaire | CU-01, CU-02 |
 | BES-F-15 | Préparer l'usinage d'une pièce (trajectoires d'outil, export pour machine à commande numérique). | Souhaitable | Version intermédiaire | CU-01 |
-| BES-F-16 | Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi (où une pièce est utilisée), nomenclature. Proposition à valider. | Important | Socle v1 | CU-02, CU-03 |
+| BES-F-16 | Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi (où une pièce est utilisée), nomenclature. | Important | Socle v1 | CU-02, CU-03 |
 | BES-F-17 | Disposer dans chaque pièce et chaque assemblage d'un repère absolu (origine, axes X, Y, Z, trois plans principaux), créer des repères locaux et positionner tout élément par rapport à l'un d'eux. Unités choisies par document (millimètre par défaut). | Indispensable | Socle v1 | CU-01, CU-02, CU-04 |
 | BES-F-18 | Reconstruire une pièce 3D à partir de sa mise en plan 2D (vues cotées). | Souhaitable | Version intermédiaire | CU-03 |
 
@@ -132,6 +132,23 @@ Chaque exigence porte un identifiant stable et le lien vers son parent :
 | TST | Test de vérification | Plans de test (branche montante du V) |
 
 Une exigence sans parent, ou un besoin sans exigence ni test, est signalé automatiquement par la matrice.
+
+## Jalons de développement
+
+Les jalons démarrent une fois le V descendant terminé. Les jalons 1 à 5 forment le socle v1 ; les jalons 1 et 2 sont réalistes rapidement, les suivants sont de gros chantiers. La colonne des besoins couverts est une proposition à valider.
+
+| Jalon | Contenu | Besoins couverts |
+| --- | --- | --- |
+| 1. Base | Fenêtre principale, viewer 3D (rotation, zoom, déplacement), sélection, arbre de spécifications, compas, repères, chargement des modules. | BES-F-04, 08, 17 |
+| 2. Pièces | Esquisses 2D contraintes, extrusion, poche, révolution, congés, chanfreins, dépouilles, répétitions, symétrie, historique paramétrique modifiable. | BES-F-01, 02, 03, 06, 07, 12 |
+| 3. Assemblages | Arbre de produit, contraintes d'assemblage (coïncidence, contact, décalage, angle), détection des collisions. | BES-F-05, 11, 16 |
+| 4. Mises en plan | Vues 2D et coupes à partir du 3D, cotation, export DXF et PDF. | BES-F-09 |
+| 5. Surfaces | Surfaces avancées, balayage, lissage, raccordement. | BES-F-10 |
+| 6. Version intermédiaire | Module de calcul de structure (RDM et éléments finis), usinage, reconstruction d'une pièce depuis sa mise en plan. | BES-F-14, 15, 18 |
+| 7. Modules métier | Aéronautique (profils d'ailes, import de profils), automobile, marine, spatial. | BES-F-13 et besoins propres à chaque module |
+| 8. macOS | Portage macOS, puis module pour graphistes 2D et 3D. | Hors version 1 |
+
+Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 ; il est prévu de réutiliser une bibliothèque existante. L'ordre entre les jalons 6 et 7 reste à confirmer ; l'interface d'extension (BES-F-08) est posée dès le jalon 1 pour que le jalon 7 soit possible sans toucher au socle.
 
 ## Points ouverts et prochaines étapes
 

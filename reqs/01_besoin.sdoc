@@ -361,7 +361,7 @@ STATEMENT: >>>
 Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi, nomenclature.
 <<<
 COMMENT: >>>
-Proposition à valider par Fab.
+Validé par Fab le 16 octobre 2026.
 <<<
 RELATIONS:
 - TYPE: Parent
