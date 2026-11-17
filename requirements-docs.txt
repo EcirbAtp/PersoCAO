@@ -1,0 +1,4 @@
+# Outils de gestion des exigences (non nécessaires pour compiler le logiciel).
+# Installation : pip install -r requirements-docs.txt
+strictdoc==0.30.4
+openpyxl>=3.1,<4
