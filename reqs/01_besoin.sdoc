@@ -527,7 +527,10 @@ VERIFICATION: Test
 STATUT: Validé
 TITLE: Fluidité
 STATEMENT: >>>
-Rester fluide sans jamais sacrifier la précision de calcul (BES-T-10). Seuils : rotation à 30 images/s minimum sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde.
+Rester fluide sans jamais sacrifier la précision de calcul (BES-T-10). Seuils : rotation à 30 images/s minimum sur un assemblage de 200 pièces, recalcul d'une opération simple en moins de 10 secondes.
+<<<
+COMMENT: >>>
+Seuil de recalcul porté de 1 à 10 secondes par Fab le 18 novembre 2026 (spécification technique, PO-T-02).
 <<<
 
 [REQUIREMENT]
@@ -554,7 +557,10 @@ VERIFICATION: Inspection
 STATUT: Validé
 TITLE: Originalité et licences
 STATEMENT: >>>
-Code, icônes et ressources propres au projet originaux ; dépendances open source autorisées si leur licence est compatible avec l'usage prévu (projet privé) ; aucune réutilisation d'un logiciel propriétaire.
+Code, icônes et ressources propres au projet originaux ; dépendances open source autorisées si leur licence est compatible avec l'usage prévu (dépôt public) ; aucune réutilisation d'un logiciel propriétaire.
+<<<
+COMMENT: >>>
+« Projet privé » remplacé par « dépôt public » le 18 novembre 2026 : le dépôt PersoCAO est public (spécification technique, PO-T-05).
 <<<
 
 [REQUIREMENT]
