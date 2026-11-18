@@ -413,6 +413,7 @@ RELATIONS:
 - TYPE: Parent
   VALUE: CU-03
 
+[REQUIREMENT]
 UID: BES-F-19
 NATURE: Fonctionnel
 PRIORITE: Indispensable
