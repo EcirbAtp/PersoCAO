@@ -44,11 +44,6 @@ Le script produit dans `build/` (non versionné) :
 
 La même génération tourne sur GitHub à chaque pull request qui touche aux exigences (workflow `Exigences`) : elle échoue si un `.sdoc` est invalide ou si un lien vise un UID inexistant, et les vues sont téléchargeables dans l'onglet *Actions*, artefact `exigences`.
 
-À chaque mise à jour de `main`, le site HTML est aussi publié sur GitHub Pages, consultable depuis un navigateur ou un téléphone : https://ecirbatp.github.io/PersoCAO/ (page d'un document : https://ecirbatp.github.io/PersoCAO/PersoCAO/reqs/01_besoin.html).
-
-- Activation, une seule fois : *Settings > Pages > Build and deployment > Source* = **GitHub Actions**, puis relancer le workflow `Exigences` (*Actions > Exigences > Run workflow*).
-- GitHub Pages sur un dépôt privé demande un compte GitHub Pro (ou Team/Enterprise). Le site publié est alors **public** pour quiconque connaît l'adresse, même si le dépôt reste privé.
-
 ## Éditer les exigences
 
 - À la main : modifier les fichiers `reqs/*.sdoc`.
