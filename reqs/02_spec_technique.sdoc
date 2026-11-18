@@ -130,13 +130,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Configurations matérielles
 STATEMENT: >>>
-Deux configurations matérielles sont définies. La configuration minimale requise est un PC grand public x86-64 commercialisé en 2020 : le socle s'y installe et toutes ses fonctions y marchent. La configuration de référence des performances (EXT-0501, EXT-0502) est une Microsoft Surface Pro X (ARM64, Windows 11), au grand minimum.
+Deux configurations matérielles sont définies. La configuration de référence des performances (EXT-0501, EXT-0502) est une Microsoft Surface Pro X avec processeur Microsoft SQ1 et 8 Go de mémoire (ARM64, Windows 11). La configuration de bureau requise est un PC x86-64 sous Windows 10, Windows 11 ou Ubuntu 24.04 LTS, avec 16 Go de mémoire, 5 Go d'espace disque libre, un processeur 4 cœurs et une carte graphique compatible OpenGL 4.5 : le socle s'y installe et toutes ses fonctions y marchent.
 <<<
 ACCEPTATION: >>>
 Le scénario de démonstration complet passe sur une machine de chaque configuration ; les bancs de performance de EXT-0501 et EXT-0502 passent sur la Surface Pro X.
 <<<
 COMMENT: >>>
-Décision de Fab du 18 novembre 2026 (PO-T-02). Reste à fixer la machine précise de 2020 (processeur, mémoire, carte graphique) et la variante de Surface Pro X (SQ1 ou SQ2, mémoire) (PO-T-02).
+Décisions de Fab du 18 novembre 2026 (PO-T-02). La configuration de bureau reprend celle qu'Ansys recommande pour SCADE (16 Go de mémoire, environ 4,5 Go de disque, Windows 10 et 11, Ubuntu 22.04 et 24.04). Ansys ne fixe ni processeur ni carte graphique : le processeur 4 cœurs et OpenGL 4.5 sont proposés.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -858,7 +858,7 @@ ACCEPTATION: >>>
 Enregistrement puis réouverture d'un projet nommé et rangé dans un dossier aux noms accentués, avec des pièces et paramètres accentués : noms identiques. Saisie de « 12,5 » puis de « 12.5 » dans une cote : même valeur, affichée « 12,5 ».
 <<<
 COMMENT: >>>
-Les deux séparateurs acceptés : décision de Fab du 18 novembre 2026 (PO-T-09). Conséquence : dans les formules (BES-F-12), la virgule ne peut pas séparer les arguments d'une fonction ; le point-virgule est proposé (PO-T-14). Les noms de paramètres sans accents (spécification fonctionnelle, PO-06) restent compatibles.
+Les deux séparateurs acceptés : décision de Fab du 18 novembre 2026 (PO-T-09). Conséquence : dans les formules (BES-F-12), les arguments d'une fonction sont séparés par un point-virgule (décision de Fab du 18 novembre 2026, PO-T-14). Les noms de paramètres sans accents (spécification fonctionnelle, PO-06) restent compatibles.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1128,7 +1128,7 @@ Décisions de Fab du 18 novembre 2026 :
 
 PO-T-01 : Ubuntu 24.04 LTS retenu ; architectures x86-64 et ARM64 (EXT-0101).
 
-PO-T-02 : Configuration de référence des performances : Surface Pro X au minimum ; configuration minimale requise : PC de 2020 (EXT-0104). Recalcul d'une opération simple en moins de 10 secondes (EXT-0502, BES-T-05 mis à jour).
+PO-T-02 : Configuration de référence des performances : Surface Pro X, processeur SQ1, 8 Go ; configuration de bureau requise : celle recommandée pour SCADE (EXT-0104). Recalcul d'une opération simple en moins de 10 secondes (EXT-0502, BES-T-05 mis à jour).
 
 PO-T-03 : Intervalle et nombre de sauvegardes automatiques réglables par l'utilisateur (EXT-0401).
 
@@ -1150,13 +1150,13 @@ PO-T-11 : Validé : la conception générale prévoira d'appeler le solveur d'es
 
 PO-T-12 : Méthodes de vérification renforcées validées (EXT-0201, EXT-0202, EXT-0802, EXT-0803, EXT-0804, EXT-1003 à EXT-1005).
 
+PO-T-14 : Point-virgule comme séparateur des arguments dans les formules (EXT-0804), à reporter dans la spécification fonctionnelle (BES-F-12).
+
 Points qui restent ouverts :
 
-PO-T-02 : Reste à fixer : la machine précise de 2020 (processeur, mémoire, carte graphique), la variante de Surface Pro X (SQ1 ou SQ2, mémoire), et le contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) de EXT-0501 et EXT-0502.
+PO-T-02 : Reste à fixer : le contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) de EXT-0501 et EXT-0502, et à valider le processeur 4 cœurs et OpenGL 4.5 proposés pour la configuration de bureau (EXT-0104).
 
 PO-T-13 : Licence de PersoCAO (EXT-0706), compatible avec les dépendances admises : par exemple LGPL 3, MPL 2.0 ou une licence permissive (MIT, Apache 2.0).
-
-PO-T-14 : Séparateur des arguments dans les formules : point-virgule proposé, puisque la virgule est acceptée comme séparateur décimal (EXT-0804). À reporter dans la spécification fonctionnelle (BES-F-12).
 <<<
 
 [[/SECTION]]
