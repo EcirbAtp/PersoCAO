@@ -1,6 +1,6 @@
 [DOCUMENT]
 TITLE: PersoCAO – Spécification fonctionnelle
-VERSION: 0.1
+VERSION: 0.2
 
 [GRAMMAR]
 ELEMENTS:
@@ -60,7 +60,7 @@ Conventions :
 - **Parents** : le premier parent est le besoin détaillé ; une exigence qui contribue aussi à d'autres besoins les cite en parents supplémentaires.
 - **Priorité et cible** : héritées du besoin parent principal, sauf mention contraire.
 - **Statut** : toutes les exigences sont au statut Brouillon jusqu'à leur relecture par Fab.
-- **Points ouverts** : un point à trancher est noté dans le champ Commentaire de l'exigence (« Point ouvert PO-xx ») et repris dans la dernière section.
+- **Points ouverts** : un point à trancher est noté dans le champ Commentaire de l'exigence (« Point ouvert PO-xx »), avec sa décision une fois tranché, et repris dans la dernière section.
 - **Tolérance de modélisation** : écart en dessous duquel deux positions sont considérées comme confondues ; sa valeur est fixée par les exigences techniques issues de BES-T-10.
 - Les besoins des socles v2 et v3 (BES-F-13 à BES-F-16, BES-F-18) ne font l'objet ici que d'un cadrage, à détailler avant leur jalon.
 <<<
@@ -167,12 +167,14 @@ TITLE: Unités par document
 STATEMENT: >>>
 Le logiciel doit associer à chaque document (pièce, assemblage, mise en plan) un système d'unités choisi par l'utilisateur, avec par défaut le millimètre pour les longueurs, le degré pour les angles et le kilogramme pour les masses.
 
+- Unités proposées : mm, cm, m et in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses.
+
 - Changer l'unité d'un document change l'affichage et la saisie, jamais la géométrie.
 - Une valeur peut être saisie avec une unité explicite différente de celle du document (par exemple « 1 in » dans un document en millimètres) ; elle est convertie.
 - Une saisie sans unité est interprétée dans l'unité du document.
 <<<
 COMMENT: >>>
-Point ouvert PO-01 : Liste des unités proposées : à fixer (proposition : mm, cm, m, in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses).
+PO-01, tranché par Fab le 18 novembre 2026. Question : Liste des unités proposées : à fixer (proposition : mm, cm, m, in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses). Décision : proposition retenue.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -204,7 +206,7 @@ TITLE: Esquisses paramétriques (BES-F-19)
 
 [TEXT]
 STATEMENT: >>>
-Esquisses 2D contraintes. Le comportement décrit ici est indépendant du solveur retenu ; le choix d'une bibliothèque existante (par exemple PlaneGCS ou SolveSpace, sous réserve de licence, BES-T-07) relève de la conception.
+Esquisses 2D contraintes. Le comportement décrit ici est indépendant du solveur retenu ; le choix d'une bibliothèque existante relève de la conception. Le dépôt étant public, la licence doit être compatible avec BES-T-07 : PlaneGCS (LGPL) reste possible, SolveSpace (GPLv3) est exclu.
 <<<
 
 [REQUIREMENT]
@@ -240,7 +242,7 @@ Le logiciel doit permettre de tracer dans une esquisse au minimum : point, segme
 Il doit aussi offrir les outils d'édition : congé et chanfrein d'esquisse, ajuster, prolonger, couper, décaler, symétrie et répétition à l'intérieur de l'esquisse.
 <<<
 COMMENT: >>>
-Point ouvert PO-02 : Liste des outils d'esquisse à valider par Fab (commentaire de BES-F-19).
+PO-02, tranché par Fab le 18 novembre 2026. Question : Liste des outils d'esquisse à valider par Fab (commentaire de BES-F-19). Décision : liste actuelle validée ; elle pourra évoluer.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -268,12 +270,13 @@ PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
 STATUT: Brouillon
-TITLE: Références externes dans l'esquisse
+TITLE: Éléments prélevés dans l'esquisse
 STATEMENT: >>>
-Le logiciel doit permettre de projeter dans une esquisse des sommets, des arêtes et des contours du modèle 3D ou d'autres esquisses.
+Le logiciel doit permettre de prélever dans une esquisse des sommets, des arêtes et des contours du modèle 3D ou d'autres esquisses, par projection sur le plan de l'esquisse.
 
-- L'élément projeté est associatif : il suit les modifications de sa source.
-- Si la source n'existe plus, l'élément projeté est signalé en erreur et l'esquisse indique la référence perdue ; elle n'est pas supprimée silencieusement.
+- L'élément prélevé est une copie : il ne suit pas les modifications ultérieures de sa source.
+- Modifier ou supprimer la source n'a aucun effet sur l'esquisse.
+- L'élément prélevé se comporte ensuite comme un élément tracé : il peut être contraint, coté ou supprimé.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -327,7 +330,7 @@ STATEMENT: >>>
 Pendant le tracé, le logiciel doit pouvoir créer automatiquement les contraintes déductibles du geste de l'utilisateur (coïncidence avec un point existant, horizontalité, verticalité, tangence). Cette aide est désactivable, et toute contrainte ainsi créée est visible et supprimable comme une autre.
 <<<
 COMMENT: >>>
-Point ouvert PO-03 : La présentation de ces contraintes proposées relève de la spécification IHM (EXI).
+PO-03, tranché par Fab le 18 novembre 2026. Question : La présentation de ces contraintes proposées relève de la spécification IHM (EXI). Décision : renvoi à la spécification IHM (EXI), sans décision à prendre ici.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -366,10 +369,10 @@ Après chaque ajout ou modification de contrainte ou de cote, le logiciel doit r
 - Si une solution existe, il retient celle qui est la plus proche de la géométrie courante, pour éviter les retournements inattendus (un arc qui change de côté, un point qui saute de l'autre côté d'une droite).
 - Si aucune solution n'existe, la modification n'est pas appliquée : l'esquisse reste dans son dernier état résolu et les contraintes en conflit sont désignées.
 - Déplacer à la souris un élément sous-contraint le déplace en respectant toutes les contraintes existantes.
-- Les contraintes résolues sont satisfaites à la tolérance de modélisation du document (BES-T-10).
+- Les contraintes résolues sont satisfaites à la tolérance de modélisation du document (BES-T-10, valeurs listées selon EXT-1002).
 <<<
 COMMENT: >>>
-Point ouvert PO-04 : Valeur de la tolérance de modélisation : à fixer dans les exigences techniques (EXT issues de BES-T-10).
+PO-04, tranché par Fab le 18 novembre 2026. Question : Valeur de la tolérance de modélisation : à fixer dans les exigences techniques (EXT issues de BES-T-10). Décision : valeurs fixées et documentées selon EXT-1002.
 
 Point ouvert PO-05 : Critère mesurable de stabilité du solveur (taille d'esquisse visée, temps de résolution) : à fixer après le prototype « Solveur d'esquisse ».
 <<<
@@ -418,12 +421,14 @@ TITLE: Paramètres nommés
 STATEMENT: >>>
 Le logiciel doit permettre de définir dans un document des paramètres nommés, chacun avec un nom, un type (longueur, angle, masse, sans dimension, entier, booléen), une valeur ou une formule, et un commentaire optionnel.
 
-- Le nom commence par une lettre et ne contient que des lettres, des chiffres et le caractère « _ ».
+- Le nom commence par une lettre et ne contient que des lettres non accentuées (A à Z), des chiffres et le caractère « _ ». Une saisie qui contient un autre caractère est refusée avec un message.
+- Le nom est automatiquement converti en majuscules à la saisie.
+- À la création, le logiciel propose un nom par défaut formé d'un préfixe et d'un numéro incrémenté (par exemple P1, P2, P3), que l'utilisateur peut changer.
 - Deux paramètres d'un même document ne peuvent pas porter le même nom.
 - La liste des paramètres montre, pour chacun, sa valeur courante et les éléments qui l'utilisent.
 <<<
 COMMENT: >>>
-Point ouvert PO-06 : Sensibilité à la casse des noms et acceptation des lettres accentuées : à trancher.
+PO-06, tranché par Fab le 18 novembre 2026. Question : Sensibilité à la casse des noms et acceptation des lettres accentuées : à trancher. Décision : lettres non accentuées seulement, conversion automatique en majuscules, nom par défaut avec numéro incrémenté.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -443,6 +448,8 @@ Le logiciel doit évaluer des formules combinant nombres avec unité, paramètre
 - les opérateurs + − × ÷ et puissance, et les parenthèses ;
 - les fonctions sin, cos, tan, asin, acos, atan, atan2, sqrt, abs, min, max, round, floor, ceil, et la constante pi ;
 - une expression conditionnelle simple (si condition alors valeur1 sinon valeur2).
+
+Le point et la virgule sont tous deux acceptés comme séparateur décimal ; les arguments d'une fonction sont donc séparés par un point-virgule, par exemple ``atan2(DY; DX)`` ou ``max(10,5 mm; L/2)``.
 
 Le logiciel vérifie la cohérence des dimensions : une formule qui additionne une longueur et un angle, ou qui donne un angle là où une longueur est attendue, est refusée avec un message.
 <<<
@@ -516,9 +523,11 @@ STATUT: Brouillon
 TITLE: Paramètres entre documents
 STATEMENT: >>>
 Le logiciel doit permettre à un assemblage de piloter des paramètres de ses pièces, pour qu'une cote commune (par exemple un entraxe) soit définie une seule fois.
+
+Quand le logiciel vérifie les paramètres pilotés d'un assemblage, si une cote commune a des valeurs différentes dans l'assemblage et dans une pièce, il présente l'écart à l'utilisateur et lui propose d'arbitrer : garder la valeur de l'assemblage, garder celle de la pièce, ou rompre le pilotage. Aucune des deux valeurs n'est écrasée sans ce choix.
 <<<
 COMMENT: >>>
-Point ouvert PO-07 : Portée des paramètres entre documents (assemblage vers pièce, pièce vers pièce, fichier de paramètres partagé) : à trancher, avec son effet sur une pièce ouverte seule.
+PO-07, tranché par Fab le 18 novembre 2026. Question : Portée des paramètres entre documents (assemblage vers pièce, pièce vers pièce, fichier de paramètres partagé) : à trancher, avec son effet sur une pièce ouverte seule. Décision : assemblage pilote les pièces ; en cas d'écart sur une cote commune, arbitrage proposé à l'utilisateur.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -548,7 +557,7 @@ Le logiciel doit construire une pièce comme un solide résultant de la suite de
 Le solide obtenu après chaque opération est un solide valide (fermé, sans auto-intersection) calculé en géométrie exacte (BES-T-10).
 <<<
 COMMENT: >>>
-Point ouvert PO-08 : Pièce multi-corps (plusieurs solides disjoints ou corps de travail combinés par opérations booléennes) : à décider pour la v1.
+PO-08, tranché par Fab le 18 novembre 2026. Question : Pièce multi-corps (plusieurs solides disjoints ou corps de travail combinés par opérations booléennes) : à décider pour la v1. Décision : reporté au socle v3 (EXF-0112).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -621,10 +630,11 @@ Le logiciel doit créer des trous positionnés par des points d'esquisse sur une
 
 - les types simple, lamé, fraisé et taraudé ;
 - un fond plat ou conique (angle de pointe réglable, 118° par défaut), une profondeur donnée ou débouchante ;
-- pour un trou taraudé, le diamètre et le pas du filetage, enregistrés comme données de la pièce et représentés sans modéliser l'hélice.
+- pour un trou taraudé, le diamètre et le pas du filetage, enregistrés comme données de la pièce et représentés sans modéliser l'hélice ;
+- une bibliothèque de dimensions normalisées selon les normes ISO usuelles : filetages métriques (ISO 261 et ISO 262), trous de passage (ISO 273), lamages pour vis à tête cylindrique (ISO 4762) et fraisures pour vis à tête fraisée (ISO 10642). L'utilisateur peut aussi saisir des dimensions libres.
 <<<
 COMMENT: >>>
-Point ouvert PO-09 : Bibliothèque de dimensions normalisées (trous de passage, lamages et taraudages ISO métriques) : à inclure ou non en v1, et liste des normes.
+PO-09, tranché par Fab le 18 novembre 2026. Question : Bibliothèque de dimensions normalisées (trous de passage, lamages et taraudages ISO métriques) : à inclure ou non en v1, et liste des normes. Décision : bibliothèque incluse en v1, normes ISO usuelles.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -645,7 +655,7 @@ Le logiciel doit arrondir des arêtes sélectionnées avec un rayon constant.
 - Un rayon trop grand pour la géométrie fait échouer l'opération avec un message, sans produire de solide invalide (EXF-0206).
 <<<
 COMMENT: >>>
-Point ouvert PO-10 : Congé à rayon variable, et congé entre faces (non limité aux arêtes) : v1 ou plus tard ?
+PO-10, tranché par Fab le 18 novembre 2026. Question : Congé à rayon variable, et congé entre faces (non limité aux arêtes) : v1 ou plus tard ? Décision : reporté au socle v3 (EXF-0113).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -695,7 +705,7 @@ Le logiciel doit évider un solide pour lui donner une épaisseur de paroi const
 Une épaisseur incompatible avec la géométrie (par exemple supérieure à un rayon de courbure intérieur) fait échouer l'opération avec un message.
 <<<
 COMMENT: >>>
-Point ouvert PO-11 : Épaisseurs différentes par face : v1 ou plus tard ?
+PO-11, tranché par Fab le 18 novembre 2026. Question : Épaisseurs différentes par face : v1 ou plus tard ? Décision : reporté au socle v3 (EXF-0114).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -714,12 +724,13 @@ Le logiciel doit répéter une ou plusieurs opérations :
 
 - répétition linéaire selon une ou deux directions, définie par le nombre d'instances et soit le pas, soit la longueur totale ;
 - répétition circulaire autour d'un axe, définie par le nombre d'instances et l'angle total ou l'angle entre instances ;
-- répétition suivant les points d'une esquisse.
+- répétition suivant les points d'une esquisse ;
+- répétition le long d'une courbe, définie par le nombre d'instances et soit le pas, soit la longueur totale, avec orientation des instances fixe ou suivant la courbe.
 
 Chaque instance peut être supprimée individuellement. Une instance qui sort de la matière ou n'a pas de support est ignorée et signalée, sans faire échouer les autres.
 <<<
 COMMENT: >>>
-Point ouvert PO-12 : Répétition le long d'une courbe : v1 ou plus tard ?
+PO-12, tranché par Fab le 18 novembre 2026. Question : Répétition le long d'une courbe : v1 ou plus tard ? Décision : inclus en v1.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -735,6 +746,60 @@ STATUT: Brouillon
 TITLE: Symétrie
 STATEMENT: >>>
 Le logiciel doit créer le symétrique d'une ou plusieurs opérations, ou de tout le solide, par rapport à un plan ou une face plane. Le résultat reste associatif à ses sources.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0112
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v3
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Pièce multi-corps
+STATEMENT: >>>
+Le logiciel doit permettre qu'une pièce contienne plusieurs solides (corps), disjoints ou combinés entre eux par des opérations booléennes (union, soustraction, intersection).
+<<<
+RATIONALE: >>>
+Reporté au socle v3 par Fab le 18 novembre 2026 (PO-08). En socle v1, une pièce est un seul solide (EXF-0101).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0113
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v3
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Congés avancés
+STATEMENT: >>>
+Le logiciel doit créer des congés à rayon variable le long d'une arête, et des congés entre deux faces non adjacentes.
+<<<
+RATIONALE: >>>
+Reporté au socle v3 par Fab le 18 novembre 2026 (PO-10).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0114
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v3
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Coque à épaisseurs multiples
+STATEMENT: >>>
+Le logiciel doit permettre de donner à certaines faces d'une coque une épaisseur différente de l'épaisseur générale.
+<<<
+RATIONALE: >>>
+Reporté au socle v3 par Fab le 18 novembre 2026 (PO-11).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -832,9 +897,11 @@ STATEMENT: >>>
 Quand une opération référence une face, une arête ou un sommet, le logiciel doit conserver cette référence sur la même entité géométrique après toute modification en amont, tant que cette entité existe encore dans le nouveau résultat (par exemple après changement d'une cote, ajout d'un trou ou d'un congé en amont).
 
 Si l'entité a disparu, l'opération passe en erreur en désignant la référence perdue, et le logiciel permet de la redésigner ; il ne la remplace jamais silencieusement par une autre entité.
+
+Critère d'acceptation : après la modification, l'entité retrouvée est issue de la même opération et du même élément d'esquisse que l'entité de départ. Il est vérifié sur un jeu de cas de test qui comprend au minimum : changer une cote en amont, ajouter un trou en amont, ajouter un congé en amont, réordonner deux opérations.
 <<<
 COMMENT: >>>
-Point ouvert PO-13 : Critère d'acceptation de la désignation persistante (jeu de cas de test de référence) : à établir à partir du prototype « Historique et désignation des faces ».
+PO-13, tranché par Fab le 18 novembre 2026. Question : Critère d'acceptation de la désignation persistante (jeu de cas de test de référence) : à établir à partir du prototype « Historique et désignation des faces ». Décision : même opération et même élément d'esquisse que l'entité de départ, sur un jeu de cas de test.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -899,10 +966,12 @@ TITLE: Actions annulables
 STATEMENT: >>>
 Le logiciel doit permettre d'annuler toute action qui modifie un document : création, modification, suppression, désactivation ou déplacement d'une esquisse, d'une contrainte, d'une cote, d'une opération, d'un paramètre, d'un composant ou d'une contrainte d'assemblage, d'un élément de mise en plan, d'une propriété ou d'un matériau.
 
+Afficher ou masquer un élément est aussi une action annulable.
+
 Ne sont pas annulables : la navigation dans la vue, la sélection, l'enregistrement, l'export.
 <<<
 COMMENT: >>>
-Point ouvert PO-14 : Afficher ou masquer un élément est-il une action annulable ?
+PO-14, tranché par Fab le 18 novembre 2026. Question : Afficher ou masquer un élément est-il une action annulable ? Décision : oui, afficher ou masquer est annulable.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -917,10 +986,10 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Annuler et rétablir successifs
 STATEMENT: >>>
-Le logiciel doit tenir, pour chaque document ouvert, une pile d'actions annulables d'au moins 100 actions. Après avoir annulé, l'utilisateur peut rétablir les actions annulées tant qu'il n'a pas fait de nouvelle modification ; une nouvelle modification vide la liste des actions à rétablir.
+Le logiciel doit tenir, pour chaque document ouvert, une pile d'actions annulables d'au moins 50 actions. Après avoir annulé, l'utilisateur peut rétablir les actions annulées tant qu'il n'a pas fait de nouvelle modification ; une nouvelle modification vide la liste des actions à rétablir.
 <<<
 COMMENT: >>>
-Point ouvert PO-15 : Profondeur minimale de la pile (100 proposé).
+PO-15, tranché par Fab le 18 novembre 2026. Question : Profondeur minimale de la pile (100 proposé). Décision : 50 actions au minimum.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -953,9 +1022,11 @@ STATUT: Brouillon
 TITLE: Granularité
 STATEMENT: >>>
 Une commande validée par l'utilisateur doit constituer une seule action annulable, même si elle modifie plusieurs éléments. Pendant l'édition d'une esquisse, chaque ajout ou modification est annulable séparément.
+
+La sortie de l'esquisse est une action distincte dans la pile. Enregistrer le document à la sortie de l'esquisse ne retire rien de la pile.
 <<<
 COMMENT: >>>
-Point ouvert PO-16 : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ?
+PO-16, tranché par Fab le 18 novembre 2026. Question : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ? Décision : la sortie d'esquisse est une action distincte ; enregistrer à la sortie ne retire rien de la pile.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -970,10 +1041,10 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Pile et enregistrement
 STATEMENT: >>>
-L'enregistrement d'un document ne doit pas vider sa pile d'annulation pendant la session.
+L'enregistrement d'un document ne doit pas vider sa pile d'annulation pendant la session. La pile n'est pas conservée après la fermeture du document : chaque ouverture repart d'une pile vide.
 <<<
 COMMENT: >>>
-Point ouvert PO-17 : Conserver ou non la pile d'annulation après fermeture et réouverture du document.
+PO-17, tranché par Fab le 18 novembre 2026. Question : Conserver ou non la pile d'annulation après fermeture et réouverture du document. Décision : non : chaque ouverture repart d'une pile vide.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -988,10 +1059,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Actions touchant plusieurs documents
 STATEMENT: >>>
-Une action qui modifie plusieurs documents (par exemple modifier une pièce depuis l'assemblage qui la contient) doit être annulable en une seule fois depuis le document où elle a été faite.
+Une seule fenêtre du logiciel est active à la fois, et chaque ouverture d'un document a sa propre pile d'annulation.
+
+- Une action qui modifie plusieurs documents (par exemple modifier une pièce depuis l'assemblage qui la contient) est enregistrée dans la pile du document depuis lequel elle a été faite, et s'y annule en une seule fois.
+- Une pièce ne peut pas être modifiée seule pendant qu'un assemblage qui la contient est ouvert : le logiciel refuse cette ouverture en modification et l'explique.
 <<<
 COMMENT: >>>
-Point ouvert PO-18 : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser.
+PO-18, tranché par Fab le 18 novembre 2026. Question : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser. Décision : une seule fenêtre active, une pile par ouverture ; pas de modification d'une pièce seule pendant que l'assemblage est ouvert.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1072,13 +1146,16 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Afficher et masquer
 STATEMENT: >>>
-Le logiciel doit permettre d'afficher ou de masquer individuellement des pièces, des composants, des faces, des esquisses et des éléments de référence. Masquer un élément ne le supprime pas et ne change ni les calculs ni les mesures. L'état d'affichage est enregistré avec le document.
+Le logiciel doit permettre d'afficher ou de masquer individuellement des pièces, des composants, des faces, des esquisses et des éléments de référence. Masquer un élément ne le supprime pas et ne change ni les calculs ni les mesures.
+
+- Afficher ou masquer est une action annulable (EXF-0301).
+- L'état d'affichage n'est pas enregistré avec le document : à la réouverture, tous les éléments sont affichés.
 <<<
 RELATIONS:
 - TYPE: Parent
   VALUE: BES-F-04
 - TYPE: Parent
-  VALUE: BES-F-07
+  VALUE: BES-F-03
 
 [REQUIREMENT]
 UID: EXF-0405
@@ -1089,12 +1166,12 @@ VERIFICATION: Démonstration
 STATUT: Brouillon
 TITLE: Coupes de visualisation
 STATEMENT: >>>
-Le logiciel doit permettre de couper la vue du modèle par un ou plusieurs plans de coupe (au moins trois simultanés), chacun positionné et orienté librement, déplaçable de façon interactive, avec une option d'affichage de la section remplie.
+Le logiciel doit permettre de couper la vue du modèle par un à trois plans de coupe simultanés, chacun positionné et orienté librement, déplaçable de façon interactive, avec une option d'affichage de la section remplie. La coupe peut être limitée à une sélection de composants.
 
 Une coupe de visualisation ne modifie jamais le modèle.
 <<<
 COMMENT: >>>
-Point ouvert PO-19 : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants.
+PO-19, tranché par Fab le 18 novembre 2026. Question : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants. Décision : un à trois plans simultanés ; coupe limitée à une sélection : oui.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1209,9 +1286,10 @@ Le logiciel doit détecter, sur demande, les interférences entre les composants
 
 - Le contact sans volume commun est distingué d'une interférence et peut être inclus ou exclu du rapport.
 - Le calcul porte sur la géométrie exacte (BES-T-10).
+- Pour chaque interférence trouvée, le logiciel propose à l'utilisateur d'arbitrer : la corriger, ou la déclarer voulue (ajustement serré, filetage). Une interférence déclarée voulue n'apparaît plus dans les rapports suivants tant que les deux composants et leur position relative ne changent pas ; la liste des interférences voulues reste consultable et modifiable.
 <<<
 COMMENT: >>>
-Point ouvert PO-20 : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ?
+PO-20, tranché par Fab le 18 novembre 2026. Question : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ? Décision : arbitrage proposé à l'utilisateur pour chaque interférence (corriger ou déclarer voulue).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1245,10 +1323,12 @@ TITLE: Conception d'une pièce dans l'assemblage
 STATEMENT: >>>
 Le logiciel doit permettre de créer une nouvelle pièce dans un assemblage, en s'appuyant sur la géométrie des autres composants (esquisse sur leurs faces, projection de leurs arêtes, limite d'extrusion jusqu'à leurs faces).
 
-Ces références entre pièces sont associatives ; l'utilisateur peut les rompre pour rendre la pièce indépendante.
+Ces références entre pièces sont associatives, sauf les éléments prélevés dans une esquisse, qui sont des copies (EXF-1904). L'utilisateur peut rompre ces références pour rendre la pièce indépendante.
+
+Comme une pièce ne peut pas être modifiée seule pendant que l'assemblage est ouvert (EXF-0306), elle garde, ouverte seule, la dernière géométrie de ses références ; celles-ci se remettent à jour à la prochaine ouverture de l'assemblage.
 <<<
 COMMENT: >>>
-Point ouvert PO-21 : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage.
+PO-21, tranché par Fab le 18 novembre 2026. Question : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage. Décision : voir PO-18 ; ouverte seule, la pièce garde la dernière géométrie de ses références.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1428,9 +1508,9 @@ Le logiciel doit permettre d'affecter un matériau à chaque pièce, choisi dans
 Une pièce sans matériau a une masse inconnue : le calcul de masse le signale au lieu de supposer une valeur.
 <<<
 COMMENT: >>>
-Point ouvert PO-22 : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ?
+PO-22, tranché par Fab le 18 novembre 2026. Question : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ? Décision : non en v1 ; à voir au moment du calcul de structure.
 
-Point ouvert PO-23 : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ?
+PO-23, tranché par Fab le 18 novembre 2026. Question : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ? Décision : masse signalée inconnue.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1445,10 +1525,10 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Exactitude des mesures
 STATEMENT: >>>
-Les mesures et propriétés de masse doivent être calculées sur la géométrie exacte, jamais sur le maillage d'affichage, et vérifiées sur des cas de référence à résultat analytique (cube, cylindre, sphère, tore, assemblage de solides simples de matériaux différents).
+Les mesures et propriétés de masse doivent être calculées sur la géométrie exacte, jamais sur le maillage d'affichage, et vérifiées sur des cas de référence à résultat analytique (cube, cylindre, sphère, tore, assemblage de solides simples de matériaux différents). L'écart admis est fixé par EXT-1003 (écart relatif inférieur ou égal à 1e-6).
 <<<
 COMMENT: >>>
-Point ouvert PO-24 : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10).
+PO-24, tranché par Fab le 18 novembre 2026. Question : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10). Décision : écart fixé par EXT-1003.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1473,10 +1553,12 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Document de mise en plan
 STATEMENT: >>>
-Le logiciel doit permettre de créer une mise en plan d'une pièce ou d'un assemblage, composée d'une ou plusieurs feuilles. Chaque feuille a un format (A4 à A0, ou personnalisé), une orientation, une échelle par défaut et un cartouche dont les champs se remplissent à partir des propriétés du modèle (référence, désignation, matériau, échelle, date).
+Le logiciel doit permettre de créer une mise en plan d'une pièce ou d'un assemblage, composée d'une ou plusieurs feuilles. Chaque feuille a un format (A4 à A0, ou personnalisé), une orientation, une échelle par défaut et un cartouche dont les champs se remplissent à partir des propriétés du modèle.
+
+Le cartouche comporte les informations usuelles (ISO 7200) : titre ou désignation, référence, indice, matériau, masse, échelle, format, symbole de la méthode de projection, unité, tolérances générales, auteur, date, numéro de feuille et nombre de feuilles.
 <<<
 COMMENT: >>>
-Point ouvert PO-25 : Contenu et modèle du cartouche : à définir avec Fab.
+PO-25, tranché par Fab le 18 novembre 2026. Question : Contenu et modèle du cartouche : à définir avec Fab. Décision : informations usuelles de cartouche (ISO 7200).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1514,9 +1596,11 @@ STATUT: Brouillon
 TITLE: Vues en coupe
 STATEMENT: >>>
 Le logiciel doit générer des vues en coupe à partir d'un trait de coupe tracé sur une vue (droit ou brisé), avec hachures dépendant du matériau et désignation de la coupe (par exemple A-A).
+
+Il doit aussi produire des demi-coupes, des coupes locales et des sections sorties.
 <<<
 COMMENT: >>>
-Point ouvert PO-26 : Demi-coupes, coupes locales et sections sorties : v1 ou plus tard ?
+PO-26, tranché par Fab le 18 novembre 2026. Question : Demi-coupes, coupes locales et sections sorties : v1 ou plus tard ? Décision : inclus en v1.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1550,12 +1634,16 @@ TITLE: Cotation et annotations
 STATEMENT: >>>
 Le logiciel doit permettre de coter les vues : cotes linéaires, angulaires, de rayon et de diamètre, associatives à la géométrie de la vue, et reprise des cotes du modèle. Il doit aussi permettre d'ajouter des textes et des repères.
 
+Il doit permettre d'indiquer les tolérances dimensionnelles (écarts et ajustements ISO 286, tolérances générales ISO 2768), les tolérances géométriques (ISO 1101), les états de surface (ISO 21920) et les symboles de soudure (ISO 2553).
+
+Les traits et la cotation suivent les normes de dessin usuelles (ISO 128, ISO 129-1, projections selon ISO 5456).
+
 Une cote dont la géométrie a disparu après mise à jour est signalée, pas supprimée silencieusement.
 <<<
 COMMENT: >>>
-Point ouvert PO-27 : Tolérances dimensionnelles, tolérances géométriques, états de surface et symboles de soudure : lesquels en v1 ?
+PO-27, tranché par Fab le 18 novembre 2026. Question : Tolérances dimensionnelles, tolérances géométriques, états de surface et symboles de soudure : lesquels en v1 ? Décision : tous inclus en v1.
 
-Point ouvert PO-28 : Normes de dessin à respecter (ISO 128 pour les traits, ISO 129 pour la cotation, etc.) : à confirmer.
+PO-28, tranché par Fab le 18 novembre 2026. Question : Normes de dessin à respecter (ISO 128 pour les traits, ISO 129 pour la cotation, etc.) : à confirmer. Décision : normes ISO usuelles.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1586,11 +1674,31 @@ STATUT: Brouillon
 TITLE: Export DXF
 STATEMENT: >>>
 Le logiciel doit exporter une feuille de mise en plan en DXF, la géométrie étant écrite en vraie grandeur dans l'unité du document, avec des calques distincts au minimum pour les traits visibles, les traits cachés, les axes, les cotes, les hachures et le cadre.
+
+La version de DXF est choisie à l'export : DXF 2013 par défaut, qui conserve la géométrie exacte, ou R12, lu par la plupart des machines de découpe, où les courbes sont approchées par des arcs et des segments.
 <<<
 COMMENT: >>>
-Point ouvert PO-29 : Version de DXF produite : à fixer.
+PO-29, tranché par Fab le 18 novembre 2026. Question : Version de DXF produite : à fixer. Décision : choix à l'export, DXF 2013 par défaut, R12 en option.
 
-Point ouvert PO-30 : Export d'une vue seule en vraie grandeur (sans cadre), par exemple pour la découpe : v1 ?
+PO-30, tranché par Fab le 18 novembre 2026. Question : Export d'une vue seule en vraie grandeur (sans cadre), par exemple pour la découpe : v1 ? Décision : reporté au socle v3 (EXF-0908).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0908
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v3
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Export d'une vue seule en vraie grandeur
+STATEMENT: >>>
+Le logiciel doit exporter en DXF une vue seule, sans cadre ni cartouche, en vraie grandeur, par exemple pour une découpe.
+<<<
+RATIONALE: >>>
+Reporté au socle v3 par Fab le 18 novembre 2026 (PO-30).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1618,7 +1726,7 @@ STATEMENT: >>>
 Le logiciel doit permettre de créer des courbes 3D servant de trajectoires et de guides : spline 3D passant par des points, hélice, courbe projetée sur une surface, intersection de deux surfaces.
 <<<
 COMMENT: >>>
-Point ouvert PO-31 : Liste des outils de surfaces et de courbes à valider par Fab (commentaire de CU-05).
+PO-31, tranché par Fab le 18 novembre 2026. Question : Liste des outils de surfaces et de courbes à valider par Fab (commentaire de CU-05). Décision : liste validée ; elle pourra évoluer.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1708,7 +1816,7 @@ RELATIONS:
 [REQUIREMENT]
 UID: EXF-1007
 NATURE: Fonctionnel
-PRIORITE: Souhaitable
+PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
 STATUT: Brouillon
@@ -1717,7 +1825,7 @@ STATEMENT: >>>
 Le logiciel doit permettre de vérifier la continuité entre deux surfaces (écarts de position, de tangence et de courbure le long du bord commun).
 <<<
 COMMENT: >>>
-Point ouvert PO-32 : Ajout proposé pour les formes aérodynamiques (justification de CU-05) ; à confirmer ou retirer, ainsi que la priorité.
+PO-32, tranché par Fab le 18 novembre 2026. Question : Ajout proposé pour les formes aérodynamiques (justification de CU-05) ; à confirmer ou retirer, ainsi que la priorité. Décision : exigence conservée, priorité Indispensable.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1763,10 +1871,10 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Export STEP
 STATEMENT: >>>
-Le logiciel doit exporter une pièce ou un assemblage en STEP, en conservant la géométrie exacte, la structure d'assemblage, les noms et les couleurs.
+Le logiciel doit exporter une pièce ou un assemblage en STEP, en conservant la géométrie exacte, la structure d'assemblage, les noms et les couleurs. Le protocole est choisi à l'export : AP242 par défaut, AP214 en option pour les logiciels plus anciens.
 <<<
 COMMENT: >>>
-Point ouvert PO-33 : Protocole d'application par défaut à l'export (AP214 ou AP242).
+PO-33, tranché par Fab le 18 novembre 2026. Question : Protocole d'application par défaut à l'export (AP214 ou AP242). Décision : choix à l'export, AP242 par défaut, AP214 en option.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1811,10 +1919,14 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Import STL
 STATEMENT: >>>
-Le logiciel doit importer un fichier STL comme maillage, affichable et utilisable comme référence visuelle.
+Le logiciel doit importer un fichier STL comme maillage. À l'import, il propose à l'utilisateur, avec un aperçu du rendu, trois usages :
+
+- maillage de référence, sur lequel les mesures sont possibles et signalées comme approchées ;
+- conversion en solide facetté, utilisable comme corps de la pièce ;
+- support d'accrochage pour les esquisses (sommets et arêtes du maillage).
 <<<
 COMMENT: >>>
-Point ouvert PO-34 : Usages d'un maillage importé : mesures approchées, conversion en solide facetté, accrochage d'esquisse ? À préciser.
+PO-34, tranché par Fab le 18 novembre 2026. Question : Usages d'un maillage importé : mesures approchées, conversion en solide facetté, accrochage d'esquisse ? À préciser. Décision : trois usages proposés à l'import, avec aperçu du rendu.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1871,7 +1983,7 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Contenu enregistré
 STATEMENT: >>>
-Le logiciel doit enregistrer tout ce qui est nécessaire pour reprendre le travail à l'identique : documents, historique complet (éléments de référence, esquisses, contraintes, cotes, opérations et leur ordre, état d'activation), paramètres et formules, composants et contraintes d'assemblage, mises en plan, propriétés, matériaux, unités, état d'affichage.
+Le logiciel doit enregistrer tout ce qui est nécessaire pour reprendre le travail à l'identique : documents, historique complet (éléments de référence, esquisses, contraintes, cotes, opérations et leur ordre, état d'activation), paramètres et formules, composants et contraintes d'assemblage, mises en plan, propriétés, matériaux, unités. L'état d'affichage n'est pas enregistré (EXF-0404).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1906,9 +2018,11 @@ STATUT: Brouillon
 TITLE: Format ouvert et documenté
 STATEMENT: >>>
 Le format de projet doit être décrit par une spécification livrée avec le logiciel, suffisante pour qu'un programme tiers puisse lire l'historique et les paramètres sans PersoCAO. Chaque fichier indique la version du format qui l'a produit.
+
+Un projet est un dossier, qui contient un fichier conteneur par document (pièce, assemblage, mise en plan) ; le détail du format relève des exigences techniques.
 <<<
 COMMENT: >>>
-Point ouvert PO-35 : Organisation du projet sur disque (un fichier par document, un fichier unique ou un dossier) et chemins entre documents : relève de la conception, mais le choix est visible pour l'utilisateur ; à valider.
+PO-35, tranché par Fab le 18 novembre 2026. Question : Organisation du projet sur disque (un fichier par document, un fichier unique ou un dossier) et chemins entre documents : relève de la conception, mais le choix est visible pour l'utilisateur ; à valider. Décision : un dossier projet, un fichier conteneur par document ; un document venant d'un autre projet y est copié.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1923,7 +2037,9 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Références entre documents
 STATEMENT: >>>
-Les références d'un assemblage ou d'une mise en plan vers leurs documents sources doivent survivre au déplacement du projet complet dans un autre dossier ou sur une autre machine.
+Les références d'un assemblage ou d'une mise en plan vers leurs documents sources doivent survivre au déplacement ou à la copie du dossier projet complet dans un autre dossier ou sur une autre machine : un document est désigné par son chemin à l'intérieur du dossier projet.
+
+Un document venant d'un autre projet est copié dans le dossier projet au moment de son insertion.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1987,9 +2103,11 @@ STATUT: Brouillon
 TITLE: Activer, désactiver, désinstaller
 STATEMENT: >>>
 Le logiciel doit permettre d'activer, de désactiver et de désinstaller un module. Un module désactivé n'est pas chargé et n'apporte aucune commande ; il reste installé.
+
+L'activation, la désactivation et la désinstallation prennent effet au prochain démarrage du logiciel, qui l'indique à l'utilisateur.
 <<<
 COMMENT: >>>
-Point ouvert PO-36 : Prise en compte de l'activation ou de la désactivation : immédiate ou au prochain démarrage ?
+PO-36, tranché par Fab le 18 novembre 2026. Question : Prise en compte de l'activation ou de la désactivation : immédiate ou au prochain démarrage ? Décision : au prochain démarrage.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -2068,9 +2186,11 @@ STATEMENT: >>>
 Le logiciel doit permettre d'écrire, d'enregistrer et d'exécuter des scripts qui accèdent aux fonctions de modélisation (création et modification d'esquisses, d'opérations, de paramètres, d'assemblages), dans le langage de script du logiciel.
 
 Les modifications faites par un script s'annulent en une seule fois (BES-F-03). Une erreur dans un script arrête son exécution avec un message qui donne la ligne en cause, sans laisser le document dans un état partiel.
+
+Le logiciel doit aussi proposer un enregistreur de macros, qui traduit en script les actions faites par l'utilisateur.
 <<<
 COMMENT: >>>
-Point ouvert PO-37 : Enregistreur de macros (actions de l'utilisateur traduites en script) : à prévoir ?
+PO-37, tranché par Fab le 18 novembre 2026. Question : Enregistreur de macros (actions de l'utilisateur traduites en script) : à prévoir ? Décision : oui.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -2115,7 +2235,7 @@ STATEMENT: >>>
 Le logiciel doit calculer en élasticité linéaire statique les déplacements et les contraintes d'une pièce ou d'un assemblage, à partir du matériau des pièces (BES-F-11), de conditions aux limites et de chargements définis par l'utilisateur, et vérifier ses résultats sur des cas de référence.
 <<<
 COMMENT: >>>
-Point ouvert PO-38 : Types d'analyse au-delà du statique linéaire (modal, thermique, non linéaire) : à définir pour le socle v2.
+PO-38, tranché par Fab le 18 novembre 2026. Question : Types d'analyse au-delà du statique linéaire (modal, thermique, non linéaire) : à définir pour le socle v2. Décision : à définir au moment du jalon.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -2145,7 +2265,7 @@ STATEMENT: >>>
 Le logiciel doit calculer des trajectoires d'outil à partir de la géométrie d'une pièce, d'un brut et d'outils définis par l'utilisateur, les simuler, et les exporter dans un programme pour machine à commande numérique.
 <<<
 COMMENT: >>>
-Point ouvert PO-39 : Types d'usinage (fraisage 2,5 axes, 3 axes, tournage) et post-processeurs visés : à définir pour le socle v2.
+PO-39, tranché par Fab le 18 novembre 2026. Question : Types d'usinage (fraisage 2,5 axes, 3 axes, tournage) et post-processeurs visés : à définir pour le socle v2. Décision : à définir au moment du jalon.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -2230,7 +2350,7 @@ STATEMENT: >>>
 Le logiciel doit proposer de reconstruire une pièce 3D à partir de vues 2D cotées (issues d'une mise en plan ou d'un DXF), en produisant un historique paramétrique modifiable, et signaler les vues incohérentes entre elles.
 <<<
 COMMENT: >>>
-Point ouvert PO-40 : Sources acceptées (mises en plan PersoCAO seulement, ou DXF tiers) et niveau d'automatisation attendu : à définir pour le socle v3.
+PO-40, tranché par Fab le 18 novembre 2026. Question : Sources acceptées (mises en plan PersoCAO seulement, ou DXF tiers) et niveau d'automatisation attendu : à définir pour le socle v3. Décision : à définir au moment du jalon.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -2239,52 +2359,52 @@ RELATIONS:
 [[/SECTION]]
 
 [[SECTION]]
-TITLE: Points ouverts
+TITLE: Points ouverts et décisions
 
 [TEXT]
 STATEMENT: >>>
-Points à trancher par Fab avant de passer les exigences au statut Validé. Chacun est aussi noté dans l'exigence concernée.
+Points soulevés par la version 0.1, tranchés par Fab le 18 novembre 2026, sauf PO-05 qui attend le prototype « Solveur d'esquisse ». Chaque décision est aussi notée dans l'exigence concernée.
 
-- **PO-01** (EXF-1705) : Liste des unités proposées : à fixer (proposition : mm, cm, m, in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses).
-- **PO-02** (EXF-1902) : Liste des outils d'esquisse à valider par Fab (commentaire de BES-F-19).
-- **PO-03** (EXF-1907) : La présentation de ces contraintes proposées relève de la spécification IHM (EXI).
-- **PO-04** (EXF-1909) : Valeur de la tolérance de modélisation : à fixer dans les exigences techniques (EXT issues de BES-T-10).
-- **PO-05** (EXF-1909) : Critère mesurable de stabilité du solveur (taille d'esquisse visée, temps de résolution) : à fixer après le prototype « Solveur d'esquisse ».
-- **PO-06** (EXF-1201) : Sensibilité à la casse des noms et acceptation des lettres accentuées : à trancher.
-- **PO-07** (EXF-1206) : Portée des paramètres entre documents (assemblage vers pièce, pièce vers pièce, fichier de paramètres partagé) : à trancher, avec son effet sur une pièce ouverte seule.
-- **PO-08** (EXF-0101) : Pièce multi-corps (plusieurs solides disjoints ou corps de travail combinés par opérations booléennes) : à décider pour la v1.
-- **PO-09** (EXF-0105) : Bibliothèque de dimensions normalisées (trous de passage, lamages et taraudages ISO métriques) : à inclure ou non en v1, et liste des normes.
-- **PO-10** (EXF-0106) : Congé à rayon variable, et congé entre faces (non limité aux arêtes) : v1 ou plus tard ?
-- **PO-11** (EXF-0109) : Épaisseurs différentes par face : v1 ou plus tard ?
-- **PO-12** (EXF-0110) : Répétition le long d'une courbe : v1 ou plus tard ?
-- **PO-13** (EXF-0205) : Critère d'acceptation de la désignation persistante (jeu de cas de test de référence) : à établir à partir du prototype « Historique et désignation des faces ».
-- **PO-14** (EXF-0301) : Afficher ou masquer un élément est-il une action annulable ?
-- **PO-15** (EXF-0302) : Profondeur minimale de la pile (100 proposé).
-- **PO-16** (EXF-0304) : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ?
-- **PO-17** (EXF-0305) : Conserver ou non la pile d'annulation après fermeture et réouverture du document.
-- **PO-18** (EXF-0306) : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser.
-- **PO-19** (EXF-0405) : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants.
-- **PO-20** (EXF-0505) : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ?
-- **PO-21** (EXF-0507) : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage.
-- **PO-22** (EXF-1103) : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ?
-- **PO-23** (EXF-1103) : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ?
-- **PO-24** (EXF-1104) : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10).
-- **PO-25** (EXF-0901) : Contenu et modèle du cartouche : à définir avec Fab.
-- **PO-26** (EXF-0903) : Demi-coupes, coupes locales et sections sorties : v1 ou plus tard ?
-- **PO-27** (EXF-0905) : Tolérances dimensionnelles, tolérances géométriques, états de surface et symboles de soudure : lesquels en v1 ?
-- **PO-28** (EXF-0905) : Normes de dessin à respecter (ISO 128 pour les traits, ISO 129 pour la cotation, etc.) : à confirmer.
-- **PO-29** (EXF-0907) : Version de DXF produite : à fixer.
-- **PO-30** (EXF-0907) : Export d'une vue seule en vraie grandeur (sans cadre), par exemple pour la découpe : v1 ?
-- **PO-31** (EXF-1001) : Liste des outils de surfaces et de courbes à valider par Fab (commentaire de CU-05).
-- **PO-32** (EXF-1007) : Ajout proposé pour les formes aérodynamiques (justification de CU-05) ; à confirmer ou retirer, ainsi que la priorité.
-- **PO-33** (EXF-0602) : Protocole d'application par défaut à l'export (AP214 ou AP242).
-- **PO-34** (EXF-0605) : Usages d'un maillage importé : mesures approchées, conversion en solide facetté, accrochage d'esquisse ? À préciser.
-- **PO-35** (EXF-0703) : Organisation du projet sur disque (un fichier par document, un fichier unique ou un dossier) et chemins entre documents : relève de la conception, mais le choix est visible pour l'utilisateur ; à valider.
-- **PO-36** (EXF-0802) : Prise en compte de l'activation ou de la désactivation : immédiate ou au prochain démarrage ?
-- **PO-37** (EXF-1301) : Enregistreur de macros (actions de l'utilisateur traduites en script) : à prévoir ?
-- **PO-38** (EXF-1402) : Types d'analyse au-delà du statique linéaire (modal, thermique, non linéaire) : à définir pour le socle v2.
-- **PO-39** (EXF-1501) : Types d'usinage (fraisage 2,5 axes, 3 axes, tournage) et post-processeurs visés : à définir pour le socle v2.
-- **PO-40** (EXF-1801) : Sources acceptées (mises en plan PersoCAO seulement, ou DXF tiers) et niveau d'automatisation attendu : à définir pour le socle v3.
+- **PO-01** (EXF-1705) : Liste des unités proposées : à fixer (proposition : mm, cm, m, in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses). *Décision :* proposition retenue.
+- **PO-02** (EXF-1902) : Liste des outils d'esquisse à valider par Fab (commentaire de BES-F-19). *Décision :* liste actuelle validée ; elle pourra évoluer.
+- **PO-03** (EXF-1907) : La présentation de ces contraintes proposées relève de la spécification IHM (EXI). *Décision :* renvoi à la spécification IHM (EXI), sans décision à prendre ici.
+- **PO-04** (EXF-1909) : Valeur de la tolérance de modélisation : à fixer dans les exigences techniques (EXT issues de BES-T-10). *Décision :* valeurs fixées et documentées selon EXT-1002.
+- **PO-05** (EXF-1909) : Critère mesurable de stabilité du solveur (taille d'esquisse visée, temps de résolution) : à fixer après le prototype « Solveur d'esquisse ». *Reste ouvert.*
+- **PO-06** (EXF-1201) : Sensibilité à la casse des noms et acceptation des lettres accentuées : à trancher. *Décision :* lettres non accentuées seulement, conversion automatique en majuscules, nom par défaut avec numéro incrémenté.
+- **PO-07** (EXF-1206) : Portée des paramètres entre documents (assemblage vers pièce, pièce vers pièce, fichier de paramètres partagé) : à trancher, avec son effet sur une pièce ouverte seule. *Décision :* assemblage pilote les pièces ; en cas d'écart sur une cote commune, arbitrage proposé à l'utilisateur.
+- **PO-08** (EXF-0101) : Pièce multi-corps (plusieurs solides disjoints ou corps de travail combinés par opérations booléennes) : à décider pour la v1. *Décision :* reporté au socle v3 (EXF-0112).
+- **PO-09** (EXF-0105) : Bibliothèque de dimensions normalisées (trous de passage, lamages et taraudages ISO métriques) : à inclure ou non en v1, et liste des normes. *Décision :* bibliothèque incluse en v1, normes ISO usuelles.
+- **PO-10** (EXF-0106) : Congé à rayon variable, et congé entre faces (non limité aux arêtes) : v1 ou plus tard ? *Décision :* reporté au socle v3 (EXF-0113).
+- **PO-11** (EXF-0109) : Épaisseurs différentes par face : v1 ou plus tard ? *Décision :* reporté au socle v3 (EXF-0114).
+- **PO-12** (EXF-0110) : Répétition le long d'une courbe : v1 ou plus tard ? *Décision :* inclus en v1.
+- **PO-13** (EXF-0205) : Critère d'acceptation de la désignation persistante (jeu de cas de test de référence) : à établir à partir du prototype « Historique et désignation des faces ». *Décision :* même opération et même élément d'esquisse que l'entité de départ, sur un jeu de cas de test.
+- **PO-14** (EXF-0301) : Afficher ou masquer un élément est-il une action annulable ? *Décision :* oui, afficher ou masquer est annulable.
+- **PO-15** (EXF-0302) : Profondeur minimale de la pile (100 proposé). *Décision :* 50 actions au minimum.
+- **PO-16** (EXF-0304) : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ? *Décision :* la sortie d'esquisse est une action distincte ; enregistrer à la sortie ne retire rien de la pile.
+- **PO-17** (EXF-0305) : Conserver ou non la pile d'annulation après fermeture et réouverture du document. *Décision :* non : chaque ouverture repart d'une pile vide.
+- **PO-18** (EXF-0306) : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser. *Décision :* une seule fenêtre active, une pile par ouverture ; pas de modification d'une pièce seule pendant que l'assemblage est ouvert.
+- **PO-19** (EXF-0405) : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants. *Décision :* un à trois plans simultanés ; coupe limitée à une sélection : oui.
+- **PO-20** (EXF-0505) : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ? *Décision :* arbitrage proposé à l'utilisateur pour chaque interférence (corriger ou déclarer voulue).
+- **PO-21** (EXF-0507) : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage. *Décision :* voir PO-18 ; ouverte seule, la pièce garde la dernière géométrie de ses références.
+- **PO-22** (EXF-1103) : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ? *Décision :* non en v1 ; à voir au moment du calcul de structure.
+- **PO-23** (EXF-1103) : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ? *Décision :* masse signalée inconnue.
+- **PO-24** (EXF-1104) : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10). *Décision :* écart fixé par EXT-1003.
+- **PO-25** (EXF-0901) : Contenu et modèle du cartouche : à définir avec Fab. *Décision :* informations usuelles de cartouche (ISO 7200).
+- **PO-26** (EXF-0903) : Demi-coupes, coupes locales et sections sorties : v1 ou plus tard ? *Décision :* inclus en v1.
+- **PO-27** (EXF-0905) : Tolérances dimensionnelles, tolérances géométriques, états de surface et symboles de soudure : lesquels en v1 ? *Décision :* tous inclus en v1.
+- **PO-28** (EXF-0905) : Normes de dessin à respecter (ISO 128 pour les traits, ISO 129 pour la cotation, etc.) : à confirmer. *Décision :* normes ISO usuelles.
+- **PO-29** (EXF-0907) : Version de DXF produite : à fixer. *Décision :* choix à l'export, DXF 2013 par défaut, R12 en option.
+- **PO-30** (EXF-0907) : Export d'une vue seule en vraie grandeur (sans cadre), par exemple pour la découpe : v1 ? *Décision :* reporté au socle v3 (EXF-0908).
+- **PO-31** (EXF-1001) : Liste des outils de surfaces et de courbes à valider par Fab (commentaire de CU-05). *Décision :* liste validée ; elle pourra évoluer.
+- **PO-32** (EXF-1007) : Ajout proposé pour les formes aérodynamiques (justification de CU-05) ; à confirmer ou retirer, ainsi que la priorité. *Décision :* exigence conservée, priorité Indispensable.
+- **PO-33** (EXF-0602) : Protocole d'application par défaut à l'export (AP214 ou AP242). *Décision :* choix à l'export, AP242 par défaut, AP214 en option.
+- **PO-34** (EXF-0605) : Usages d'un maillage importé : mesures approchées, conversion en solide facetté, accrochage d'esquisse ? À préciser. *Décision :* trois usages proposés à l'import, avec aperçu du rendu.
+- **PO-35** (EXF-0703) : Organisation du projet sur disque (un fichier par document, un fichier unique ou un dossier) et chemins entre documents : relève de la conception, mais le choix est visible pour l'utilisateur ; à valider. *Décision :* un dossier projet, un fichier conteneur par document ; un document venant d'un autre projet y est copié.
+- **PO-36** (EXF-0802) : Prise en compte de l'activation ou de la désactivation : immédiate ou au prochain démarrage ? *Décision :* au prochain démarrage.
+- **PO-37** (EXF-1301) : Enregistreur de macros (actions de l'utilisateur traduites en script) : à prévoir ? *Décision :* oui.
+- **PO-38** (EXF-1402) : Types d'analyse au-delà du statique linéaire (modal, thermique, non linéaire) : à définir pour le socle v2. *Décision :* à définir au moment du jalon.
+- **PO-39** (EXF-1501) : Types d'usinage (fraisage 2,5 axes, 3 axes, tournage) et post-processeurs visés : à définir pour le socle v2. *Décision :* à définir au moment du jalon.
+- **PO-40** (EXF-1801) : Sources acceptées (mises en plan PersoCAO seulement, ou DXF tiers) et niveau d'automatisation attendu : à définir pour le socle v3. *Décision :* à définir au moment du jalon.
 <<<
 
 [[/SECTION]]
