@@ -1,6 +1,6 @@
 [DOCUMENT]
 TITLE: PersoCAO – Besoins
-VERSION: 0.3
+VERSION: 1.0
 
 [GRAMMAR]
 ELEMENTS:
@@ -38,10 +38,10 @@ ELEMENTS:
   - TITLE: STATEMENT
     TYPE: String
     REQUIRED: True
-  - TITLE: COMMENT
+  - TITLE: RATIONALE
     TYPE: String
     REQUIRED: False
-  - TITLE: RATIONALE
+  - TITLE: COMMENT
     TYPE: String
     REQUIRED: False
   RELATIONS:
@@ -57,7 +57,6 @@ STATUT: Validé
 TITLE: Concevoir une pièce
 STATEMENT: >>>
 Le logiciel doit permettre la création d'une pièce à partir d'une esquisse.
-TBdeleted: Esquisse un profil coté, le transforme en volume, ajoute perçages, congés et chanfreins, puis modifie les cotes jusqu'à obtenir la pièce voulue.
 <<<
 
 [REQUIREMENT]
@@ -66,7 +65,7 @@ NATURE: Cas d'usage
 STATUT: Validé
 TITLE: Créer et modifier un assemblage
 STATEMENT: >>>
-Le logiciel doit permettre de créer un assemblage à travers des contraintes pour insérer et positionner plusieurs pièces, en évitant les interférences entre les pièces.
+Le logiciel doit permettre de créer un assemblage à travers des contraintes pour insérer et positionner plusieurs pièces, en détectant les interférences entre les pièces.
 <<<
 
 [REQUIREMENT]
@@ -75,7 +74,7 @@ NATURE: Cas d'usage
 STATUT: Validé
 TITLE: Produire un plan
 STATEMENT: >>>
-Le logiciel doit permettre de génerer sur un plan 2D des vues (vues suivants différents profils ou inclinaisons, vues en coupe) d'un modèle (pièce ou assemblage). Le plan doit être exportable en PDF ou DXF.
+Le logiciel doit permettre de générer sur un plan 2D des vues (vues suivant différents profils ou inclinaisons, vues en coupe) d'un modèle (pièce ou assemblage). Le plan doit être exportable en PDF et en DXF.
 <<<
 
 [REQUIREMENT]
@@ -93,12 +92,13 @@ NATURE: Cas d'usage
 STATUT: Validé
 TITLE: Concevoir une forme libre
 STATEMENT: >>>
-Le logiciel doit permettre de créer des formes de pièces complexes à travers des splines, des surfaces balayées ou lissées, et autres outils jugés utiles dans ce but par le développeur. 
+Le logiciel doit permettre de créer des formes de pièces complexes à travers des splines, des surfaces balayées ou lissées.
+<<<
 RATIONALE: >>>
 Permettre la création de formes aérodynamiques complexes.
 <<<
 COMMENT: >>>
-Les outils seront à valider avec le bureau d'étude.
+Les outils seront à valider par Fab.
 <<<
 
 [REQUIREMENT]
@@ -107,7 +107,7 @@ NATURE: Cas d'usage
 STATUT: Validé
 TITLE: Étendre le logiciel
 STATEMENT: >>>
-Le logiciel doit permettre la prise en charge de différents modules en vue de rajouter des outils de conception, sans avoir besoin de réinstaller le socle principal du logiciel.
+Le logiciel doit permettre la prise en charge de différents modules métier en vue de rajouter des outils de conception, sans avoir besoin de réinstaller le socle principal du logiciel.
 <<<
 
 [[/SECTION]]
@@ -120,13 +120,11 @@ UID: BES-F-01
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Pièce paramétrique
 STATEMENT: >>>
-Créer une pièce 3D à partir d'une esquisse 2D contrainte.
-<<<
-COMMENT: >>>
-Pouvoir réaliser les opérations suivantes: extrusion, poche, révolution, perçage, congé, chanfrein, dépouille, coque, répétitions, symétrie (liste non exhaustive).
+Créer une pièce 3D à partir d'une esquisse 2D contrainte (BES-F-19), avec au minimum les opérations suivantes : extrusion, poche, révolution, perçage, congé, chanfrein, dépouille, coque, répétitions, symétrie.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -137,13 +135,11 @@ UID: BES-F-02
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Historique modifiable
 STATEMENT: >>>
-Modifier à tout moment une cote ou une étape de l'historique, avec recalcul automatique de tout ce qui en dépend.
-<<<
-COMMENT: >>>
-Le but est de montrer les liens entre les opérations 3D et leurs esquisses, pour pouvoir modifier les esquisses.
+Visualiser les liens entre les opérations 3D et leurs esquisses, et modifier à tout moment une cote, une esquisse ou une étape de l'historique, avec recalcul automatique de tout ce qui en dépend.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -154,6 +150,7 @@ UID: BES-F-03
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Annuler et rétablir
 STATEMENT: >>>
@@ -174,10 +171,11 @@ UID: BES-F-04
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Démonstration
 STATUT: Validé
 TITLE: Visualisation 3D
 STATEMENT: >>>
-Visualiser le modèle en 3D, naviguer (rotation, zoom, déplacement) et sélectionner faces, arêtes et sommets ; afficher ou masquer des pièces et des faces ; réaliser des coupes (un ou plusieurs plans de coupe) et démarrer une esquisse sur ces plans de coupe.
+Visualiser le modèle en 3D, naviguer (rotation, zoom, déplacement) et sélectionner faces, arêtes et sommets ; afficher ou masquer des pièces et des faces ; réaliser des coupes (un ou plusieurs plans de coupe).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -196,6 +194,7 @@ UID: BES-F-05
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Assemblages
 STATEMENT: >>>
@@ -210,6 +209,7 @@ UID: BES-F-06
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Échanges STEP, IGES, STL
 STATEMENT: >>>
@@ -224,6 +224,7 @@ UID: BES-F-07
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Format de projet ouvert
 STATEMENT: >>>
@@ -248,10 +249,11 @@ UID: BES-F-08
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Modules métier installables
 STATEMENT: >>>
-Installer, activer et désactiver des modules métier sans recompiler le socle.
+Installer, activer et désactiver des modules métier sans recompiler ni réinstaller le socle.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -262,6 +264,7 @@ UID: BES-F-09
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Mises en plan
 STATEMENT: >>>
@@ -276,6 +279,7 @@ UID: BES-F-10
 NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Surfaces complexes
 STATEMENT: >>>
@@ -290,13 +294,14 @@ UID: BES-F-11
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Mesures et analyses
 STATEMENT: >>>
-Mesurer et analyser : distances, angles, volume, masse, centre de gravité, inerties, matériaux.
+Mesurer et analyser : distances, angles, volume, masse, centre de gravité, inerties. Affecter un matériau à chaque pièce.
 <<<
 RATIONALE: >>>
-Pour calcul d'erreur, affichage et autres analyses.
+Pour l'affichage et les autres analyses.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -309,6 +314,7 @@ UID: BES-F-12
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Paramètres et formules
 STATEMENT: >>>
@@ -323,6 +329,7 @@ UID: BES-F-13
 NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Macros
 STATEMENT: >>>
@@ -337,6 +344,7 @@ UID: BES-F-14
 NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Calcul de structure
 STATEMENT: >>>
@@ -353,6 +361,7 @@ UID: BES-F-15
 NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Usinage
 STATEMENT: >>>
@@ -365,15 +374,16 @@ RELATIONS:
 [REQUIREMENT]
 UID: BES-F-16
 NATURE: Fonctionnel
-PRIORITE: Important
+PRIORITE: Souhaitable
 CIBLE: Socle v2
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Gestion de données produit légère
 STATEMENT: >>>
-Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi, nomenclature.
+Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi. La nomenclature fait l'objet de BES-F-20 (Socle v1).
 <<<
 COMMENT: >>>
-Validé par Fab le 16 octobre 2026.
+Validé par Fab le 16 octobre 2026. Nomenclature séparée en BES-F-20 et remise en v1 le 18 novembre 2026.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -386,10 +396,11 @@ UID: BES-F-17
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Repérage
 STATEMENT: >>>
-Disposer dans chaque pièce et chaque assemblage d'un repère absolu (origine, axes X, Y, Z, trois plans principaux). Pouvoir créer des repères locaux pour démarrer une esquisse, ou positionner tout élément par rapport à l'un d'eux. Unités choisies par document (millimètre par défaut).
+Disposer dans chaque pièce et chaque assemblage d'un repère absolu (origine, axes X, Y, Z, trois plans principaux). Pouvoir créer des repères locaux et positionner tout élément par rapport à l'un d'eux. Unités choisies par document (millimètre par défaut).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -404,6 +415,7 @@ UID: BES-F-18
 NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v3
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Reconstruction depuis une mise en plan
 STATEMENT: >>>
@@ -418,19 +430,40 @@ UID: BES-F-19
 NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Esquisses paramétriques
 STATEMENT: >>>
-Créer une esquisse 2D à partir d'une face, d'un plan ou d'un axe en utilisant des outils d'esquisse (point, ligne, figure, cote, etc). 
+Créer une esquisse 2D contrainte sur une face plane ou un plan (principal, de repère local ou de coupe…), avec contraintes géométriques et cotes.
 <<<
 COMMENT: >>>
-Les outils d'esquisse seront à valider avec le bureau d'étude.
+Les outils d'esquisse seront à valider par Fab.
 <<<
 RELATIONS:
 - TYPE: Parent
   VALUE: CU-01
 - TYPE: Parent
   VALUE: CU-02
+
+[REQUIREMENT]
+UID: BES-F-20
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Nomenclature
+STATEMENT: >>>
+Établir la nomenclature d'un assemblage (pièces, quantités, références) et la reporter dans les mises en plan (BES-F-09).
+<<<
+RATIONALE: >>>
+Nécessaire à BES-F-09 en v1, alors que la gestion de données produit (BES-F-16) est prévue en v2.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03
 
 [[/SECTION]]
 
@@ -442,6 +475,7 @@ UID: BES-T-01
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Plateformes
 STATEMENT: >>>
@@ -453,6 +487,7 @@ UID: BES-T-02
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Inspection
 STATUT: Validé
 TITLE: Hors ligne
 STATEMENT: >>>
@@ -464,6 +499,7 @@ UID: BES-T-03
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Formats ouverts et compatibilité
 STATEMENT: >>>
@@ -475,6 +511,7 @@ UID: BES-T-04
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Aucune perte de travail
 STATEMENT: >>>
@@ -486,10 +523,11 @@ UID: BES-T-05
 NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
+VERIFICATION: Test
 STATUT: Validé
 TITLE: Fluidité
 STATEMENT: >>>
-Rester fluide sans jamais sacrifier la précision de calcul (BES-T-10). Proposition : rotation à 30 images/s minimum sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde.
+Rester fluide sans jamais sacrifier la précision de calcul (BES-T-10). Seuils : rotation à 30 images/s minimum sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde.
 <<<
 
 [REQUIREMENT]
@@ -497,6 +535,7 @@ UID: BES-T-06
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Inspection
 STATUT: Validé
 TITLE: Interface d'extension stable
 STATEMENT: >>>
@@ -511,10 +550,11 @@ UID: BES-T-07
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Inspection
 STATUT: Validé
 TITLE: Originalité et licences
 STATEMENT: >>>
-Code, icônes et ressources originaux ; aucune réutilisation d'un logiciel propriétaire ; licences des dépendances compatibles avec l'usage prévu.
+Code, icônes et ressources propres au projet originaux ; dépendances open source autorisées si leur licence est compatible avec l'usage prévu (projet privé) ; aucune réutilisation d'un logiciel propriétaire.
 <<<
 
 [REQUIREMENT]
@@ -522,6 +562,7 @@ UID: BES-T-08
 NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
+VERIFICATION: Inspection
 STATUT: Validé
 TITLE: Langue
 STATEMENT: >>>
@@ -533,6 +574,7 @@ UID: BES-T-09
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
+VERIFICATION: Inspection
 STATUT: Validé
 TITLE: Maintenabilité
 STATEMENT: >>>
@@ -544,10 +586,14 @@ UID: BES-T-10
 NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
-STATUT: Brouillon
+VERIFICATION: Analyse
+STATUT: Validé
 TITLE: Précision de calcul
 STATEMENT: >>>
 Privilégier la précision de calcul : géométrie exacte dans les calculs (jamais l'approximation en triangles de l'affichage), tolérances maîtrisées et documentées, résultats (mesures, masses, calculs de structure) vérifiés sur des cas de référence. En cas de conflit, la précision prime sur la fluidité.
+<<<
+COMMENT: >>>
+Énoncé conservé tel quel et validé par Fab le 18 novembre 2026.
 <<<
 
 [[/SECTION]]
