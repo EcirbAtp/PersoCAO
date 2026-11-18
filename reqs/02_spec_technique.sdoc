@@ -1,0 +1,1105 @@
+[DOCUMENT]
+TITLE: PersoCAO – Spécification technique
+VERSION: 0.1
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: TEXT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: NATURE
+    TYPE: SingleChoice(Cas d'usage, Fonctionnel, Technique, Interface, Conception, Test)
+    REQUIRED: True
+  - TITLE: PRIORITE
+    TYPE: SingleChoice(Indispensable, Important, Souhaitable)
+    REQUIRED: False
+  - TITLE: CIBLE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: VERIFICATION
+    TYPE: SingleChoice(Test, Analyse, Inspection, Démonstration)
+    REQUIRED: False
+  - TITLE: STATUT
+    TYPE: SingleChoice(Brouillon, Validé, Rejeté, Reporté)
+    REQUIRED: True
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: ACCEPTATION
+    TYPE: String
+    REQUIRED: False
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: COMMENT
+    TYPE: String
+    REQUIRED: False
+  RELATIONS:
+  - TYPE: Parent
+
+[TEXT]
+STATEMENT: >>>
+Cette spécification décline chaque besoin technique (BES-T) de reqs/01_besoin.sdoc, version 1.0, en exigences techniques (EXT) mesurables. Chaque exigence donne son énoncé, son critère d'acceptation (champ ACCEPTATION) et sa méthode de vérification, et cite son ou ses besoins parents. Les UID suivent le besoin principal : EXT-0101 à EXT-0199 pour BES-T-01, EXT-1001 et suivants pour BES-T-10.
+
+La priorité d'une exigence est celle de son besoin principal. Une exigence peut être vérifiée par une méthode plus forte que son besoin (un test là où le besoin prévoit une inspection) quand un critère mesurable existe.
+
+Les choix de conception (format du fichier projet, mécanisme de chargement des modules, choix du solveur d'esquisse) ne sont pas faits ici : ils relèvent de la conception générale (CON). Seules sont reprises les décisions déjà prises dans l'expression du besoin : C++20, Qt 6, Open CASCADE, Python pour les scripts, Git et GitHub, projet privé, bibliothèques open source d'abord.
+
+Les seuils marqués « proposé » et les points à trancher sont regroupés dans la dernière section.
+<<<
+
+[[SECTION]]
+TITLE: Plateformes (BES-T-01)
+
+[REQUIREMENT]
+UID: EXT-0101
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Systèmes d'exploitation cibles
+STATEMENT: >>>
+Le socle s'exécute sur Windows 10 (22H2), Windows 11 et sur la distribution Linux de référence, en architecture x86-64 uniquement. Aucune version 32 bits n'est produite.
+<<<
+ACCEPTATION: >>>
+La suite de tests automatisés (EXT-0903) et le scénario de démonstration du socle passent sur chacun des trois systèmes, sur une installation neuve.
+<<<
+COMMENT: >>>
+La distribution Linux de référence reste à choisir (point ouvert PO-T-01).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-01
+
+[REQUIREMENT]
+UID: EXT-0102
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Source unique multiplateforme
+STATEMENT: >>>
+Un même arbre source, sans branche ni copie par système, produit les exécutables Windows et Linux. Le code propre à un système est isolé dans des fichiers dédiés, appelés uniquement à travers Qt 6 ou une interface interne du projet.
+<<<
+ACCEPTATION: >>>
+L'intégration continue (EXT-0904) compile et teste le même commit sous Windows et sous Linux à chaque pull request.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-01
+
+[REQUIREMENT]
+UID: EXT-0103
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Portage macOS non bloqué
+STATEMENT: >>>
+Aucune dépendance ni aucun choix technique du socle n'exclut macOS : chaque dépendance retenue doit exister sous macOS, et aucun appel direct à une API Windows ou Linux n'est fait hors des fichiers isolés par EXT-0102.
+<<<
+ACCEPTATION: >>>
+Revue de l'inventaire des dépendances (EXT-0701) : chacune indique sa disponibilité sous macOS. Recherche dans le code des appels système hors des fichiers dédiés : aucun résultat.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-01
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Hors ligne (BES-T-02)
+
+[REQUIREMENT]
+UID: EXT-0201
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Fonctionnement sans réseau
+STATEMENT: >>>
+Toutes les fonctions du socle et des modules métier sont disponibles sans connexion réseau, de l'installation à la fermeture. L'installation d'un module métier se fait depuis un fichier local.
+<<<
+ACCEPTATION: >>>
+Le scénario de démonstration complet, installation comprise, est déroulé sur une machine dont les interfaces réseau sont désactivées : aucune fonction n'est indisponible ni ralentie, aucun message d'erreur réseau n'apparaît.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-02
+
+[REQUIREMENT]
+UID: EXT-0202
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Aucune connexion réseau
+STATEMENT: >>>
+Le logiciel n'ouvre aucune connexion réseau, entrante ou sortante, y compris pour vérifier des mises à jour.
+<<<
+ACCEPTATION: >>>
+Pendant le scénario de démonstration, un pare-feu en mode journalisation (ou une capture réseau) n'enregistre aucune connexion émise ou acceptée par les processus du logiciel.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-02
+
+[REQUIREMENT]
+UID: EXT-0203
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Aucun compte ni licence
+STATEMENT: >>>
+Le logiciel ne demande ni compte, ni clé, ni activation, et ne comporte aucune date d'expiration ni limitation de fonctions.
+<<<
+ACCEPTATION: >>>
+Revue du code et de l'installation : aucun mécanisme d'activation, de contrôle de licence ou d'expiration.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-02
+
+[REQUIREMENT]
+UID: EXT-0204
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Aucune télémétrie
+STATEMENT: >>>
+Le logiciel ne collecte aucune donnée d'usage. Les journaux et rapports de plantage sont écrits uniquement dans des fichiers locaux, jamais transmis. Aucune dépendance n'est utilisée avec une fonction de télémétrie active.
+<<<
+ACCEPTATION: >>>
+Revue du code et de l'inventaire des dépendances (EXT-0701) : aucune fonction de collecte ou d'envoi ; toute fonction de télémétrie d'une dépendance est désactivée et la désactivation est notée dans l'inventaire.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-02
+
+[REQUIREMENT]
+UID: EXT-0205
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Aide locale
+STATEMENT: >>>
+L'aide et la documentation utilisateur sont installées avec le logiciel et consultables hors ligne.
+<<<
+ACCEPTATION: >>>
+Avec le réseau coupé, chaque page d'aide accessible depuis l'interface s'ouvre.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-02
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Formats ouverts et compatibilité (BES-T-03)
+
+[REQUIREMENT]
+UID: EXT-0301
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Format de projet documenté
+STATEMENT: >>>
+Le format du fichier projet est décrit par une spécification versionnée, tenue dans le dépôt : structure, encodage, unités, représentation de la géométrie et de l'historique paramétrique. Elle suffit à écrire un lecteur indépendant du logiciel.
+<<<
+ACCEPTATION: >>>
+Revue de la spécification de format : chaque élément présent dans un fichier projet de référence y est décrit.
+<<<
+COMMENT: >>>
+Le choix du format lui-même (conteneur, texte ou binaire) relève de la conception (point ouvert PO-T-10).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-03
+- TYPE: Parent
+  VALUE: BES-F-07
+
+[REQUIREMENT]
+UID: EXT-0302
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Version de format
+STATEMENT: >>>
+Chaque fichier projet porte le numéro de version de son format, lisible sans décoder le reste du fichier.
+<<<
+ACCEPTATION: >>>
+Pour chaque version de format publiée, un fichier de référence est lu et sa version est extraite correctement.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-03
+
+[REQUIREMENT]
+UID: EXT-0303
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Lecture des projets des versions antérieures
+STATEMENT: >>>
+Toute version du logiciel ouvre sans perte tout projet enregistré par une version antérieure, à partir de la version 1.0 : géométrie, historique paramétrique, paramètres, assemblages et mises en plan.
+<<<
+ACCEPTATION: >>>
+Un corpus de projets de référence, au moins un par version de format publiée, est conservé dans le dépôt. À chaque intégration continue, chaque projet est ouvert puis recalculé, et ses grandeurs de contrôle (volume, aire, centre de gravité, nombre de faces, valeurs des paramètres) sont égales aux valeurs de référence à la tolérance de EXT-1002.
+<<<
+RATIONALE: >>>
+Rend vérifiable « lisible par toutes les versions suivantes » (point E6 de l'analyse de cohérence).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-03
+- TYPE: Parent
+  VALUE: BES-F-07
+
+[REQUIREMENT]
+UID: EXT-0304
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Projet d'une version plus récente
+STATEMENT: >>>
+À l'ouverture d'un projet écrit dans une version de format plus récente que celle du logiciel, le logiciel affiche un message explicite (versions du fichier et du logiciel), ne plante pas et ne modifie pas le fichier.
+<<<
+ACCEPTATION: >>>
+Un fichier de test portant une version de format future est ouvert : message affiché, fichier inchangé (empreinte identique avant et après).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-03
+- TYPE: Parent
+  VALUE: BES-T-04
+
+[REQUIREMENT]
+UID: EXT-0305
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Fichiers produits en format ouvert
+STATEMENT: >>>
+Tout fichier écrit par le logiciel est dans un format ouvert et documenté : format de projet (EXT-0301), format d'échange normalisé (STEP, IGES, STL, DXF, PDF) ou fichier texte (préférences, journaux).
+<<<
+ACCEPTATION: >>>
+Revue de la liste des fichiers écrits par le logiciel : chacun a une spécification publique ou une description dans le dépôt.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-03
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Aucune perte de travail (BES-T-04)
+
+[REQUIREMENT]
+UID: EXT-0401
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Sauvegarde automatique
+STATEMENT: >>>
+Chaque document modifié est sauvegardé automatiquement à intervalle régulier, réglable par l'utilisateur, de 5 minutes par défaut. La sauvegarde automatique est écrite dans un fichier distinct et n'écrase jamais le fichier enregistré par l'utilisateur.
+<<<
+ACCEPTATION: >>>
+Après une modification, une sauvegarde automatique apparaît au plus tard à la fin de l'intervalle réglé ; le fichier projet de l'utilisateur est inchangé.
+<<<
+COMMENT: >>>
+Valeur par défaut de 5 minutes proposée, à valider (point ouvert PO-T-03).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-04
+
+[REQUIREMENT]
+UID: EXT-0402
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Enregistrement sans corruption
+STATEMENT: >>>
+Un enregistrement, manuel ou automatique, ne peut pas laisser un fichier à moitié écrit : une interruption à tout instant (plantage, arrêt forcé, coupure, disque plein) laisse soit l'ancienne version, soit la nouvelle version complète. En cas d'échec d'écriture, l'utilisateur est prévenu et l'ancienne version reste intacte.
+<<<
+ACCEPTATION: >>>
+Test d'interruption forcée du processus pendant l'écriture, répété 100 fois à des instants aléatoires, puis test sur un disque plein : le fichier s'ouvre à chaque fois, dans l'une des deux versions.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-04
+
+[REQUIREMENT]
+UID: EXT-0403
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Récupération après plantage
+STATEMENT: >>>
+Au démarrage qui suit un arrêt anormal, le logiciel détecte les sauvegardes automatiques plus récentes que les projets enregistrés et propose de les restaurer ou de les écarter. Écarter une sauvegarde ne la supprime qu'après confirmation.
+<<<
+ACCEPTATION: >>>
+Le processus est tué (équivalent de kill -9 sous Linux, TerminateProcess sous Windows) après une série de modifications. Au redémarrage, la restauration est proposée et le travail perdu ne dépasse pas l'intervalle de sauvegarde automatique.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-04
+
+[REQUIREMENT]
+UID: EXT-0404
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Échec de calcul sans perte
+STATEMENT: >>>
+L'échec d'une opération (recalcul impossible, esquisse non résolue, booléen en échec, erreur d'un module métier) ne détruit ni ne corrompt le modèle : l'opération est signalée en erreur, le reste du modèle reste consultable et modifiable, et l'action peut être annulée (BES-F-03).
+<<<
+ACCEPTATION: >>>
+Jeux de tests provoquant chaque type d'échec : le modèle reste ouvert, l'opération fautive est signalée, l'annulation rétablit l'état précédent, et l'enregistrement puis la réouverture redonnent le même état.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-04
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXT-0405
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Fermeture protégée
+STATEMENT: >>>
+Le logiciel ne ferme jamais un document modifié et non enregistré sans demander confirmation, y compris à la fermeture de l'application ou à l'arrêt de la session du système.
+<<<
+ACCEPTATION: >>>
+Fermeture d'un document modifié, de l'application, puis déconnexion de la session : une confirmation est demandée à chaque fois ou, si le système ne le permet pas, une sauvegarde automatique est écrite.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-04
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Fluidité (BES-T-05)
+
+[REQUIREMENT]
+UID: EXT-0501
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Cadence d'affichage
+STATEMENT: >>>
+La rotation continue de la vue d'un assemblage de référence de 200 pièces se fait à au moins 30 images par seconde sur la configuration matérielle de référence.
+<<<
+ACCEPTATION: >>>
+Banc de performance automatisé : rotation de 10 secondes, cadence moyenne mesurée supérieure ou égale à 30 images par seconde, sous Windows et sous Linux. L'assemblage de référence est conservé dans le dépôt.
+<<<
+COMMENT: >>>
+Configuration matérielle de référence et complexité des pièces de l'assemblage à définir (point ouvert PO-T-02).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-05
+
+[REQUIREMENT]
+UID: EXT-0502
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Temps de recalcul
+STATEMENT: >>>
+Après modification d'une cote, le recalcul d'une opération simple (extrusion, poche, révolution, perçage, congé ou chanfrein sur une pièce de référence) et la mise à jour de l'affichage prennent moins d'une seconde sur la configuration matérielle de référence.
+<<<
+ACCEPTATION: >>>
+Banc de performance automatisé : pour chaque type d'opération simple, temps mesuré entre la validation de la cote et la fin de la mise à jour de l'affichage, inférieur à 1 seconde (valeur maximale sur 10 mesures).
+<<<
+COMMENT: >>>
+La pièce de référence reste à définir (point ouvert PO-T-02).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-05
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXT-0503
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Interface réactive pendant les calculs longs
+STATEMENT: >>>
+Un calcul qui dure plus d'une seconde n'empêche pas l'interface de répondre : il affiche sa progression et peut être interrompu, l'interruption ramenant le modèle à son état précédent sans perte (EXT-0404).
+<<<
+ACCEPTATION: >>>
+Lancement d'un calcul long de référence : l'interface continue de répondre (rafraîchissement de la fenêtre), la progression s'affiche, l'interruption rend la main en moins d'une seconde et le modèle est inchangé.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-05
+
+[REQUIREMENT]
+UID: EXT-0504
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Analyse
+STATUT: Brouillon
+TITLE: Optimisations limitées à l'affichage
+STATEMENT: >>>
+Les moyens d'accélérer l'affichage (maillage plus grossier, niveaux de détail, simplification pendant le mouvement) n'agissent que sur la représentation affichée, jamais sur la géométrie utilisée par les calculs, les mesures et les exports exacts.
+<<<
+ACCEPTATION: >>>
+Analyse de conception : les données d'affichage sont dérivées de la géométrie exacte et ne sont jamais relues par un calcul. Test : modifier la finesse d'affichage ne change aucune mesure (EXT-1003).
+<<<
+RATIONALE: >>>
+Traduit « en cas de conflit, la précision prime sur la fluidité » (BES-T-10).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-05
+- TYPE: Parent
+  VALUE: BES-T-10
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Interface d'extension stable (BES-T-06)
+
+[REQUIREMENT]
+UID: EXT-0601
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Interface d'extension délimitée
+STATEMENT: >>>
+L'interface d'extension est un ensemble déclaré et séparé d'éléments publics. Un module métier ne dépend que de cet ensemble, jamais des éléments internes du socle.
+<<<
+ACCEPTATION: >>>
+Un module métier de test est compilé avec, pour seuls en-têtes et bibliothèques du socle, ceux de l'interface publique ; la compilation et ses tests réussissent.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-06
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[REQUIREMENT]
+UID: EXT-0602
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Versionnement de l'interface
+STATEMENT: >>>
+L'interface d'extension porte un numéro de version MAJEUR.MINEUR.CORRECTIF, distinct de celui du logiciel. Toute modification incompatible incrémente MAJEUR ; tout ajout compatible incrémente MINEUR.
+<<<
+ACCEPTATION: >>>
+Revue du journal des changements de l'interface : chaque modification est classée et le numéro de version suit la règle.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-06
+
+[REQUIREMENT]
+UID: EXT-0603
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Contrôle de compatibilité au chargement
+STATEMENT: >>>
+Chaque module métier déclare la version d'interface qu'il requiert. Le socle refuse de charger un module incompatible, avec un message qui nomme le module et les versions en cause, sans planter et sans désactiver les autres modules.
+<<<
+ACCEPTATION: >>>
+Chargement d'un module déclarant une version majeure différente, puis une version mineure plus récente que celle du socle : refus avec message, socle et autres modules opérationnels.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-06
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[REQUIREMENT]
+UID: EXT-0604
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Modules conservés à travers les mises à jour
+STATEMENT: >>>
+Un module métier construit pour la version d'interface X.Y se charge et fonctionne, sans modification, avec toute version du socle qui offre une interface X.Z où Z ≥ Y.
+<<<
+ACCEPTATION: >>>
+Un module de référence construit une fois pour chaque version mineure publiée est conservé ; à chaque intégration continue, il est chargé par le socle courant et ses tests passent.
+<<<
+COMMENT: >>>
+Reste à trancher : compatibilité binaire (module non recompilé) ou compatibilité source (module recompilé sans modification) (point ouvert PO-T-04).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-06
+
+[REQUIREMENT]
+UID: EXT-0605
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Documentation de l'interface
+STATEMENT: >>>
+Chaque élément public de l'interface d'extension est documenté (rôle, paramètres, unités, erreurs, version d'apparition), et un journal des changements est tenu pour chaque version.
+<<<
+ACCEPTATION: >>>
+Le générateur de documentation ne signale aucun élément public non documenté ; le journal couvre toutes les versions publiées.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-06
+
+[REQUIREMENT]
+UID: EXT-0606
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Dépréciation avant retrait
+STATEMENT: >>>
+Un élément de l'interface n'est retiré qu'à une version majeure, après avoir été marqué déprécié pendant au moins une version mineure.
+<<<
+ACCEPTATION: >>>
+Revue du journal des changements : chaque retrait est précédé d'une dépréciation dans une version mineure antérieure.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-06
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Originalité et licences (BES-T-07)
+
+[REQUIREMENT]
+UID: EXT-0701
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Inventaire des dépendances
+STATEMENT: >>>
+Le dépôt tient l'inventaire de toutes les dépendances tierces, y compris celles des modules métier : nom, version, licence, mode d'intégration (liaison dynamique, statique ou code inclus), usage dans le projet, origine, disponibilité sous macOS.
+<<<
+ACCEPTATION: >>>
+Comparaison de l'inventaire avec les dépendances réellement utilisées par la construction : aucune absente, aucune version différente.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-07
+
+[REQUIREMENT]
+UID: EXT-0702
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Licences admises
+STATEMENT: >>>
+Une dépendance n'est admise que si sa licence autorise l'utilisation et la modification dans un projet privé non diffusé : licences permissives (MIT, BSD, Apache 2.0, zlib…), copyleft faible (LGPL, MPL) ou fort (GPL), selon la décision PO-T-05. Sont exclus le code sans licence, les licences propriétaires et les licences limitant l'usage.
+<<<
+ACCEPTATION: >>>
+Revue de l'inventaire : chaque licence appartient à la liste admise, et la décision d'admission est notée pour chaque dépendance.
+<<<
+RATIONALE: >>>
+PersoCAO reste privé : les obligations de diffusion des licences copyleft ne s'appliquent pas tant qu'il n'est pas diffusé.
+<<<
+COMMENT: >>>
+Exemples : PlaneGCS (LGPL 2.1 ou ultérieure), SolveSpace (GPLv3), Open CASCADE (LGPL 2.1 avec exception), Qt 6 (LGPL 3 ou commerciale).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-07
+
+[REQUIREMENT]
+UID: EXT-0703
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Revue des licences avant toute diffusion
+STATEMENT: >>>
+Toute diffusion du logiciel, même à un tiers isolé, est précédée d'une revue des obligations de chaque licence de l'inventaire.
+<<<
+ACCEPTATION: >>>
+Revue documentaire avant diffusion, consignée dans le dépôt.
+<<<
+RATIONALE: >>>
+Une diffusion déclencherait les obligations des licences LGPL et GPL (fourniture des sources, possibilité de relier).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-07
+
+[REQUIREMENT]
+UID: EXT-0704
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Notices de licence
+STATEMENT: >>>
+Les textes de licence et mentions de droits d'auteur de toutes les dépendances sont regroupés dans le dépôt et installés avec le logiciel.
+<<<
+ACCEPTATION: >>>
+Revue : un texte de licence par entrée de l'inventaire, présent dans le dépôt et dans l'installation.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-07
+
+[REQUIREMENT]
+UID: EXT-0705
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Code et ressources originaux
+STATEMENT: >>>
+Le code, les icônes, les images et les textes propres au projet sont créés pour lui. Un extrait repris d'un projet open source est traité comme une dépendance (EXT-0701), avec sa licence. Aucun code, aucune ressource et aucun format interne n'est repris d'un logiciel propriétaire.
+<<<
+ACCEPTATION: >>>
+Revue à chaque pull request : toute ressource ajoutée indique son origine ; aucune ressource ne provient d'un logiciel propriétaire.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-07
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Langue (BES-T-08)
+
+[REQUIREMENT]
+UID: EXT-0801
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Interface en français
+STATEMENT: >>>
+Tous les textes visibles par l'utilisateur (menus, boîtes de dialogue, info-bulles, messages d'erreur, aide) sont en français, dans le socle comme dans les modules métier.
+<<<
+ACCEPTATION: >>>
+Revue du fichier de traduction française : aucun texte non traduit. Parcours de l'interface : aucun texte dans une autre langue.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-08
+
+[REQUIREMENT]
+UID: EXT-0802
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Textes externalisés
+STATEMENT: >>>
+Tous les textes visibles passent par le mécanisme de traduction de Qt 6 ; aucun texte n'est assemblé par concaténation de fragments traduits.
+<<<
+ACCEPTATION: >>>
+Une pseudo-traduction automatique (textes marqués) est chargée : le parcours de l'interface ne montre aucun texte non marqué.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-08
+
+[REQUIREMENT]
+UID: EXT-0803
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Ajout d'une langue sans recompilation
+STATEMENT: >>>
+Une nouvelle langue s'ajoute par un fichier de traduction, sans recompiler le socle ni les modules ; chaque module métier fournit ses propres fichiers.
+<<<
+ACCEPTATION: >>>
+Ajout d'un fichier de traduction de test : la langue apparaît au choix et s'applique après redémarrage, sans reconstruction.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-08
+
+[REQUIREMENT]
+UID: EXT-0804
+NATURE: Technique
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Textes et noms de fichiers Unicode
+STATEMENT: >>>
+Les textes, noms de pièces, paramètres et chemins de fichiers acceptent tous les caractères Unicode, accents compris, sous Windows et sous Linux.
+<<<
+ACCEPTATION: >>>
+Enregistrement puis réouverture d'un projet nommé et rangé dans un dossier aux noms accentués, avec des pièces et paramètres accentués : noms identiques.
+<<<
+COMMENT: >>>
+Séparateur décimal à la saisie et à l'affichage (virgule, point ou les deux) à trancher (point ouvert PO-T-09).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-08
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Maintenabilité (BES-T-09)
+
+[REQUIREMENT]
+UID: EXT-0901
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Gestion de configuration sous Git
+STATEMENT: >>>
+Code, scripts de construction, tests, données de test, exigences et documents sont tenus dans le dépôt Git du projet. Toute modification de la branche principale passe par une pull request.
+<<<
+ACCEPTATION: >>>
+Revue du dépôt : la branche principale est protégée, et chaque commit qui y figure vient d'une pull request fusionnée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-09
+
+[REQUIREMENT]
+UID: EXT-0902
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Code commenté
+STATEMENT: >>>
+Chaque fichier source commence par un commentaire qui décrit son rôle. Chaque classe et chaque fonction publique a un commentaire de documentation dans un format extractible par un générateur de documentation (rôle, paramètres, unités, valeur renvoyée, erreurs).
+<<<
+ACCEPTATION: >>>
+Le générateur de documentation, lancé en intégration continue, ne signale aucun élément public non documenté.
+<<<
+COMMENT: >>>
+Outil de documentation et langue des commentaires et identifiants à choisir (point ouvert PO-T-07).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-09
+
+[REQUIREMENT]
+UID: EXT-0903
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Tests automatisés
+STATEMENT: >>>
+Le dépôt contient des tests unitaires et d'intégration lancés par une seule commande. Chaque exigence vérifiée par test (EXF, EXT) est reliée à au moins un test par un commentaire @relation.
+<<<
+ACCEPTATION: >>>
+La matrice de couverture StrictDoc montre un test relié pour 100 % des exigences dont la méthode de vérification est Test ; la commande unique lance tous les tests.
+<<<
+COMMENT: >>>
+Un seuil de couverture du code reste à fixer (point ouvert PO-T-08).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-09
+
+[REQUIREMENT]
+UID: EXT-0904
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Intégration continue
+STATEMENT: >>>
+À chaque pull request et à chaque mise à jour de la branche principale, l'intégration continue compile sous Windows et sous Linux, lance tous les tests et valide les exigences StrictDoc. Une pull request en échec n'est pas fusionnée.
+<<<
+ACCEPTATION: >>>
+Une pull request de test qui casse un test est signalée en échec et sa fusion est bloquée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-09
+- TYPE: Parent
+  VALUE: BES-T-01
+
+[REQUIREMENT]
+UID: EXT-0905
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Règles de codage
+STATEMENT: >>>
+Des règles de codage écrites (style, nommage, gestion des erreurs, avertissements du compilateur) sont tenues dans le dépôt, et leur partie automatisable est vérifiée en intégration continue.
+<<<
+ACCEPTATION: >>>
+Revue du document de règles ; l'intégration continue échoue sur un écart de formatage volontaire.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-09
+
+[REQUIREMENT]
+UID: EXT-0906
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Construction reproductible
+STATEMENT: >>>
+Le logiciel se construit à partir d'un clone neuf du dépôt en suivant une procédure écrite, avec des versions de dépendances fixées.
+<<<
+ACCEPTATION: >>>
+L'intégration continue construit depuis un clone neuf, sans cache, sous Windows et sous Linux.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-09
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Précision de calcul (BES-T-10)
+
+[REQUIREMENT]
+UID: EXT-1001
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Analyse
+STATUT: Brouillon
+TITLE: Calculs sur la géométrie exacte
+STATEMENT: >>>
+La modélisation, les mesures, les propriétés de masse, les booléens, la détection d'interférences et les exports STEP et IGES utilisent la représentation exacte (B-Rep) du noyau Open CASCADE, jamais le maillage d'affichage. Les maillages nécessaires (export STL, calcul de structure) sont générés à la demande à partir de la géométrie exacte, avec une finesse propre à leur usage.
+<<<
+ACCEPTATION: >>>
+Analyse de conception : aucun calcul ne lit les données d'affichage (voir EXT-0504). Test : la finesse du maillage d'affichage n'a aucun effet sur les résultats de EXT-1003.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-10
+
+[REQUIREMENT]
+UID: EXT-1002
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Tolérances documentées
+STATEMENT: >>>
+Les tolérances numériques utilisées (confusion de points, tolérance angulaire, tolérances du solveur d'esquisse, des booléens, des maillages d'affichage et d'export) sont listées dans un document du dépôt avec leur valeur, leur unité, leur usage et leur justification. Les calculs utilisent des nombres flottants en double précision (IEEE 754, 64 bits) au moins.
+<<<
+ACCEPTATION: >>>
+Revue du document des tolérances : chaque tolérance présente dans le code y figure, avec la même valeur.
+<<<
+COMMENT: >>>
+Les valeurs par défaut d'Open CASCADE (Precision::Confusion = 1e-7, Precision::Angular = 1e-12 rad) sont un point de départ.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-10
+
+[REQUIREMENT]
+UID: EXT-1003
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Mesures vérifiées sur cas de référence
+STATEMENT: >>>
+Les distances, angles, aires, volumes, masses, centres de gravité et inerties sont vérifiés sur des cas de référence à solution analytique (cube, cylindre, sphère, tore, pièces avec congés et perçages, assemblage simple).
+<<<
+ACCEPTATION: >>>
+Pour chaque cas de référence, l'écart relatif entre valeur calculée et valeur analytique est inférieur ou égal à 1e-6.
+<<<
+COMMENT: >>>
+Seuil de 1e-6 proposé, à valider (point ouvert PO-T-06).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-10
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[REQUIREMENT]
+UID: EXT-1004
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Respect des contraintes d'esquisse
+STATEMENT: >>>
+Après résolution d'une esquisse, chaque contrainte géométrique et chaque cote est satisfaite à la tolérance documentée du solveur (EXT-1002), quel que soit le solveur utilisé.
+<<<
+ACCEPTATION: >>>
+Corpus d'esquisses de référence : après résolution, l'écart de chaque contrainte est mesuré par un calcul indépendant du solveur et reste sous la tolérance.
+<<<
+RATIONALE: >>>
+Le même corpus servira à comparer le solveur de bibliothèque et le futur solveur maison.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-10
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXT-1005
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Fidélité des échanges STEP et IGES
+STATEMENT: >>>
+Un modèle exporté en STEP ou IGES puis réimporté conserve sa géométrie : volume, aire et centre de gravité égaux à la tolérance documentée.
+<<<
+ACCEPTATION: >>>
+Export puis réimport de chaque pièce du corpus de référence : écarts mesurés sous la tolérance de EXT-1002.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-10
+- TYPE: Parent
+  VALUE: BES-T-03
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[REQUIREMENT]
+UID: EXT-1006
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Calcul de structure vérifié sur cas de référence
+STATEMENT: >>>
+Les résultats du module de calcul de structure (contraintes, déformations, flambement) sont vérifiés sur des cas de référence publiés (solutions analytiques de résistance des matériaux, cas de validation normalisés), avec l'écart admissible propre à chaque cas.
+<<<
+ACCEPTATION: >>>
+Chaque cas de référence est automatisé ; son écart admissible et sa source sont documentés.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-10
+- TYPE: Parent
+  VALUE: BES-F-14
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Points ouverts
+
+[TEXT]
+STATEMENT: >>>
+PO-T-01 : Distribution Linux de référence (EXT-0101), déjà ouvert dans l'expression du besoin. Proposition : Ubuntu 24.04 LTS.
+
+PO-T-02 : Configuration matérielle de référence (processeur, mémoire, carte graphique) et contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) pour EXT-0501 et EXT-0502. Ils peuvent être fixés à l'issue du prototype viewer 3D.
+
+PO-T-03 : Intervalle par défaut de la sauvegarde automatique (5 minutes proposé) et nombre de sauvegardes conservées (EXT-0401).
+
+PO-T-04 : Stabilité de l'interface d'extension : binaire (un module compilé continue de se charger sans recompilation) ou source (le module se recompile sans modification) (EXT-0604). La stabilité binaire en C++ contraint fortement la conception de l'interface ; la stabilité source est plus simple. À relier au prototype « chargement des modules ».
+
+PO-T-05 : Admission des licences GPL (EXT-0702). Le projet étant privé, la GPLv3 (SolveSpace) est utilisable ; s'en tenir à des licences au plus LGPL (PlaneGCS) garde ouverte une diffusion future sans changer de solveur. Le choix du solveur lui-même relève du prototype « solveur d'esquisse ».
+
+PO-T-06 : Seuil d'écart relatif de 1e-6 proposé pour les mesures sur cas de référence (EXT-1003), et tolérances de EXT-1005.
+
+PO-T-07 : Outil de documentation du code et langue des commentaires et des identifiants (français ou anglais) (EXT-0902).
+
+PO-T-08 : Seuil minimal de couverture du code par les tests, par exemple pour le cœur géométrique (EXT-0903).
+
+PO-T-09 : Séparateur décimal à la saisie des cotes : virgule (français), point, ou les deux acceptés (EXT-0804).
+
+PO-T-10 : Format du fichier projet (conteneur, texte ou binaire) : à décider en conception générale, dans le respect de EXT-0301 à EXT-0305.
+
+PO-T-11 : Préparer le futur solveur maison : proposer en conception générale que le solveur d'esquisse soit appelé à travers une interface propre au projet, pour le remplacer sans toucher au reste du socle. Le corpus de EXT-1004 servira à comparer les deux solveurs.
+
+PO-T-12 : Méthodes de vérification renforcées : EXT-0201, EXT-0202, EXT-0802, EXT-0803, EXT-0804, EXT-1003 à EXT-1005 sont vérifiées par test alors que leur besoin prévoit une inspection ou une analyse. À valider.
+<<<
+
+[[/SECTION]]
