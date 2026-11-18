@@ -772,13 +772,16 @@ VERIFICATION: Inspection
 STATUT: Brouillon
 TITLE: Licence de PersoCAO
 STATEMENT: >>>
-Le dépôt porte une licence explicite pour le code et les ressources propres à PersoCAO, compatible avec les licences de toutes les dépendances admises (EXT-0702).
+Le code et les ressources propres à PersoCAO sont publiés sous la licence Mozilla Public License 2.0 (MPL 2.0). Chaque fichier source porte en en-tête l'avis de licence de l'annexe A de la MPL 2.0, ou la ligne SPDX-License-Identifier: MPL-2.0.
 <<<
 ACCEPTATION: >>>
-Un fichier de licence est présent à la racine du dépôt, et chaque fichier source y renvoie dans son en-tête.
+Le fichier LICENSE à la racine du dépôt contient le texte de la MPL 2.0 ; une vérification automatique en intégration continue signale tout fichier source sans en-tête de licence.
+<<<
+RATIONALE: >>>
+Le copyleft de la MPL s'applique fichier par fichier : les fichiers de PersoCAO modifiés restent ouverts, tandis que les modules métier gardent le choix de leur licence. Elle est compatible avec les dépendances admises (EXT-0702).
 <<<
 COMMENT: >>>
-Licence à choisir (point ouvert PO-T-13). Sans licence, un dépôt public reste « tous droits réservés ».
+MPL 2.0 choisie par Fab le 18 novembre 2026 (PO-T-13).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1150,13 +1153,13 @@ PO-T-11 : Validé : la conception générale prévoira d'appeler le solveur d'es
 
 PO-T-12 : Méthodes de vérification renforcées validées (EXT-0201, EXT-0202, EXT-0802, EXT-0803, EXT-0804, EXT-1003 à EXT-1005).
 
+PO-T-13 : Licence de PersoCAO : MPL 2.0 (EXT-0706).
+
 PO-T-14 : Point-virgule comme séparateur des arguments dans les formules (EXT-0804), à reporter dans la spécification fonctionnelle (BES-F-12).
 
 Points qui restent ouverts :
 
 PO-T-02 : Reste à fixer : le contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) de EXT-0501 et EXT-0502, et à valider le processeur 4 cœurs et OpenGL 4.5 proposés pour la configuration de bureau (EXT-0104).
-
-PO-T-13 : Licence de PersoCAO (EXT-0706), compatible avec les dépendances admises : par exemple LGPL 3, MPL 2.0 ou une licence permissive (MIT, Apache 2.0).
 <<<
 
 [[/SECTION]]
