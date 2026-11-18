@@ -2,9 +2,11 @@ name: Exigences
 
 # Vérifie que les fichiers StrictDoc sont valides (syntaxe, grammaire, liens
 # entre UID) et publie les vues générées comme artefact téléchargeable.
+# Sur main, le site HTML est aussi déployé sur GitHub Pages (job « publier »).
 on:
   push:
     branches: [main]
+  workflow_dispatch:
   pull_request:
     paths:
       - "reqs/**"
@@ -15,6 +17,9 @@ on:
       - "strictdoc_config.py"
       - "requirements-docs.txt"
       - ".github/workflows/exigences.yml"
+
+permissions:
+  contents: read
 
 jobs:
   vues:
@@ -34,3 +39,27 @@ jobs:
           path: |
             build/html
             build/PersoCAO_exigences.xlsx
+      - name: Préparer le site pour GitHub Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/html
+
+  # Déploie le site HTML des exigences sur GitHub Pages (main uniquement).
+  # Prérequis : Settings > Pages > Source = « GitHub Actions ».
+  publier:
+    if: github.event_name != 'pull_request'
+    needs: vues
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4
