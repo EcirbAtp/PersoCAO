@@ -160,7 +160,7 @@ Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 
 
 - [x] Valider ou corriger les besoins et leurs priorités (18 novembre 2026, sauf BES-T-10).
 - [x] Fixer la taille de modèle visée, qui dimensionne BES-T-05. Décision : seuils figés (30 images/s sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde).
-- [ ] Relire les méthodes de vérification (champ VERIFICATION) proposées pour les BES-F et BES-T.
+- [x] Relire les méthodes de vérification (champ VERIFICATION) des BES-F et BES-T : validées par Fab le 18 novembre 2026.
 - [ ] Reformuler BES-T-10 (précision de calcul), jugé imprécis.
 - [x] Trancher la priorité de BES-F-16 : passée en Souhaitable (cible Socle v2).
 - [ ] Décliner en exigences mesurables, dans la spécification, les besoins non vérifiables tels quels (BES-T-03, BES-T-04, BES-T-09 et les autres).
