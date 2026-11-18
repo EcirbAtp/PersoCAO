@@ -1,0 +1,2290 @@
+[DOCUMENT]
+TITLE: PersoCAO – Spécification fonctionnelle
+VERSION: 0.1
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: TEXT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: NATURE
+    TYPE: SingleChoice(Cas d'usage, Fonctionnel, Technique, Interface, Conception, Test)
+    REQUIRED: True
+  - TITLE: PRIORITE
+    TYPE: SingleChoice(Indispensable, Important, Souhaitable)
+    REQUIRED: False
+  - TITLE: CIBLE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: VERIFICATION
+    TYPE: SingleChoice(Test, Analyse, Inspection, Démonstration)
+    REQUIRED: False
+  - TITLE: STATUT
+    TYPE: SingleChoice(Brouillon, Validé, Rejeté, Reporté)
+    REQUIRED: True
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: COMMENT
+    TYPE: String
+    REQUIRED: False
+  RELATIONS:
+  - TYPE: Parent
+
+[[SECTION]]
+TITLE: Objet et conventions
+
+[TEXT]
+STATEMENT: >>>
+Ce document décline chaque besoin fonctionnel (BES-F) de ``01_besoin.sdoc`` en exigences fonctionnelles (EXF) vérifiables : comportement attendu, entrées et sorties, règles et cas limites. Il ne fixe pas l'architecture ni le choix des bibliothèques, qui relèvent de la conception (CON). Les exigences techniques (EXT) sont dans ``02_spec_technique.sdoc`` et les exigences d'interface et de rendu (EXI) viendront avec la spécification IHM.
+
+Conventions :
+
+- **Identifiant** : ``EXF-bbnn``, où ``bb`` est le numéro du besoin parent principal (EXF-1901 détaille BES-F-19) et ``nn`` un numéro d'ordre. Un identifiant n'est jamais réutilisé.
+- **Parents** : le premier parent est le besoin détaillé ; une exigence qui contribue aussi à d'autres besoins les cite en parents supplémentaires.
+- **Priorité et cible** : héritées du besoin parent principal, sauf mention contraire.
+- **Statut** : toutes les exigences sont au statut Brouillon jusqu'à leur relecture par Fab.
+- **Points ouverts** : un point à trancher est noté dans le champ Commentaire de l'exigence (« Point ouvert PO-xx ») et repris dans la dernière section.
+- **Tolérance de modélisation** : écart en dessous duquel deux positions sont considérées comme confondues ; sa valeur est fixée par les exigences techniques issues de BES-T-10.
+- Les besoins des socles v2 et v3 (BES-F-13 à BES-F-16, BES-F-18) ne font l'objet ici que d'un cadrage, à détailler avant leur jalon.
+<<<
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Repérage (BES-F-17)
+
+[TEXT]
+STATEMENT: >>>
+Repères, éléments de référence et unités. Ces exigences sont placées en tête car toutes les autres s'y appuient.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1701
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Repère absolu
+STATEMENT: >>>
+À la création d'une pièce ou d'un assemblage, le logiciel doit créer un repère absolu composé d'une origine, de trois axes X, Y, Z orthonormés directs et des trois plans principaux XY, YZ et ZX.
+
+- Le repère absolu ne peut être ni supprimé, ni déplacé, ni réorienté.
+- Il sert de référence par défaut à tout élément créé sans autre référence.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[REQUIREMENT]
+UID: EXF-1702
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Repères locaux
+STATEMENT: >>>
+Le logiciel doit permettre de créer des repères locaux dans une pièce ou un assemblage, définis de l'une des façons suivantes :
+
+- une origine et deux directions (la troisième étant déduite pour former un repère direct) ;
+- par translation et rotation d'un repère existant, valeurs saisies ;
+- à partir de la géométrie : un sommet ou un point pour l'origine, une arête rectiligne ou la normale d'une face plane pour une direction.
+
+Un repère local défini à partir d'autres éléments est associatif : il est recalculé quand ces éléments changent. Si deux directions données sont colinéaires, la création est refusée avec un message.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[REQUIREMENT]
+UID: EXF-1703
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Positionnement par rapport à un repère
+STATEMENT: >>>
+Le logiciel doit permettre de positionner tout élément (point, plan, axe, esquisse, composant d'assemblage) par rapport à un repère choisi, absolu ou local.
+
+- Les coordonnées saisies et affichées sont exprimées dans ce repère.
+- Si le repère de référence est déplacé, les éléments qui lui sont rattachés le suivent.
+- La suppression d'un repère utilisé comme référence affiche la liste des éléments qui en dépendent avant confirmation (voir EXF-0204).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[REQUIREMENT]
+UID: EXF-1704
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Éléments de référence
+STATEMENT: >>>
+Le logiciel doit permettre de créer des plans, des axes et des points de référence, utilisables comme supports d'esquisse, directions ou références de cote :
+
+- plan : décalé d'un plan ou d'une face plane, incliné d'un angle autour d'un axe, passant par trois points, normal à une courbe en un point ;
+- axe : par deux points, intersection de deux plans, axe d'une face cylindrique ou conique, arête rectiligne ;
+- point : par coordonnées, sommet, milieu d'arête, centre d'arc ou de sphère, intersection.
+
+Ces éléments sont associatifs et apparaissent dans l'historique (BES-F-02).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-17
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1705
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Unités par document
+STATEMENT: >>>
+Le logiciel doit associer à chaque document (pièce, assemblage, mise en plan) un système d'unités choisi par l'utilisateur, avec par défaut le millimètre pour les longueurs, le degré pour les angles et le kilogramme pour les masses.
+
+- Changer l'unité d'un document change l'affichage et la saisie, jamais la géométrie.
+- Une valeur peut être saisie avec une unité explicite différente de celle du document (par exemple « 1 in » dans un document en millimètres) ; elle est convertie.
+- Une saisie sans unité est interprétée dans l'unité du document.
+<<<
+COMMENT: >>>
+Point ouvert PO-01 : Liste des unités proposées : à fixer (proposition : mm, cm, m, in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[REQUIREMENT]
+UID: EXF-1706
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Unités entre documents
+STATEMENT: >>>
+Le logiciel doit conserver les dimensions physiques quand des documents d'unités différentes sont combinés : une pièce en pouces insérée dans un assemblage en millimètres garde sa taille réelle, et un fichier importé est lu dans les unités qu'il déclare (BES-F-06).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-17
+- TYPE: Parent
+  VALUE: BES-F-05
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Esquisses paramétriques (BES-F-19)
+
+[TEXT]
+STATEMENT: >>>
+Esquisses 2D contraintes. Le comportement décrit ici est indépendant du solveur retenu ; le choix d'une bibliothèque existante (par exemple PlaneGCS ou SolveSpace, sous réserve de licence, BES-T-07) relève de la conception.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1901
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Support d'esquisse
+STATEMENT: >>>
+Le logiciel doit permettre de créer une esquisse sur un plan principal, un plan de référence, un plan d'un repère local, une face plane d'un solide ou un plan de coupe.
+
+- Entrée : un support plan. Une face non plane est refusée avec un message.
+- Sortie : une esquisse dotée d'un repère 2D (origine, axes horizontal et vertical) déduit du support, que l'utilisateur peut réorienter.
+- L'esquisse est associative à son support : si le support se déplace, l'esquisse le suit ; si le support disparaît, l'esquisse passe en erreur (EXF-0206).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1902
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Éléments géométriques d'esquisse
+STATEMENT: >>>
+Le logiciel doit permettre de tracer dans une esquisse au minimum : point, segment, polyligne, rectangle, polygone régulier, cercle, arc (par trois points, par centre et extrémités, tangent), ellipse et arc d'ellipse, rainure oblongue, spline (par points de passage et par pôles).
+
+Il doit aussi offrir les outils d'édition : congé et chanfrein d'esquisse, ajuster, prolonger, couper, décaler, symétrie et répétition à l'intérieur de l'esquisse.
+<<<
+COMMENT: >>>
+Point ouvert PO-02 : Liste des outils d'esquisse à valider par Fab (commentaire de BES-F-19).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1903
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Géométrie de construction
+STATEMENT: >>>
+Le logiciel doit permettre de marquer tout élément d'esquisse comme élément de construction : il peut porter des contraintes et des cotes, mais il n'entre jamais dans les profils utilisés par les opérations 3D.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1904
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Références externes dans l'esquisse
+STATEMENT: >>>
+Le logiciel doit permettre de projeter dans une esquisse des sommets, des arêtes et des contours du modèle 3D ou d'autres esquisses.
+
+- L'élément projeté est associatif : il suit les modifications de sa source.
+- Si la source n'existe plus, l'élément projeté est signalé en erreur et l'esquisse indique la référence perdue ; elle n'est pas supprimée silencieusement.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1905
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Contraintes géométriques
+STATEMENT: >>>
+Le logiciel doit proposer au minimum les contraintes géométriques suivantes : coïncidence, point sur courbe, horizontalité, verticalité, parallélisme, perpendicularité, tangence, concentricité, égalité (de longueurs ou de rayons), symétrie par rapport à une droite, milieu, fixation.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1906
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Cotes d'esquisse
+STATEMENT: >>>
+Le logiciel doit proposer au minimum les cotes suivantes : distance entre deux points, distance d'un point à une droite, distance horizontale et verticale, longueur, rayon, diamètre, angle.
+
+- Une cote est soit pilotante (elle impose la géométrie), soit de référence (elle mesure la géométrie sans la contraindre et se met à jour).
+- La valeur d'une cote pilotante est un nombre, un paramètre ou une formule (BES-F-12).
+- Une valeur nulle ou négative pour une longueur, un rayon ou un diamètre est refusée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[REQUIREMENT]
+UID: EXF-1907
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Création automatique de contraintes
+STATEMENT: >>>
+Pendant le tracé, le logiciel doit pouvoir créer automatiquement les contraintes déductibles du geste de l'utilisateur (coïncidence avec un point existant, horizontalité, verticalité, tangence). Cette aide est désactivable, et toute contrainte ainsi créée est visible et supprimable comme une autre.
+<<<
+COMMENT: >>>
+Point ouvert PO-03 : La présentation de ces contraintes proposées relève de la spécification IHM (EXI).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1908
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: État de contrainte de l'esquisse
+STATEMENT: >>>
+Le logiciel doit calculer et indiquer en permanence l'état de contrainte de l'esquisse et de chacun de ses éléments :
+
+- sous-contrainte, avec le nombre de degrés de liberté restants ;
+- totalement contrainte ;
+- sur-contrainte : contraintes redondantes (compatibles) ou conflictuelles (incompatibles), avec la liste des contraintes et cotes concernées.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1909
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Résolution de l'esquisse
+STATEMENT: >>>
+Après chaque ajout ou modification de contrainte ou de cote, le logiciel doit résoudre l'esquisse.
+
+- Si une solution existe, il retient celle qui est la plus proche de la géométrie courante, pour éviter les retournements inattendus (un arc qui change de côté, un point qui saute de l'autre côté d'une droite).
+- Si aucune solution n'existe, la modification n'est pas appliquée : l'esquisse reste dans son dernier état résolu et les contraintes en conflit sont désignées.
+- Déplacer à la souris un élément sous-contraint le déplace en respectant toutes les contraintes existantes.
+- Les contraintes résolues sont satisfaites à la tolérance de modélisation du document (BES-T-10).
+<<<
+COMMENT: >>>
+Point ouvert PO-04 : Valeur de la tolérance de modélisation : à fixer dans les exigences techniques (EXT issues de BES-T-10).
+
+Point ouvert PO-05 : Critère mesurable de stabilité du solveur (taille d'esquisse visée, temps de résolution) : à fixer après le prototype « Solveur d'esquisse ».
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-1910
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Profils et régions
+STATEMENT: >>>
+Le logiciel doit détecter automatiquement, dans une esquisse, les contours fermés et les régions qu'ils délimitent (y compris les contours intérieurs formant des trous).
+
+- Une opération 3D utilise une ou plusieurs régions choisies, ou un contour ouvert quand l'opération l'accepte (par exemple une trajectoire de balayage).
+- Un contour qui se recoupe lui-même, ou des éléments qui se chevauchent, sont signalés ; l'opération qui en dépend est refusée avec un message.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-19
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Paramètres et formules (BES-F-12)
+
+[TEXT]
+STATEMENT: >>>
+Paramètres nommés et formules.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1201
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Paramètres nommés
+STATEMENT: >>>
+Le logiciel doit permettre de définir dans un document des paramètres nommés, chacun avec un nom, un type (longueur, angle, masse, sans dimension, entier, booléen), une valeur ou une formule, et un commentaire optionnel.
+
+- Le nom commence par une lettre et ne contient que des lettres, des chiffres et le caractère « _ ».
+- Deux paramètres d'un même document ne peuvent pas porter le même nom.
+- La liste des paramètres montre, pour chacun, sa valeur courante et les éléments qui l'utilisent.
+<<<
+COMMENT: >>>
+Point ouvert PO-06 : Sensibilité à la casse des noms et acceptation des lettres accentuées : à trancher.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[REQUIREMENT]
+UID: EXF-1202
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Formules
+STATEMENT: >>>
+Le logiciel doit évaluer des formules combinant nombres avec unité, paramètres et cotes nommées, avec au minimum :
+
+- les opérateurs + − × ÷ et puissance, et les parenthèses ;
+- les fonctions sin, cos, tan, asin, acos, atan, atan2, sqrt, abs, min, max, round, floor, ceil, et la constante pi ;
+- une expression conditionnelle simple (si condition alors valeur1 sinon valeur2).
+
+Le logiciel vérifie la cohérence des dimensions : une formule qui additionne une longueur et un angle, ou qui donne un angle là où une longueur est attendue, est refusée avec un message.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[REQUIREMENT]
+UID: EXF-1203
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Grandeurs pilotables
+STATEMENT: >>>
+Le logiciel doit permettre de piloter par un paramètre ou une formule toute valeur numérique d'une esquisse, d'une opération ou d'un assemblage : cotes, profondeurs, angles, rayons, nombres d'instances de répétition, décalages de contraintes d'assemblage.
+
+Une valeur pilotée par une formule n'est pas modifiable directement ; l'utilisateur modifie la formule ou les paramètres dont elle dépend.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-12
+- TYPE: Parent
+  VALUE: BES-F-01
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[REQUIREMENT]
+UID: EXF-1204
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Dépendances circulaires
+STATEMENT: >>>
+Le logiciel doit refuser, au moment de la saisie, toute formule qui crée une dépendance circulaire entre paramètres ou cotes, et afficher le cycle détecté (par exemple A → B → C → A).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[REQUIREMENT]
+UID: EXF-1205
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Propagation d'un changement de paramètre
+STATEMENT: >>>
+Quand la valeur d'un paramètre change, le logiciel doit réévaluer toutes les formules qui en dépendent, puis recalculer les esquisses et opérations concernées (EXF-0202).
+
+- Si une nouvelle valeur rend une esquisse ou une opération impossible, le comportement d'échec de EXF-0206 s'applique.
+- Supprimer un paramètre utilisé est refusé tant qu'il est référencé ; la liste des usages est affichée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-12
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-1206
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Paramètres entre documents
+STATEMENT: >>>
+Le logiciel doit permettre à un assemblage de piloter des paramètres de ses pièces, pour qu'une cote commune (par exemple un entraxe) soit définie une seule fois.
+<<<
+COMMENT: >>>
+Point ouvert PO-07 : Portée des paramètres entre documents (assemblage vers pièce, pièce vers pièce, fichier de paramètres partagé) : à trancher, avec son effet sur une pièce ouverte seule.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Pièce paramétrique (BES-F-01)
+
+[TEXT]
+STATEMENT: >>>
+Opérations de création de pièce. Chaque opération est paramétrée, enregistrée dans l'historique (BES-F-02) et modifiable après création.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0101
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Corps de la pièce
+STATEMENT: >>>
+Le logiciel doit construire une pièce comme un solide résultant de la suite de ses opérations. Une opération de forme ajoute ou retire de la matière à ce solide ; la première opération qui ajoute de la matière crée le solide.
+
+Le solide obtenu après chaque opération est un solide valide (fermé, sans auto-intersection) calculé en géométrie exacte (BES-T-10).
+<<<
+COMMENT: >>>
+Point ouvert PO-08 : Pièce multi-corps (plusieurs solides disjoints ou corps de travail combinés par opérations booléennes) : à décider pour la v1.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0102
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Extrusion
+STATEMENT: >>>
+Le logiciel doit créer un volume par extrusion d'une ou plusieurs régions d'esquisse.
+
+- Direction : normale à l'esquisse par défaut, ou une direction choisie ; un sens ou les deux.
+- Limite : longueur donnée, symétrique par rapport à l'esquisse, jusqu'à la face suivante, jusqu'à une face ou un plan choisi, à travers tout.
+- Option : angle de dépouille appliqué aux faces latérales.
+- Une longueur nulle, ou une limite que le profil n'atteint pas, est refusée avec un message.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0103
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Poche
+STATEMENT: >>>
+Le logiciel doit retirer de la matière par extrusion d'une ou plusieurs régions d'esquisse, avec les mêmes directions, limites et options que l'extrusion (EXF-0102). Une poche qui ne coupe aucune matière est signalée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0104
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Révolution et gorge
+STATEMENT: >>>
+Le logiciel doit créer (révolution) ou retirer (gorge) un volume par rotation d'une ou plusieurs régions d'esquisse autour d'un axe.
+
+- Axe : droite de l'esquisse, arête rectiligne, axe de référence ou axe d'un repère.
+- Angle : compris entre 0 exclu et 360° inclus, d'un côté ou symétrique.
+- Un profil qui coupe l'axe est refusé avec un message ; un profil qui touche l'axe est accepté.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0105
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Perçage
+STATEMENT: >>>
+Le logiciel doit créer des trous positionnés par des points d'esquisse sur une face, avec au minimum :
+
+- les types simple, lamé, fraisé et taraudé ;
+- un fond plat ou conique (angle de pointe réglable, 118° par défaut), une profondeur donnée ou débouchante ;
+- pour un trou taraudé, le diamètre et le pas du filetage, enregistrés comme données de la pièce et représentés sans modéliser l'hélice.
+<<<
+COMMENT: >>>
+Point ouvert PO-09 : Bibliothèque de dimensions normalisées (trous de passage, lamages et taraudages ISO métriques) : à inclure ou non en v1, et liste des normes.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0106
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Congé
+STATEMENT: >>>
+Le logiciel doit arrondir des arêtes sélectionnées avec un rayon constant.
+
+- La sélection peut se propager automatiquement aux arêtes tangentes.
+- Un rayon trop grand pour la géométrie fait échouer l'opération avec un message, sans produire de solide invalide (EXF-0206).
+<<<
+COMMENT: >>>
+Point ouvert PO-10 : Congé à rayon variable, et congé entre faces (non limité aux arêtes) : v1 ou plus tard ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0107
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Chanfrein
+STATEMENT: >>>
+Le logiciel doit chanfreiner des arêtes sélectionnées, défini par deux distances ou par une distance et un angle, avec propagation optionnelle aux arêtes tangentes.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0108
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Dépouille
+STATEMENT: >>>
+Le logiciel doit incliner des faces sélectionnées d'un angle donné par rapport à une direction de démoulage, autour d'un plan ou d'une face neutre. Un angle hors de l'intervalle ]−90°, 90°[ est refusé.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0109
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Coque
+STATEMENT: >>>
+Le logiciel doit évider un solide pour lui donner une épaisseur de paroi constante, vers l'intérieur ou l'extérieur, en ouvrant les faces choisies (aucune face ouverte donne un solide creux fermé).
+
+Une épaisseur incompatible avec la géométrie (par exemple supérieure à un rayon de courbure intérieur) fait échouer l'opération avec un message.
+<<<
+COMMENT: >>>
+Point ouvert PO-11 : Épaisseurs différentes par face : v1 ou plus tard ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0110
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Répétitions
+STATEMENT: >>>
+Le logiciel doit répéter une ou plusieurs opérations :
+
+- répétition linéaire selon une ou deux directions, définie par le nombre d'instances et soit le pas, soit la longueur totale ;
+- répétition circulaire autour d'un axe, définie par le nombre d'instances et l'angle total ou l'angle entre instances ;
+- répétition suivant les points d'une esquisse.
+
+Chaque instance peut être supprimée individuellement. Une instance qui sort de la matière ou n'a pas de support est ignorée et signalée, sans faire échouer les autres.
+<<<
+COMMENT: >>>
+Point ouvert PO-12 : Répétition le long d'une courbe : v1 ou plus tard ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-0111
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Symétrie
+STATEMENT: >>>
+Le logiciel doit créer le symétrique d'une ou plusieurs opérations, ou de tout le solide, par rapport à un plan ou une face plane. Le résultat reste associatif à ses sources.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Historique modifiable (BES-F-02)
+
+[TEXT]
+STATEMENT: >>>
+Historique paramétrique et recalcul.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0201
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Arbre de construction
+STATEMENT: >>>
+Le logiciel doit présenter l'historique de chaque pièce sous forme d'une liste ordonnée des éléments de référence, esquisses et opérations, dans l'ordre où ils sont évalués.
+
+Pour tout élément, le logiciel doit pouvoir montrer ses parents (esquisse, faces, arêtes, paramètres utilisés) et ses dépendants (éléments qui l'utilisent).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0202
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Modification à tout moment
+STATEMENT: >>>
+Le logiciel doit permettre de modifier à tout moment une cote, une contrainte, une esquisse ou les paramètres de toute opération de l'historique, puis recalculer automatiquement tous les éléments qui en dépendent, directement ou indirectement.
+
+Les éléments qui n'en dépendent pas ne changent pas.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0203
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Point d'insertion et réordonnancement
+STATEMENT: >>>
+Le logiciel doit permettre de placer un point d'insertion à n'importe quelle étape de l'historique : le modèle est alors affiché dans son état à cette étape et les nouvelles opérations sont insérées à cet endroit.
+
+Le logiciel doit permettre de déplacer une opération dans l'historique quand ses dépendances le permettent ; un déplacement qui placerait une opération avant l'un de ses parents est refusé avec un message.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0204
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Supprimer ou désactiver une étape
+STATEMENT: >>>
+Le logiciel doit permettre de supprimer une étape de l'historique, après avoir affiché la liste de ses dépendants et laissé le choix de les supprimer aussi ou de les conserver en erreur.
+
+Il doit aussi permettre de désactiver temporairement une étape : elle reste dans l'historique, n'est plus évaluée, et peut être réactivée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[REQUIREMENT]
+UID: EXF-0205
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Désignation persistante des entités
+STATEMENT: >>>
+Quand une opération référence une face, une arête ou un sommet, le logiciel doit conserver cette référence sur la même entité géométrique après toute modification en amont, tant que cette entité existe encore dans le nouveau résultat (par exemple après changement d'une cote, ajout d'un trou ou d'un congé en amont).
+
+Si l'entité a disparu, l'opération passe en erreur en désignant la référence perdue, et le logiciel permet de la redésigner ; il ne la remplace jamais silencieusement par une autre entité.
+<<<
+COMMENT: >>>
+Point ouvert PO-13 : Critère d'acceptation de la désignation persistante (jeu de cas de test de référence) : à établir à partir du prototype « Historique et désignation des faces ».
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0206
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Comportement en cas d'échec de recalcul
+STATEMENT: >>>
+Si une étape échoue au recalcul (géométrie impossible, référence perdue, esquisse non résoluble), le logiciel doit :
+
+- marquer l'étape en erreur avec un message qui en donne la cause ;
+- marquer ses dépendants comme non recalculés, et recalculer normalement les étapes qui n'en dépendent pas ;
+- conserver le dernier résultat valide affiché comme tel, sans jamais enregistrer de solide invalide.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+- TYPE: Parent
+  VALUE: BES-F-01
+- TYPE: Parent
+  VALUE: BES-F-19
+
+[REQUIREMENT]
+UID: EXF-0207
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Recalcul complet
+STATEMENT: >>>
+Le logiciel doit permettre de forcer le recalcul complet d'un document depuis sa première étape ; le résultat doit être identique à celui du recalcul incrémental, à la tolérance de modélisation près.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Annuler et rétablir (BES-F-03)
+
+[TEXT]
+STATEMENT: >>>
+Annuler et rétablir.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0301
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Actions annulables
+STATEMENT: >>>
+Le logiciel doit permettre d'annuler toute action qui modifie un document : création, modification, suppression, désactivation ou déplacement d'une esquisse, d'une contrainte, d'une cote, d'une opération, d'un paramètre, d'un composant ou d'une contrainte d'assemblage, d'un élément de mise en plan, d'une propriété ou d'un matériau.
+
+Ne sont pas annulables : la navigation dans la vue, la sélection, l'enregistrement, l'export.
+<<<
+COMMENT: >>>
+Point ouvert PO-14 : Afficher ou masquer un élément est-il une action annulable ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-03
+
+[REQUIREMENT]
+UID: EXF-0302
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Annuler et rétablir successifs
+STATEMENT: >>>
+Le logiciel doit tenir, pour chaque document ouvert, une pile d'actions annulables d'au moins 100 actions. Après avoir annulé, l'utilisateur peut rétablir les actions annulées tant qu'il n'a pas fait de nouvelle modification ; une nouvelle modification vide la liste des actions à rétablir.
+<<<
+COMMENT: >>>
+Point ouvert PO-15 : Profondeur minimale de la pile (100 proposé).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-03
+
+[REQUIREMENT]
+UID: EXF-0303
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Restauration exacte
+STATEMENT: >>>
+Annuler une action doit remettre le document exactement dans l'état qui la précédait : géométrie, historique, paramètres, désignations des entités et état de contrainte. Annuler N actions puis rétablir N actions doit redonner l'état de départ.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-03
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0304
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Granularité
+STATEMENT: >>>
+Une commande validée par l'utilisateur doit constituer une seule action annulable, même si elle modifie plusieurs éléments. Pendant l'édition d'une esquisse, chaque ajout ou modification est annulable séparément.
+<<<
+COMMENT: >>>
+Point ouvert PO-16 : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-03
+
+[REQUIREMENT]
+UID: EXF-0305
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Pile et enregistrement
+STATEMENT: >>>
+L'enregistrement d'un document ne doit pas vider sa pile d'annulation pendant la session.
+<<<
+COMMENT: >>>
+Point ouvert PO-17 : Conserver ou non la pile d'annulation après fermeture et réouverture du document.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-03
+
+[REQUIREMENT]
+UID: EXF-0306
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Actions touchant plusieurs documents
+STATEMENT: >>>
+Une action qui modifie plusieurs documents (par exemple modifier une pièce depuis l'assemblage qui la contient) doit être annulable en une seule fois depuis le document où elle a été faite.
+<<<
+COMMENT: >>>
+Point ouvert PO-18 : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-03
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Visualisation 3D (BES-F-04)
+
+[TEXT]
+STATEMENT: >>>
+Visualisation, navigation, sélection et coupes. L'aspect visuel et les gestes de souris relèvent de la spécification IHM (EXI) ; la fluidité, de BES-T-05.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0401
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Démonstration
+STATUT: Brouillon
+TITLE: Navigation
+STATEMENT: >>>
+Le logiciel doit permettre de faire tourner, zoomer et déplacer la vue du modèle, de l'ajuster au modèle entier ou à la sélection, et de choisir une vue standard (face, arrière, dessus, dessous, gauche, droite, isométrique) ou la vue normale à une face plane.
+
+La projection peut être perspective ou orthographique.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-04
+
+[REQUIREMENT]
+UID: EXF-0402
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Démonstration
+STATUT: Brouillon
+TITLE: Modes de rendu
+STATEMENT: >>>
+Le logiciel doit proposer au minimum les modes de rendu ombré, ombré avec arêtes, filaire, et filaire avec arêtes cachées supprimées.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-04
+
+[REQUIREMENT]
+UID: EXF-0403
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Sélection d'entités
+STATEMENT: >>>
+Le logiciel doit permettre de sélectionner une face, une arête, un sommet, une pièce, une esquisse ou un élément de référence dans la vue, avec :
+
+- la mise en évidence de l'entité survolée avant sélection ;
+- un filtre par type d'entité ;
+- la sélection multiple ;
+- l'accès aux entités masquées par d'autres sous le curseur.
+
+L'entité sélectionnée est l'entité géométrique exacte du modèle, jamais un élément de son maillage d'affichage (BES-T-10).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-04
+
+[REQUIREMENT]
+UID: EXF-0404
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Afficher et masquer
+STATEMENT: >>>
+Le logiciel doit permettre d'afficher ou de masquer individuellement des pièces, des composants, des faces, des esquisses et des éléments de référence. Masquer un élément ne le supprime pas et ne change ni les calculs ni les mesures. L'état d'affichage est enregistré avec le document.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-04
+- TYPE: Parent
+  VALUE: BES-F-07
+
+[REQUIREMENT]
+UID: EXF-0405
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Démonstration
+STATUT: Brouillon
+TITLE: Coupes de visualisation
+STATEMENT: >>>
+Le logiciel doit permettre de couper la vue du modèle par un ou plusieurs plans de coupe (au moins trois simultanés), chacun positionné et orienté librement, déplaçable de façon interactive, avec une option d'affichage de la section remplie.
+
+Une coupe de visualisation ne modifie jamais le modèle.
+<<<
+COMMENT: >>>
+Point ouvert PO-19 : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-04
+
+[REQUIREMENT]
+UID: EXF-0406
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Démonstration
+STATUT: Brouillon
+TITLE: Indicateur d'orientation
+STATEMENT: >>>
+Le logiciel doit afficher en permanence l'orientation des axes du repère absolu dans la vue, et pouvoir afficher les repères locaux.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-04
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Assemblages (BES-F-05)
+
+[TEXT]
+STATEMENT: >>>
+Assemblages par contraintes et détection d'interférences.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0501
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Composants
+STATEMENT: >>>
+Le logiciel doit permettre d'insérer dans un assemblage des pièces et des sous-assemblages, sur autant de niveaux que nécessaire, et plusieurs instances d'un même document.
+
+Un composant est une référence au document source, pas une copie : une modification de la pièce source se répercute dans tous les assemblages qui l'utilisent. Un document source introuvable à l'ouverture est signalé, sans empêcher l'ouverture de l'assemblage.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[REQUIREMENT]
+UID: EXF-0502
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Composant fixe
+STATEMENT: >>>
+Le logiciel doit fixer par défaut le premier composant inséré dans le repère de l'assemblage, et permettre de fixer ou libérer tout composant.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[REQUIREMENT]
+UID: EXF-0503
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Contraintes d'assemblage
+STATEMENT: >>>
+Le logiciel doit proposer au minimum les contraintes de position suivantes entre faces, arêtes, axes, points et éléments de référence de composants différents : coïncidence, contact (faces opposées), distance, angle, parallélisme, perpendicularité, concentricité.
+
+La valeur d'une contrainte de distance ou d'angle est un nombre, un paramètre ou une formule (BES-F-12).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[REQUIREMENT]
+UID: EXF-0504
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Résolution de l'assemblage
+STATEMENT: >>>
+Le logiciel doit positionner les composants pour satisfaire toutes les contraintes, et indiquer pour chaque composant son état : sous-contraint (degrés de liberté restants), totalement contraint, sur-contraint, avec les contraintes en conflit.
+
+- Déplacer à la souris un composant sous-contraint le déplace dans ses seuls degrés de liberté restants.
+- Une contrainte impossible à satisfaire n'est pas appliquée et est désignée ; les composants gardent leur dernière position valide.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[REQUIREMENT]
+UID: EXF-0505
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Détection des interférences
+STATEMENT: >>>
+Le logiciel doit détecter, sur demande, les interférences entre les composants d'un assemblage (tous ou une sélection) et donner pour chacune les deux composants concernés, le volume commun et sa visualisation.
+
+- Le contact sans volume commun est distingué d'une interférence et peut être inclus ou exclu du rapport.
+- Le calcul porte sur la géométrie exacte (BES-T-10).
+<<<
+COMMENT: >>>
+Point ouvert PO-20 : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[REQUIREMENT]
+UID: EXF-0506
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Modification d'une pièce depuis l'assemblage
+STATEMENT: >>>
+Le logiciel doit permettre de modifier une pièce depuis l'assemblage qui la contient, puis mettre à jour l'assemblage. La modification est enregistrée dans le document de la pièce.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0507
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Conception d'une pièce dans l'assemblage
+STATEMENT: >>>
+Le logiciel doit permettre de créer une nouvelle pièce dans un assemblage, en s'appuyant sur la géométrie des autres composants (esquisse sur leurs faces, projection de leurs arêtes, limite d'extrusion jusqu'à leurs faces).
+
+Ces références entre pièces sont associatives ; l'utilisateur peut les rompre pour rendre la pièce indépendante.
+<<<
+COMMENT: >>>
+Point ouvert PO-21 : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-05
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Nomenclature (BES-F-20)
+
+[TEXT]
+STATEMENT: >>>
+Nomenclature d'assemblage.
+<<<
+
+[REQUIREMENT]
+UID: EXF-2001
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Propriétés des articles
+STATEMENT: >>>
+Le logiciel doit permettre de renseigner pour chaque pièce et chaque assemblage au moins une référence et une désignation, utilisées par la nomenclature. La référence est initialisée par défaut au nom du document.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-20
+
+[REQUIREMENT]
+UID: EXF-2002
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Contenu de la nomenclature
+STATEMENT: >>>
+Le logiciel doit établir la nomenclature d'un assemblage sous forme d'une liste d'articles comportant au minimum : numéro de repère, référence, désignation, quantité, et matériau quand il est défini (BES-F-11).
+
+Les instances d'un même document sont regroupées sur une seule ligne, avec leur quantité totale, instances de répétitions comprises.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-20
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[REQUIREMENT]
+UID: EXF-2003
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Niveaux de nomenclature
+STATEMENT: >>>
+Le logiciel doit proposer trois présentations de la nomenclature : premier niveau seul (un sous-assemblage compte comme un article), multi-niveaux indentée, et pièces seules (quantités cumulées sur tous les niveaux).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-20
+
+[REQUIREMENT]
+UID: EXF-2004
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Mise à jour de la nomenclature
+STATEMENT: >>>
+La nomenclature doit se mettre à jour automatiquement quand des composants sont ajoutés, supprimés ou remplacés, ou quand leurs propriétés changent. Un numéro de repère attribué à un article est conservé tant que l'article reste dans l'assemblage.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-20
+
+[REQUIREMENT]
+UID: EXF-2005
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Exclusion d'un composant
+STATEMENT: >>>
+Le logiciel doit permettre de marquer un composant comme exclu de la nomenclature (par exemple une pièce de référence ou un montage de contrôle), sans le retirer de l'assemblage.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-20
+
+[REQUIREMENT]
+UID: EXF-2006
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Report dans la mise en plan
+STATEMENT: >>>
+Le logiciel doit permettre d'insérer la nomenclature d'un assemblage sous forme de tableau dans une mise en plan, avec choix des colonnes, et de placer sur les vues des bulles de repère liées aux composants.
+
+Le tableau et les bulles restent synchronisés avec l'assemblage.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-20
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Mesures et analyses (BES-F-11)
+
+[TEXT]
+STATEMENT: >>>
+Mesures, propriétés de masse et matériaux.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1101
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Mesures géométriques
+STATEMENT: >>>
+Le logiciel doit mesurer, entre des entités choisies (sommets, arêtes, faces, composants) :
+
+- la distance minimale, et ses composantes selon les axes d'un repère choisi ;
+- l'angle entre arêtes, faces planes, axes ou plans ;
+- la longueur d'une arête, l'aire d'une face, le rayon ou le diamètre d'une arête circulaire ou d'une face cylindrique.
+
+Les résultats sont donnés dans les unités du document.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-11
+- TYPE: Parent
+  VALUE: BES-F-17
+
+[REQUIREMENT]
+UID: EXF-1102
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Propriétés de masse
+STATEMENT: >>>
+Le logiciel doit calculer, pour une pièce, un ensemble de pièces sélectionnées ou un assemblage : volume, aire totale, masse, centre de gravité, matrice d'inertie au centre de gravité et dans un repère choisi, moments et axes principaux d'inertie.
+
+Pour un assemblage, chaque composant est pris avec son propre matériau.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[REQUIREMENT]
+UID: EXF-1103
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Affectation d'un matériau
+STATEMENT: >>>
+Le logiciel doit permettre d'affecter un matériau à chaque pièce, choisi dans une bibliothèque fournie ou créé par l'utilisateur. Un matériau porte au minimum un nom et une masse volumique.
+
+Une pièce sans matériau a une masse inconnue : le calcul de masse le signale au lieu de supposer une valeur.
+<<<
+COMMENT: >>>
+Point ouvert PO-22 : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ?
+
+Point ouvert PO-23 : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[REQUIREMENT]
+UID: EXF-1104
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Exactitude des mesures
+STATEMENT: >>>
+Les mesures et propriétés de masse doivent être calculées sur la géométrie exacte, jamais sur le maillage d'affichage, et vérifiées sur des cas de référence à résultat analytique (cube, cylindre, sphère, tore, assemblage de solides simples de matériaux différents).
+<<<
+COMMENT: >>>
+Point ouvert PO-24 : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Mises en plan (BES-F-09)
+
+[TEXT]
+STATEMENT: >>>
+Mises en plan 2D.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0901
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Document de mise en plan
+STATEMENT: >>>
+Le logiciel doit permettre de créer une mise en plan d'une pièce ou d'un assemblage, composée d'une ou plusieurs feuilles. Chaque feuille a un format (A4 à A0, ou personnalisé), une orientation, une échelle par défaut et un cartouche dont les champs se remplissent à partir des propriétés du modèle (référence, désignation, matériau, échelle, date).
+<<<
+COMMENT: >>>
+Point ouvert PO-25 : Contenu et modèle du cartouche : à définir avec Fab.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0902
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Vues projetées et vues libres
+STATEMENT: >>>
+Le logiciel doit générer à partir du modèle 3D :
+
+- les vues projetées standard, selon la méthode européenne (premier dièdre) par défaut ou américaine (troisième dièdre) au choix ;
+- des vues d'orientation quelconque, dont l'isométrique ;
+- des vues auxiliaires, projetées selon la normale à une arête ou une face ;
+- des vues de détail agrandies d'une zone.
+
+Chaque vue a sa propre échelle et peut afficher ou non les arêtes cachées, les arêtes tangentes, les axes et les traits de centre.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0903
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Vues en coupe
+STATEMENT: >>>
+Le logiciel doit générer des vues en coupe à partir d'un trait de coupe tracé sur une vue (droit ou brisé), avec hachures dépendant du matériau et désignation de la coupe (par exemple A-A).
+<<<
+COMMENT: >>>
+Point ouvert PO-26 : Demi-coupes, coupes locales et sections sorties : v1 ou plus tard ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0904
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Associativité des vues
+STATEMENT: >>>
+Les vues doivent se mettre à jour quand le modèle change. Si la mise à jour n'est pas faite automatiquement, la feuille est signalée comme obsolète et les vues ne sont jamais présentées comme à jour à tort.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+- TYPE: Parent
+  VALUE: BES-F-02
+
+[REQUIREMENT]
+UID: EXF-0905
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Cotation et annotations
+STATEMENT: >>>
+Le logiciel doit permettre de coter les vues : cotes linéaires, angulaires, de rayon et de diamètre, associatives à la géométrie de la vue, et reprise des cotes du modèle. Il doit aussi permettre d'ajouter des textes et des repères.
+
+Une cote dont la géométrie a disparu après mise à jour est signalée, pas supprimée silencieusement.
+<<<
+COMMENT: >>>
+Point ouvert PO-27 : Tolérances dimensionnelles, tolérances géométriques, états de surface et symboles de soudure : lesquels en v1 ?
+
+Point ouvert PO-28 : Normes de dessin à respecter (ISO 128 pour les traits, ISO 129 pour la cotation, etc.) : à confirmer.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0906
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Export PDF
+STATEMENT: >>>
+Le logiciel doit exporter une mise en plan en PDF vectoriel, une page par feuille, au format de la feuille, de sorte qu'une impression à 100 % respecte l'échelle indiquée.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0907
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Export DXF
+STATEMENT: >>>
+Le logiciel doit exporter une feuille de mise en plan en DXF, la géométrie étant écrite en vraie grandeur dans l'unité du document, avec des calques distincts au minimum pour les traits visibles, les traits cachés, les axes, les cotes, les hachures et le cadre.
+<<<
+COMMENT: >>>
+Point ouvert PO-29 : Version de DXF produite : à fixer.
+
+Point ouvert PO-30 : Export d'une vue seule en vraie grandeur (sans cadre), par exemple pour la découpe : v1 ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Surfaces complexes (BES-F-10)
+
+[TEXT]
+STATEMENT: >>>
+Surfaces complexes et conversion en solide.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1001
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Courbes 3D
+STATEMENT: >>>
+Le logiciel doit permettre de créer des courbes 3D servant de trajectoires et de guides : spline 3D passant par des points, hélice, courbe projetée sur une surface, intersection de deux surfaces.
+<<<
+COMMENT: >>>
+Point ouvert PO-31 : Liste des outils de surfaces et de courbes à valider par Fab (commentaire de CU-05).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+
+[REQUIREMENT]
+UID: EXF-1002
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Balayage
+STATEMENT: >>>
+Le logiciel doit créer une surface ou un solide par balayage d'un profil le long d'une trajectoire, avec le choix de l'orientation du profil (normal à la trajectoire, direction fixe, ou piloté par une courbe guide).
+
+Un balayage dont le profil s'auto-intersecte le long de la trajectoire est refusé avec un message.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+
+[REQUIREMENT]
+UID: EXF-1003
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Lissage
+STATEMENT: >>>
+Le logiciel doit créer une surface ou un solide par lissage entre au moins deux sections, avec courbes guides optionnelles et conditions de continuité imposables aux sections extrêmes (position, tangence).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+
+[REQUIREMENT]
+UID: EXF-1004
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Raccordement
+STATEMENT: >>>
+Le logiciel doit créer une surface de raccordement entre deux surfaces, avec une continuité choisie sur chaque bord : position (G0), tangence (G1) ou courbure (G2).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+
+[REQUIREMENT]
+UID: EXF-1005
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Opérations sur surfaces
+STATEMENT: >>>
+Le logiciel doit permettre de remplir un contour fermé par une surface, d'extruder et de faire tourner un profil en surface, de couper, prolonger et coudre des surfaces.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+
+[REQUIREMENT]
+UID: EXF-1006
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Conversion en solide
+STATEMENT: >>>
+Le logiciel doit convertir en solide un ensemble de surfaces qui délimite un volume fermé, et épaissir une surface ouverte d'une épaisseur donnée.
+
+Si l'ensemble n'est pas fermé, la conversion est refusée et les bords libres sont montrés.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+- TYPE: Parent
+  VALUE: BES-F-01
+
+[REQUIREMENT]
+UID: EXF-1007
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Analyse de continuité
+STATEMENT: >>>
+Le logiciel doit permettre de vérifier la continuité entre deux surfaces (écarts de position, de tangence et de courbure le long du bord commun).
+<<<
+COMMENT: >>>
+Point ouvert PO-32 : Ajout proposé pour les formes aérodynamiques (justification de CU-05) ; à confirmer ou retirer, ainsi que la priorité.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-10
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Échanges STEP, IGES, STL (BES-F-06)
+
+[TEXT]
+STATEMENT: >>>
+Échanges de fichiers STEP, IGES et STL.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0601
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Import STEP
+STATEMENT: >>>
+Le logiciel doit importer un fichier STEP (AP203, AP214 et AP242) contenant des pièces ou des assemblages :
+
+- les solides et surfaces sont lus en géométrie exacte, dans les unités déclarées par le fichier ;
+- la structure d'assemblage, les noms et les couleurs sont conservés ;
+- chaque pièce importée devient un corps sans historique, utilisable comme base d'opérations ultérieures.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+- TYPE: Parent
+  VALUE: BES-F-05
+
+[REQUIREMENT]
+UID: EXF-0602
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Export STEP
+STATEMENT: >>>
+Le logiciel doit exporter une pièce ou un assemblage en STEP, en conservant la géométrie exacte, la structure d'assemblage, les noms et les couleurs.
+<<<
+COMMENT: >>>
+Point ouvert PO-33 : Protocole d'application par défaut à l'export (AP214 ou AP242).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[REQUIREMENT]
+UID: EXF-0603
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Import et export IGES
+STATEMENT: >>>
+Le logiciel doit importer et exporter des surfaces et des solides au format IGES 5.3.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[REQUIREMENT]
+UID: EXF-0604
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Export STL
+STATEMENT: >>>
+Le logiciel doit exporter une pièce ou un assemblage en STL (binaire ou ASCII), avec une finesse de maillage réglable (écart maximal à la surface et écart angulaire) et dans une unité choisie. L'utilisateur est informé que le STL est une approximation de la géométrie.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[REQUIREMENT]
+UID: EXF-0605
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Import STL
+STATEMENT: >>>
+Le logiciel doit importer un fichier STL comme maillage, affichable et utilisable comme référence visuelle.
+<<<
+COMMENT: >>>
+Point ouvert PO-34 : Usages d'un maillage importé : mesures approchées, conversion en solide facetté, accrochage d'esquisse ? À préciser.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[REQUIREMENT]
+UID: EXF-0606
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Rapport d'import
+STATEMENT: >>>
+Après chaque import, le logiciel doit indiquer les entités lues, celles qui n'ont pas pu l'être et les réparations effectuées. Un solide importé invalide est signalé comme tel ; il n'est pas utilisé comme base d'opérations tant qu'il n'est pas réparé.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+
+[REQUIREMENT]
+UID: EXF-0607
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Aller-retour STEP
+STATEMENT: >>>
+Une pièce exportée en STEP puis réimportée doit avoir la même géométrie, à la tolérance de modélisation près, et les mêmes propriétés de masse (volume, centre de gravité) à cette tolérance.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-06
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Format de projet ouvert (BES-F-07)
+
+[TEXT]
+STATEMENT: >>>
+Format de projet. Les exigences de compatibilité dans le temps (BES-T-03) et de sauvegarde automatique (BES-T-04) sont traitées dans la spécification technique.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0701
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Contenu enregistré
+STATEMENT: >>>
+Le logiciel doit enregistrer tout ce qui est nécessaire pour reprendre le travail à l'identique : documents, historique complet (éléments de référence, esquisses, contraintes, cotes, opérations et leur ordre, état d'activation), paramètres et formules, composants et contraintes d'assemblage, mises en plan, propriétés, matériaux, unités, état d'affichage.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-07
+- TYPE: Parent
+  VALUE: BES-F-02
+- TYPE: Parent
+  VALUE: BES-F-12
+
+[REQUIREMENT]
+UID: EXF-0702
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Réouverture fidèle
+STATEMENT: >>>
+Rouvrir un projet enregistré doit redonner le même modèle : même historique, mêmes valeurs, et une géométrie recalculée identique à celle de l'enregistrement, à la tolérance de modélisation près.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-07
+
+[REQUIREMENT]
+UID: EXF-0703
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Format ouvert et documenté
+STATEMENT: >>>
+Le format de projet doit être décrit par une spécification livrée avec le logiciel, suffisante pour qu'un programme tiers puisse lire l'historique et les paramètres sans PersoCAO. Chaque fichier indique la version du format qui l'a produit.
+<<<
+COMMENT: >>>
+Point ouvert PO-35 : Organisation du projet sur disque (un fichier par document, un fichier unique ou un dossier) et chemins entre documents : relève de la conception, mais le choix est visible pour l'utilisateur ; à valider.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-07
+
+[REQUIREMENT]
+UID: EXF-0704
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Références entre documents
+STATEMENT: >>>
+Les références d'un assemblage ou d'une mise en plan vers leurs documents sources doivent survivre au déplacement du projet complet dans un autre dossier ou sur une autre machine.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-07
+- TYPE: Parent
+  VALUE: BES-F-05
+- TYPE: Parent
+  VALUE: BES-F-09
+
+[REQUIREMENT]
+UID: EXF-0705
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Données des modules métier
+STATEMENT: >>>
+Les données créées par un module métier doivent être enregistrées dans le projet. Un projet qui contient des données d'un module absent ou désactivé doit s'ouvrir quand même : ces données sont signalées, conservées intactes et réécrites telles quelles à l'enregistrement.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-07
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Modules métier installables (BES-F-08)
+
+[TEXT]
+STATEMENT: >>>
+Modules métier installables. La stabilité de l'interface d'extension (BES-T-06) est traitée dans la spécification technique.
+<<<
+
+[REQUIREMENT]
+UID: EXF-0801
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Installer un module
+STATEMENT: >>>
+Le logiciel doit installer un module métier à partir d'un fichier local, sans connexion réseau, sans recompiler ni réinstaller le socle.
+
+Avant l'installation, il vérifie que le module est compatible avec la version de l'interface d'extension du socle ; un module incompatible est refusé avec un message qui donne les deux versions.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[REQUIREMENT]
+UID: EXF-0802
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Activer, désactiver, désinstaller
+STATEMENT: >>>
+Le logiciel doit permettre d'activer, de désactiver et de désinstaller un module. Un module désactivé n'est pas chargé et n'apporte aucune commande ; il reste installé.
+<<<
+COMMENT: >>>
+Point ouvert PO-36 : Prise en compte de l'activation ou de la désactivation : immédiate ou au prochain démarrage ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[REQUIREMENT]
+UID: EXF-0803
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Liste des modules
+STATEMENT: >>>
+Le logiciel doit afficher la liste des modules installés avec, pour chacun, son nom, sa version, son auteur, la version d'interface requise et son état (actif, désactivé, en erreur).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[REQUIREMENT]
+UID: EXF-0804
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Module défaillant
+STATEMENT: >>>
+Un module qui échoue au chargement ne doit pas empêcher le socle de démarrer : il est désactivé et signalé en erreur avec la cause.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-08
+
+[REQUIREMENT]
+UID: EXF-0805
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Intégration des fonctions d'un module
+STATEMENT: >>>
+Les éléments créés par une fonction d'un module (opérations, esquisses, données) doivent être intégrés à l'historique (BES-F-02), à l'annulation (BES-F-03) et à l'enregistrement (BES-F-07) comme ceux du socle.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-08
+- TYPE: Parent
+  VALUE: BES-F-02
+- TYPE: Parent
+  VALUE: BES-F-03
+- TYPE: Parent
+  VALUE: BES-F-07
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Macros (BES-F-13)
+
+[TEXT]
+STATEMENT: >>>
+Besoin prévu pour le socle v2. Cadrage seulement : à détailler avant le jalon correspondant.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1301
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Exécution de scripts
+STATEMENT: >>>
+Le logiciel doit permettre d'écrire, d'enregistrer et d'exécuter des scripts qui accèdent aux fonctions de modélisation (création et modification d'esquisses, d'opérations, de paramètres, d'assemblages), dans le langage de script du logiciel.
+
+Les modifications faites par un script s'annulent en une seule fois (BES-F-03). Une erreur dans un script arrête son exécution avec un message qui donne la ligne en cause, sans laisser le document dans un état partiel.
+<<<
+COMMENT: >>>
+Point ouvert PO-37 : Enregistreur de macros (actions de l'utilisateur traduites en script) : à prévoir ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-13
+- TYPE: Parent
+  VALUE: BES-F-03
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Calcul de structure (BES-F-14)
+
+[TEXT]
+STATEMENT: >>>
+Besoin prévu pour le socle v2. Cadrage seulement : à détailler avant le jalon correspondant.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1401
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Outils de résistance des matériaux
+STATEMENT: >>>
+Le logiciel doit fournir des outils de calcul de poutres (flexion, torsion, flambement) qui affichent les équations de référence utilisées et leurs hypothèses, et dont les résultats sont vérifiés sur des cas connus.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-14
+
+[REQUIREMENT]
+UID: EXF-1402
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Calcul par éléments finis
+STATEMENT: >>>
+Le logiciel doit calculer en élasticité linéaire statique les déplacements et les contraintes d'une pièce ou d'un assemblage, à partir du matériau des pièces (BES-F-11), de conditions aux limites et de chargements définis par l'utilisateur, et vérifier ses résultats sur des cas de référence.
+<<<
+COMMENT: >>>
+Point ouvert PO-38 : Types d'analyse au-delà du statique linéaire (modal, thermique, non linéaire) : à définir pour le socle v2.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-14
+- TYPE: Parent
+  VALUE: BES-F-11
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Usinage (BES-F-15)
+
+[TEXT]
+STATEMENT: >>>
+Besoin prévu pour le socle v2. Cadrage seulement : à détailler avant le jalon correspondant.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1501
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Préparation de l'usinage
+STATEMENT: >>>
+Le logiciel doit calculer des trajectoires d'outil à partir de la géométrie d'une pièce, d'un brut et d'outils définis par l'utilisateur, les simuler, et les exporter dans un programme pour machine à commande numérique.
+<<<
+COMMENT: >>>
+Point ouvert PO-39 : Types d'usinage (fraisage 2,5 axes, 3 axes, tournage) et post-processeurs visés : à définir pour le socle v2.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-15
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Gestion de données produit légère (BES-F-16)
+
+[TEXT]
+STATEMENT: >>>
+Besoin prévu pour le socle v2. Cadrage seulement : à détailler avant le jalon correspondant.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1601
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Référence et indice de révision
+STATEMENT: >>>
+Le logiciel doit associer à chaque pièce et chaque assemblage une référence et un indice de révision, et permettre de créer une nouvelle révision en conservant la précédente.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-16
+- TYPE: Parent
+  VALUE: BES-F-20
+
+[REQUIREMENT]
+UID: EXF-1602
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: État d'un article
+STATEMENT: >>>
+Le logiciel doit attribuer à chaque article un état parmi « en cours », « validé » et « périmé », et empêcher la modification d'un article validé sans création d'une nouvelle révision.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-16
+
+[REQUIREMENT]
+UID: EXF-1603
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Cas d'emploi
+STATEMENT: >>>
+Le logiciel doit indiquer, pour une pièce ou un sous-assemblage, la liste des assemblages du projet qui l'utilisent.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-16
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Reconstruction depuis une mise en plan (BES-F-18)
+
+[TEXT]
+STATEMENT: >>>
+Besoin prévu pour le socle v3. Cadrage seulement : à détailler avant le jalon correspondant.
+<<<
+
+[REQUIREMENT]
+UID: EXF-1801
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v3
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Reconstruction depuis une mise en plan
+STATEMENT: >>>
+Le logiciel doit proposer de reconstruire une pièce 3D à partir de vues 2D cotées (issues d'une mise en plan ou d'un DXF), en produisant un historique paramétrique modifiable, et signaler les vues incohérentes entre elles.
+<<<
+COMMENT: >>>
+Point ouvert PO-40 : Sources acceptées (mises en plan PersoCAO seulement, ou DXF tiers) et niveau d'automatisation attendu : à définir pour le socle v3.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-F-18
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Points ouverts
+
+[TEXT]
+STATEMENT: >>>
+Points à trancher par Fab avant de passer les exigences au statut Validé. Chacun est aussi noté dans l'exigence concernée.
+
+- **PO-01** (EXF-1705) : Liste des unités proposées : à fixer (proposition : mm, cm, m, in pour les longueurs ; degré et radian pour les angles ; g et kg pour les masses).
+- **PO-02** (EXF-1902) : Liste des outils d'esquisse à valider par Fab (commentaire de BES-F-19).
+- **PO-03** (EXF-1907) : La présentation de ces contraintes proposées relève de la spécification IHM (EXI).
+- **PO-04** (EXF-1909) : Valeur de la tolérance de modélisation : à fixer dans les exigences techniques (EXT issues de BES-T-10).
+- **PO-05** (EXF-1909) : Critère mesurable de stabilité du solveur (taille d'esquisse visée, temps de résolution) : à fixer après le prototype « Solveur d'esquisse ».
+- **PO-06** (EXF-1201) : Sensibilité à la casse des noms et acceptation des lettres accentuées : à trancher.
+- **PO-07** (EXF-1206) : Portée des paramètres entre documents (assemblage vers pièce, pièce vers pièce, fichier de paramètres partagé) : à trancher, avec son effet sur une pièce ouverte seule.
+- **PO-08** (EXF-0101) : Pièce multi-corps (plusieurs solides disjoints ou corps de travail combinés par opérations booléennes) : à décider pour la v1.
+- **PO-09** (EXF-0105) : Bibliothèque de dimensions normalisées (trous de passage, lamages et taraudages ISO métriques) : à inclure ou non en v1, et liste des normes.
+- **PO-10** (EXF-0106) : Congé à rayon variable, et congé entre faces (non limité aux arêtes) : v1 ou plus tard ?
+- **PO-11** (EXF-0109) : Épaisseurs différentes par face : v1 ou plus tard ?
+- **PO-12** (EXF-0110) : Répétition le long d'une courbe : v1 ou plus tard ?
+- **PO-13** (EXF-0205) : Critère d'acceptation de la désignation persistante (jeu de cas de test de référence) : à établir à partir du prototype « Historique et désignation des faces ».
+- **PO-14** (EXF-0301) : Afficher ou masquer un élément est-il une action annulable ?
+- **PO-15** (EXF-0302) : Profondeur minimale de la pile (100 proposé).
+- **PO-16** (EXF-0304) : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ?
+- **PO-17** (EXF-0305) : Conserver ou non la pile d'annulation après fermeture et réouverture du document.
+- **PO-18** (EXF-0306) : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser.
+- **PO-19** (EXF-0405) : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants.
+- **PO-20** (EXF-0505) : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ?
+- **PO-21** (EXF-0507) : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage.
+- **PO-22** (EXF-1103) : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ?
+- **PO-23** (EXF-1103) : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ?
+- **PO-24** (EXF-1104) : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10).
+- **PO-25** (EXF-0901) : Contenu et modèle du cartouche : à définir avec Fab.
+- **PO-26** (EXF-0903) : Demi-coupes, coupes locales et sections sorties : v1 ou plus tard ?
+- **PO-27** (EXF-0905) : Tolérances dimensionnelles, tolérances géométriques, états de surface et symboles de soudure : lesquels en v1 ?
+- **PO-28** (EXF-0905) : Normes de dessin à respecter (ISO 128 pour les traits, ISO 129 pour la cotation, etc.) : à confirmer.
+- **PO-29** (EXF-0907) : Version de DXF produite : à fixer.
+- **PO-30** (EXF-0907) : Export d'une vue seule en vraie grandeur (sans cadre), par exemple pour la découpe : v1 ?
+- **PO-31** (EXF-1001) : Liste des outils de surfaces et de courbes à valider par Fab (commentaire de CU-05).
+- **PO-32** (EXF-1007) : Ajout proposé pour les formes aérodynamiques (justification de CU-05) ; à confirmer ou retirer, ainsi que la priorité.
+- **PO-33** (EXF-0602) : Protocole d'application par défaut à l'export (AP214 ou AP242).
+- **PO-34** (EXF-0605) : Usages d'un maillage importé : mesures approchées, conversion en solide facetté, accrochage d'esquisse ? À préciser.
+- **PO-35** (EXF-0703) : Organisation du projet sur disque (un fichier par document, un fichier unique ou un dossier) et chemins entre documents : relève de la conception, mais le choix est visible pour l'utilisateur ; à valider.
+- **PO-36** (EXF-0802) : Prise en compte de l'activation ou de la désactivation : immédiate ou au prochain démarrage ?
+- **PO-37** (EXF-1301) : Enregistreur de macros (actions de l'utilisateur traduites en script) : à prévoir ?
+- **PO-38** (EXF-1402) : Types d'analyse au-delà du statique linéaire (modal, thermique, non linéaire) : à définir pour le socle v2.
+- **PO-39** (EXF-1501) : Types d'usinage (fraisage 2,5 axes, 3 axes, tournage) et post-processeurs visés : à définir pour le socle v2.
+- **PO-40** (EXF-1801) : Sources acceptées (mises en plan PersoCAO seulement, ou DXF tiers) et niveau d'automatisation attendu : à définir pour le socle v3.
+<<<
+
+[[/SECTION]]

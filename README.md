@@ -18,14 +18,14 @@ Le projet suit un cycle en V : aucune implémentation avant la fin du V descenda
 
 | Étape | Document | Exigences | État |
 | --- | --- | --- | --- |
-| 1. Expression du besoin | `docs/01_besoin/expression_du_besoin.md` | `reqs/01_besoin.sdoc` (CU, BES-F, BES-T) | Brouillon v0.3 |
-| 2. Spécification fonctionnelle | à venir | EXF, EXT | À faire |
+| 1. Expression du besoin | `docs/01_besoin/expression_du_besoin.md` | `reqs/01_besoin.sdoc` (CU, BES-F, BES-T) | Validé v1.0 |
+| 2. Spécification fonctionnelle | `reqs/02_spec_fonctionnelle.sdoc` (EXF), `reqs/02_spec_technique.sdoc` (EXT) | EXF, EXT | Brouillon v0.1 |
 | 3. Spécification IHM et rendu | à venir | EXI | À faire |
 | 4. Faisabilité et conception générale | à venir | CON | À faire |
 
 ## Gestion des exigences
 
-- Chaque exigence a un identifiant stable (`CU-xx`, `BES-F-xx`, `BES-T-xx`, puis `EXF-xxx`, `EXT-xxx`, `EXI-xxx`, `CON-xxx`, `TST-xxx`) et un lien vers son ou ses parents.
+- Chaque exigence a un identifiant stable (`CU-xx`, `BES-F-xx`, `BES-T-xx`, puis `EXF-bbnn` et `EXT-bbnn` (`bb` : numéro du besoin détaillé, `nn` : numéro d'ordre), `EXI-xxx`, `CON-xxx`, `TST-xxx`) et un lien vers son ou ses parents.
 - Les fichiers `.sdoc` de `reqs/` font foi. Les tableaux des documents Markdown en sont un reflet ; en cas d'écart, le `.sdoc` l'emporte.
 - Une exigence n'est jamais supprimée : elle passe au statut `Rejeté` ou `Reporté`.
 - Les documents sont relus et commentés en dehors du dépôt, puis chaque version validée est enregistrée ici par une pull request.
