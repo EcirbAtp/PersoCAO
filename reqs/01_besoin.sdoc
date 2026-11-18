@@ -53,7 +53,8 @@ NATURE: Cas d'usage
 STATUT: Brouillon
 TITLE: Concevoir une pièce
 STATEMENT: >>>
-Esquisse un profil coté, le transforme en volume, ajoute perçages, congés et chanfreins, puis modifie les cotes jusqu'à obtenir la pièce voulue.
+Le logiciel doit permettre la création d'une pièce à partir d'une esquisse.
+TBdeleted: Esquisse un profil coté, le transforme en volume, ajoute perçages, congés et chanfreins, puis modifie les cotes jusqu'à obtenir la pièce voulue.
 <<<
 
 [REQUIREMENT]
@@ -62,7 +63,7 @@ NATURE: Cas d'usage
 STATUT: Brouillon
 TITLE: Assembler un mécanisme
 STATEMENT: >>>
-Insère plusieurs pièces, les positionne par contraintes et vérifie qu'elles n'interfèrent pas.
+Le logiciel doit permettre de créer un assemblage à travers des contraintes pour insérer et positionner plusieurs pièces.  interférences entre les pièces.
 <<<
 
 [REQUIREMENT]
@@ -71,7 +72,7 @@ NATURE: Cas d'usage
 STATUT: Brouillon
 TITLE: Produire un plan
 STATEMENT: >>>
-Génère les vues 2D cotées d'une pièce ou d'un assemblage et les exporte en PDF ou DXF.
+Le logiciel doit permettre de génerer sur un plan 2D des vues (vues suivants différents profils ou inclinaisons, vues en coupe) d'une pièce, ou d'un assemblage. Le plan doit être exportalbe en PDF ou DXF.
 <<<
 
 [REQUIREMENT]
@@ -80,7 +81,7 @@ NATURE: Cas d'usage
 STATUT: Brouillon
 TITLE: Échanger avec d'autres outils
 STATEMENT: >>>
-Importe ou exporte un modèle en STEP, IGES ou STL.
+Le logiciel doit permettre d'importer ou d'exporter un modèle (pièce ou assemblage) en STEP, IGES ou STL.
 <<<
 
 [REQUIREMENT]
@@ -89,7 +90,10 @@ NATURE: Cas d'usage
 STATUT: Brouillon
 TITLE: Concevoir une forme libre
 STATEMENT: >>>
-Crée des formes que l'extrusion et la révolution ne savent pas décrire (carrosserie, carène, profil d'aile) : courbes guides, surfaces balayées ou lissées, raccords continus, puis fermeture en solide.
+Le logiciel doit permettre de créer des formes de pièces complexes à travers des splines, des surfaces balayées ou lissées, et autres outils jugés utiles dans ce but par le développeur. Les outils seront à valider aves le bureau d'étude.
+<<<
+RATIONALE: >>>
+Permettre la création de formes aérodynamiques complexes.
 <<<
 
 [REQUIREMENT]
@@ -98,7 +102,7 @@ NATURE: Cas d'usage
 STATUT: Brouillon
 TITLE: Étendre le logiciel
 STATEMENT: >>>
-Installe un module métier qui ajoute ses propres outils, sans réinstaller le socle.
+Le logiciel doit permettre la prise en charge de différents modules en vue de rajouter des outils de conception, sans réinstaller le socle principal du logiciel.
 <<<
 
 [[/SECTION]]
