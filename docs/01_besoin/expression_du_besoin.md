@@ -10,7 +10,7 @@ Statut : v1.0, tous les besoins validés par Fab le 18 novembre 2026. Les besoin
 
 ## Contexte et finalité
 
-PersoCAO est un logiciel de modélisation 3D de mécanique générale, pour un usage personnel. Son code est original ; il s'appuie sur des bibliothèques open source (noyau géométrique, interface, solveur d'esquisse) dont la licence est compatible avec un usage privé (BES-T-07). Il offre un socle de CAO mécanique complet, auquel s'ajoutent des modules métier installables séparément (aéronautique, automobile, marine, spatial).
+PersoCAO est un logiciel de modélisation 3D de mécanique générale, pour un usage personnel. Son code est original ; il s'appuie sur des bibliothèques open source (noyau géométrique, interface, solveur d'esquisse) dont la licence est compatible avec un dépôt public (BES-T-07). Il offre un socle de CAO mécanique complet, auquel s'ajoutent des modules métier installables séparément (aéronautique, automobile, marine, spatial).
 
 Il fonctionne sans cloud, sans gestion de licences et avec des formats ouverts uniquement. Aucune ressemblance avec un logiciel existant n'est recherchée ; l'aspect graphique sera travaillé en détail au niveau 3 du développement.
 
@@ -82,16 +82,16 @@ Les besoins techniques sont transverses : ils ne sont pas rattachés à un cas d
 | BES-T-02 | Fonctionner entièrement hors ligne : aucun compte, aucune licence, aucune télémétrie. | Indispensable |
 | BES-T-03 | Utiliser uniquement des formats ouverts et documentés ; un projet enregistré reste lisible par toutes les versions suivantes. | Indispensable |
 | BES-T-04 | Ne jamais perdre le travail : sauvegarde automatique et récupération après un plantage. | Indispensable |
-| BES-T-05 | Rester fluide sans jamais sacrifier la précision de calcul (BES-T-10). Seuils : rotation à 30 images/s minimum sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde. | Important |
+| BES-T-05 | Rester fluide sans jamais sacrifier la précision de calcul (BES-T-10). Seuils : rotation à 30 images/s minimum sur un assemblage de 200 pièces, recalcul d'une opération simple en moins de 10 secondes. | Important |
 | BES-T-06 | Offrir une interface d'extension stable et versionnée, pour que les modules métier survivent aux mises à jour du socle. | Indispensable |
-| BES-T-07 | Code, icônes et ressources propres au projet originaux ; dépendances open source autorisées si leur licence est compatible avec l'usage prévu (projet privé) ; aucune réutilisation d'un logiciel propriétaire. | Indispensable |
+| BES-T-07 | Code, icônes et ressources propres au projet originaux ; dépendances open source autorisées si leur licence est compatible avec l'usage prévu (dépôt public) ; aucune réutilisation d'un logiciel propriétaire. | Indispensable |
 | BES-T-08 | Interface en français, préparée pour la traduction. | Important |
 | BES-T-09 | Être maintenable : code commenté, tests automatisés, intégration continue, gestion de configuration sous Git. | Indispensable |
 | BES-T-10 | Privilégier la précision de calcul : géométrie exacte dans les calculs (jamais l'approximation en triangles de l'affichage), tolérances maîtrisées et documentées, résultats (mesures, masses, calculs de structure) vérifiés sur des cas de référence. En cas de conflit, la précision prime sur la fluidité. | Indispensable |
 
 ## Contraintes de développement
 
-Le logiciel est développé directement en C++20 avec Qt 6 pour l'interface et Open CASCADE pour le noyau géométrique. Python n'intervient qu'à deux endroits : des prototypes jetables qui lèvent les risques techniques avant le codage, et le langage de script et de modules métier (BES-F-13). La gestion de configuration se fait sous Git ; le dépôt privé PersoCAO a été créé par Fab sur GitHub.
+Le logiciel est développé directement en C++20 avec Qt 6 pour l'interface et Open CASCADE pour le noyau géométrique. Python n'intervient qu'à deux endroits : des prototypes jetables qui lèvent les risques techniques avant le codage, et le langage de script et de modules métier (BES-F-13). La gestion de configuration se fait sous Git ; le dépôt PersoCAO a été créé par Fab sur GitHub ; il est public.
 
 ### Pourquoi pas un prototype Python porté ensuite
 
@@ -159,14 +159,14 @@ Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 
 ## Points ouverts et prochaines étapes
 
 - [x] Valider ou corriger les besoins et leurs priorités (18 novembre 2026).
-- [x] Fixer la taille de modèle visée, qui dimensionne BES-T-05. Décision : seuils figés (30 images/s sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde).
+- [x] Fixer la taille de modèle visée, qui dimensionne BES-T-05. Décision : seuils figés (30 images/s sur un assemblage de 200 pièces, recalcul d'une opération simple en moins de 10 secondes, seuil porté de 1 à 10 secondes le 18 novembre 2026).
 - [x] Relire les méthodes de vérification (champ VERIFICATION) des BES-F et BES-T : validées par Fab le 18 novembre 2026.
 - [x] BES-T-10 (précision de calcul) : énoncé conservé tel quel et validé.
 - [x] Trancher la priorité de BES-F-16 : passée en Souhaitable (cible Socle v2).
 - [ ] Décliner en exigences mesurables, dans la spécification, les besoins non vérifiables tels quels (BES-T-03, BES-T-04, BES-T-09 et les autres).
 - [ ] Étudier le cadre légal de la lecture et de l'écriture des formats propriétaires d'autres logiciels de CAO (interopérabilité), puis décider s'il entre dans une version ultérieure.
 - [ ] Choisir la distribution Linux de référence (par exemple Ubuntu LTS).
-- [x] Décider si PersoCAO restera privé ou pourra être publié un jour : cela conditionne le choix de licence et les obligations liées à Qt et Open CASCADE. Décision : PersoCAO restera privé.
+- [x] Décider si PersoCAO restera privé ou pourra être publié un jour : cela conditionne le choix de licence et les obligations liées à Qt et Open CASCADE. Décision initiale : PersoCAO restera privé. Décision du 18 novembre 2026 : le dépôt est public ; les licences GPL sont exclues des dépendances (spécification technique, EXT-0702).
 - [ ] Valider la liste des prototypes de levée de risque.
 - [ ] Préciser ce que recouvrent les niveaux de développement (le niveau 3 étant celui du travail graphique détaillé).
 - [x] Choisir le nom définitif (« PersoCAO » est un nom de travail).

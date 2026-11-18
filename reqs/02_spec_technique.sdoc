@@ -1,6 +1,6 @@
 [DOCUMENT]
 TITLE: PersoCAO – Spécification technique
-VERSION: 0.1
+VERSION: 0.2
 
 [GRAMMAR]
 ELEMENTS:
@@ -56,9 +56,9 @@ Cette spécification décline chaque besoin technique (BES-T) de reqs/01_besoin.
 
 La priorité d'une exigence est celle de son besoin principal. Une exigence peut être vérifiée par une méthode plus forte que son besoin (un test là où le besoin prévoit une inspection) quand un critère mesurable existe.
 
-Les choix de conception (format du fichier projet, mécanisme de chargement des modules, choix du solveur d'esquisse) ne sont pas faits ici : ils relèvent de la conception générale (CON). Seules sont reprises les décisions déjà prises dans l'expression du besoin : C++20, Qt 6, Open CASCADE, Python pour les scripts, Git et GitHub, projet privé, bibliothèques open source d'abord.
+Les choix de conception (type d'archive du fichier conteneur, mécanisme de chargement des modules, choix du solveur d'esquisse) ne sont pas faits ici : ils relèvent de la conception générale (CON). Seules sont reprises les décisions déjà prises dans l'expression du besoin : C++20, Qt 6, Open CASCADE, Python pour les scripts, Git et GitHub, dépôt public, bibliothèques open source d'abord, ainsi que les arbitrages de Fab du 18 novembre 2026 sur les points ouverts de la version 0.1.
 
-Les seuils marqués « proposé » et les points à trancher sont regroupés dans la dernière section.
+Les décisions prises et les points qui restent à trancher sont regroupés dans la dernière section.
 <<<
 
 [[SECTION]]
@@ -73,13 +73,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Systèmes d'exploitation cibles
 STATEMENT: >>>
-Le socle s'exécute sur Windows 10 (22H2), Windows 11 et sur la distribution Linux de référence, en architecture x86-64 uniquement. Aucune version 32 bits n'est produite.
+Le socle s'exécute sur Windows 10 (22H2), Windows 11 et Ubuntu 24.04 LTS, chacun en architecture x86-64 et ARM64. Aucune version 32 bits n'est produite.
 <<<
 ACCEPTATION: >>>
-La suite de tests automatisés (EXT-0903) et le scénario de démonstration du socle passent sur chacun des trois systèmes, sur une installation neuve.
+La suite de tests automatisés (EXT-0903) et le scénario de démonstration du socle passent sur chaque couple système et architecture, sur une installation neuve.
 <<<
 COMMENT: >>>
-La distribution Linux de référence reste à choisir (point ouvert PO-T-01).
+ARM64 ajouté et Ubuntu 24.04 LTS retenu comme distribution Linux de référence par Fab le 18 novembre 2026 (PO-T-01). Windows 10 n'existe en ARM64 que sur peu de machines : le test ARM64 sous Windows peut se limiter à Windows 11.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -94,10 +94,10 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Source unique multiplateforme
 STATEMENT: >>>
-Un même arbre source, sans branche ni copie par système, produit les exécutables Windows et Linux. Le code propre à un système est isolé dans des fichiers dédiés, appelés uniquement à travers Qt 6 ou une interface interne du projet.
+Un même arbre source, sans branche ni copie par système ou par architecture, produit les exécutables Windows et Linux, en x86-64 et en ARM64. Le code propre à un système est isolé dans des fichiers dédiés, appelés uniquement à travers Qt 6 ou une interface interne du projet.
 <<<
 ACCEPTATION: >>>
-L'intégration continue (EXT-0904) compile et teste le même commit sous Windows et sous Linux à chaque pull request.
+L'intégration continue (EXT-0904) compile et teste le même commit sous Windows et sous Linux, en x86-64 et en ARM64, à chaque pull request.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -112,7 +112,7 @@ VERIFICATION: Inspection
 STATUT: Brouillon
 TITLE: Portage macOS non bloqué
 STATEMENT: >>>
-Aucune dépendance ni aucun choix technique du socle n'exclut macOS : chaque dépendance retenue doit exister sous macOS, et aucun appel direct à une API Windows ou Linux n'est fait hors des fichiers isolés par EXT-0102.
+Aucune dépendance ni aucun choix technique du socle n'exclut macOS : chaque dépendance retenue doit exister sous macOS (et en ARM64, EXT-0101), et aucun appel direct à une API Windows ou Linux n'est fait hors des fichiers isolés par EXT-0102.
 <<<
 ACCEPTATION: >>>
 Revue de l'inventaire des dépendances (EXT-0701) : chacune indique sa disponibilité sous macOS. Recherche dans le code des appels système hors des fichiers dédiés : aucun résultat.
@@ -120,6 +120,29 @@ Revue de l'inventaire des dépendances (EXT-0701) : chacune indique sa disponibi
 RELATIONS:
 - TYPE: Parent
   VALUE: BES-T-01
+
+[REQUIREMENT]
+UID: EXT-0104
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Brouillon
+TITLE: Configurations matérielles
+STATEMENT: >>>
+Deux configurations matérielles sont définies. La configuration minimale requise est un PC grand public x86-64 commercialisé en 2020 : le socle s'y installe et toutes ses fonctions y marchent. La configuration de référence des performances (EXT-0501, EXT-0502) est une Microsoft Surface Pro X (ARM64, Windows 11), au grand minimum.
+<<<
+ACCEPTATION: >>>
+Le scénario de démonstration complet passe sur une machine de chaque configuration ; les bancs de performance de EXT-0501 et EXT-0502 passent sur la Surface Pro X.
+<<<
+COMMENT: >>>
+Décision de Fab du 18 novembre 2026 (PO-T-02). Reste à fixer la machine précise de 2020 (processeur, mémoire, carte graphique) et la variante de Surface Pro X (SQ1 ou SQ2, mémoire) (PO-T-02).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-01
+- TYPE: Parent
+  VALUE: BES-T-05
 
 [[/SECTION]]
 
@@ -230,13 +253,13 @@ VERIFICATION: Inspection
 STATUT: Brouillon
 TITLE: Format de projet documenté
 STATEMENT: >>>
-Le format du fichier projet est décrit par une spécification versionnée, tenue dans le dépôt : structure, encodage, unités, représentation de la géométrie et de l'historique paramétrique. Elle suffit à écrire un lecteur indépendant du logiciel.
+Chaque document enregistré (pièce, assemblage, mise en plan) est un fichier conteneur : une archive qui regroupe plusieurs fichiers internes (géométrie, historique paramétrique, paramètres, métadonnées). Ce format est décrit par une spécification versionnée, tenue dans le dépôt : structure du conteneur, encodage, unités, représentation de la géométrie et de l'historique. Elle suffit à écrire un lecteur indépendant du logiciel.
 <<<
 ACCEPTATION: >>>
-Revue de la spécification de format : chaque élément présent dans un fichier projet de référence y est décrit.
+Revue de la spécification de format : chaque fichier interne et chaque élément présent dans un document de référence y sont décrits.
 <<<
 COMMENT: >>>
-Le choix du format lui-même (conteneur, texte ou binaire) relève de la conception (point ouvert PO-T-10).
+Format conteneur retenu par Fab le 18 novembre 2026 (PO-T-10). Le projet lui-même est un dossier qui regroupe ces documents (spécification fonctionnelle, PO-35). Le type d'archive et l'encodage des fichiers internes relèvent de la conception.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -337,13 +360,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Sauvegarde automatique
 STATEMENT: >>>
-Chaque document modifié est sauvegardé automatiquement à intervalle régulier, réglable par l'utilisateur, de 5 minutes par défaut. La sauvegarde automatique est écrite dans un fichier distinct et n'écrase jamais le fichier enregistré par l'utilisateur.
+Chaque document modifié est sauvegardé automatiquement à intervalle régulier. L'intervalle (5 minutes par défaut) et le nombre de sauvegardes automatiques conservées par document (3 par défaut) sont réglables par l'utilisateur. La sauvegarde automatique est écrite dans un fichier distinct et n'écrase jamais le fichier enregistré par l'utilisateur.
 <<<
 ACCEPTATION: >>>
-Après une modification, une sauvegarde automatique apparaît au plus tard à la fin de l'intervalle réglé ; le fichier projet de l'utilisateur est inchangé.
+Après une modification, une sauvegarde automatique apparaît au plus tard à la fin de l'intervalle réglé ; le fichier de l'utilisateur est inchangé ; au-delà du nombre réglé, la sauvegarde la plus ancienne est remplacée.
 <<<
 COMMENT: >>>
-Valeur par défaut de 5 minutes proposée, à valider (point ouvert PO-T-03).
+Valeurs réglables par l'utilisateur : décision de Fab du 18 novembre 2026 (PO-T-03). Les valeurs par défaut (5 minutes, 3 sauvegardes) sont proposées.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -440,10 +463,10 @@ STATEMENT: >>>
 La rotation continue de la vue d'un assemblage de référence de 200 pièces se fait à au moins 30 images par seconde sur la configuration matérielle de référence.
 <<<
 ACCEPTATION: >>>
-Banc de performance automatisé : rotation de 10 secondes, cadence moyenne mesurée supérieure ou égale à 30 images par seconde, sous Windows et sous Linux. L'assemblage de référence est conservé dans le dépôt.
+Banc de performance automatisé sur la configuration de référence (EXT-0104) : rotation de 10 secondes, cadence moyenne mesurée supérieure ou égale à 30 images par seconde. L'assemblage de référence est conservé dans le dépôt.
 <<<
 COMMENT: >>>
-Configuration matérielle de référence et complexité des pièces de l'assemblage à définir (point ouvert PO-T-02).
+Configuration de référence : Surface Pro X (EXT-0104). Complexité des pièces de l'assemblage de référence à définir (PO-T-02).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -458,13 +481,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Temps de recalcul
 STATEMENT: >>>
-Après modification d'une cote, le recalcul d'une opération simple (extrusion, poche, révolution, perçage, congé ou chanfrein sur une pièce de référence) et la mise à jour de l'affichage prennent moins d'une seconde sur la configuration matérielle de référence.
+Après modification d'une cote, le recalcul d'une opération simple (extrusion, poche, révolution, perçage, congé ou chanfrein sur une pièce de référence) et la mise à jour de l'affichage prennent moins de 10 secondes sur la configuration matérielle de référence (EXT-0104).
 <<<
 ACCEPTATION: >>>
-Banc de performance automatisé : pour chaque type d'opération simple, temps mesuré entre la validation de la cote et la fin de la mise à jour de l'affichage, inférieur à 1 seconde (valeur maximale sur 10 mesures).
+Banc de performance automatisé : pour chaque type d'opération simple, temps mesuré entre la validation de la cote et la fin de la mise à jour de l'affichage, inférieur à 10 secondes (valeur maximale sur 10 mesures).
 <<<
 COMMENT: >>>
-La pièce de référence reste à définir (point ouvert PO-T-02).
+Seuil porté de 1 à 10 secondes par Fab le 18 novembre 2026 (PO-T-02), BES-T-05 mis à jour en conséquence. La pièce de référence reste à définir (PO-T-02).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -565,10 +588,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Contrôle de compatibilité au chargement
 STATEMENT: >>>
-Chaque module métier déclare la version d'interface qu'il requiert. Le socle refuse de charger un module incompatible, avec un message qui nomme le module et les versions en cause, sans planter et sans désactiver les autres modules.
+Chaque module métier déclare la version d'interface qu'il requiert et la version du socle avec laquelle il a été compilé. Le socle refuse de charger un module incompatible (version d'interface non offerte, ou module compilé pour une autre version du socle), avec un message qui nomme le module, les versions en cause et, s'il suffit de recompiler le module, l'indique. Le refus ne fait pas planter le socle et ne désactive pas les autres modules.
 <<<
 ACCEPTATION: >>>
-Chargement d'un module déclarant une version majeure différente, puis une version mineure plus récente que celle du socle : refus avec message, socle et autres modules opérationnels.
+Chargement d'un module déclarant une version majeure différente, d'un module déclarant une version mineure plus récente que celle du socle, puis d'un module compilé pour une version antérieure du socle : refus avec message, socle et autres modules opérationnels.
+<<<
+RATIONALE: >>>
+La compatibilité exigée est une compatibilité source (EXT-0604) : un module compilé pour une autre version du socle n'est pas garanti compatible et ne doit pas être chargé.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -585,13 +611,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Modules conservés à travers les mises à jour
 STATEMENT: >>>
-Un module métier construit pour la version d'interface X.Y se charge et fonctionne, sans modification, avec toute version du socle qui offre une interface X.Z où Z ≥ Y.
+Le code source d'un module métier écrit pour la version d'interface X.Y se recompile sans modification et fonctionne avec toute version du socle qui offre une interface X.Z où Z ≥ Y. La compatibilité binaire n'est pas exigée : après une mise à jour du socle, un module peut devoir être recompilé.
 <<<
 ACCEPTATION: >>>
-Un module de référence construit une fois pour chaque version mineure publiée est conservé ; à chaque intégration continue, il est chargé par le socle courant et ses tests passent.
+Le code source d'un module de référence écrit pour chaque version mineure publiée est conservé ; à chaque intégration continue, il est recompilé sans modification contre le socle courant, chargé, et ses tests passent.
 <<<
 COMMENT: >>>
-Reste à trancher : compatibilité binaire (module non recompilé) ou compatibilité source (module recompilé sans modification) (point ouvert PO-T-04).
+Compatibilité source retenue par Fab le 18 novembre 2026 (PO-T-04).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -647,7 +673,7 @@ VERIFICATION: Inspection
 STATUT: Brouillon
 TITLE: Inventaire des dépendances
 STATEMENT: >>>
-Le dépôt tient l'inventaire de toutes les dépendances tierces, y compris celles des modules métier : nom, version, licence, mode d'intégration (liaison dynamique, statique ou code inclus), usage dans le projet, origine, disponibilité sous macOS.
+Le dépôt tient l'inventaire de toutes les dépendances tierces, y compris celles des modules métier : nom, version, licence, mode d'intégration (liaison dynamique, statique ou code inclus), usage dans le projet, origine, disponibilité sous macOS et en ARM64.
 <<<
 ACCEPTATION: >>>
 Comparaison de l'inventaire avec les dépendances réellement utilisées par la construction : aucune absente, aucune version différente.
@@ -665,16 +691,16 @@ VERIFICATION: Inspection
 STATUT: Brouillon
 TITLE: Licences admises
 STATEMENT: >>>
-Une dépendance n'est admise que si sa licence autorise l'utilisation et la modification dans un projet privé non diffusé : licences permissives (MIT, BSD, Apache 2.0, zlib…), copyleft faible (LGPL, MPL) ou fort (GPL), selon la décision PO-T-05. Sont exclus le code sans licence, les licences propriétaires et les licences limitant l'usage.
+Une dépendance n'est admise que si sa licence est permissive (MIT, BSD, Apache 2.0, zlib…) ou à copyleft faible (LGPL, MPL), et si son mode d'intégration respecte les obligations de cette licence (pour la LGPL : possibilité de remplacer la bibliothèque, en pratique par liaison dynamique). Sont exclus les licences GPL et AGPL, le code sans licence, les licences propriétaires et les licences limitant l'usage.
 <<<
 ACCEPTATION: >>>
-Revue de l'inventaire : chaque licence appartient à la liste admise, et la décision d'admission est notée pour chaque dépendance.
+Revue de l'inventaire : chaque licence appartient à la liste admise, et la décision d'admission et le mode d'intégration sont notés pour chaque dépendance.
 <<<
 RATIONALE: >>>
-PersoCAO reste privé : les obligations de diffusion des licences copyleft ne s'appliquent pas tant qu'il n'est pas diffusé.
+Le dépôt PersoCAO est public (décision de Fab du 18 novembre 2026, PO-T-05) : le code est diffusé et les obligations des licences s'appliquent. Exclure la GPL laisse libre le choix de la licence de PersoCAO.
 <<<
 COMMENT: >>>
-Exemples : PlaneGCS (LGPL 2.1 ou ultérieure), SolveSpace (GPLv3), Open CASCADE (LGPL 2.1 avec exception), Qt 6 (LGPL 3 ou commerciale).
+Exemples : PlaneGCS (LGPL 2.1 ou ultérieure) admis ; SolveSpace (GPLv3) exclu ; Open CASCADE (LGPL 2.1 avec exception) et Qt 6 (LGPL 3) admis en liaison dynamique.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -687,15 +713,15 @@ PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
 STATUT: Brouillon
-TITLE: Revue des licences avant toute diffusion
+TITLE: Revue des licences
 STATEMENT: >>>
-Toute diffusion du logiciel, même à un tiers isolé, est précédée d'une revue des obligations de chaque licence de l'inventaire.
+Chaque ajout ou mise à jour de dépendance, et chaque publication d'exécutables, est précédé d'une revue des obligations des licences concernées (mentions, fourniture des sources, possibilité de remplacer une bibliothèque LGPL).
 <<<
 ACCEPTATION: >>>
-Revue documentaire avant diffusion, consignée dans le dépôt.
+Revue à chaque pull request qui modifie l'inventaire et avant chaque publication d'exécutables, consignée dans le dépôt.
 <<<
 RATIONALE: >>>
-Une diffusion déclencherait les obligations des licences LGPL et GPL (fourniture des sources, possibilité de relier).
+Le dépôt est public : le code est diffusé dès qu'il est poussé, et les exécutables le seront s'ils sont publiés.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -732,6 +758,27 @@ Le code, les icônes, les images et les textes propres au projet sont créés po
 <<<
 ACCEPTATION: >>>
 Revue à chaque pull request : toute ressource ajoutée indique son origine ; aucune ressource ne provient d'un logiciel propriétaire.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: BES-T-07
+
+[REQUIREMENT]
+UID: EXT-0706
+NATURE: Technique
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Inspection
+STATUT: Brouillon
+TITLE: Licence de PersoCAO
+STATEMENT: >>>
+Le dépôt porte une licence explicite pour le code et les ressources propres à PersoCAO, compatible avec les licences de toutes les dépendances admises (EXT-0702).
+<<<
+ACCEPTATION: >>>
+Un fichier de licence est présent à la racine du dépôt, et chaque fichier source y renvoie dans son en-tête.
+<<<
+COMMENT: >>>
+Licence à choisir (point ouvert PO-T-13). Sans licence, un dépôt public reste « tous droits réservés ».
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -805,13 +852,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Textes et noms de fichiers Unicode
 STATEMENT: >>>
-Les textes, noms de pièces, paramètres et chemins de fichiers acceptent tous les caractères Unicode, accents compris, sous Windows et sous Linux.
+Les textes, noms de pièces, paramètres et chemins de fichiers acceptent tous les caractères Unicode, accents compris, sous Windows et sous Linux. À la saisie d'une valeur numérique, la virgule et le point sont tous deux acceptés comme séparateur décimal ; l'affichage suit la langue de l'interface (virgule en français).
 <<<
 ACCEPTATION: >>>
-Enregistrement puis réouverture d'un projet nommé et rangé dans un dossier aux noms accentués, avec des pièces et paramètres accentués : noms identiques.
+Enregistrement puis réouverture d'un projet nommé et rangé dans un dossier aux noms accentués, avec des pièces et paramètres accentués : noms identiques. Saisie de « 12,5 » puis de « 12.5 » dans une cote : même valeur, affichée « 12,5 ».
 <<<
 COMMENT: >>>
-Séparateur décimal à la saisie et à l'affichage (virgule, point ou les deux) à trancher (point ouvert PO-T-09).
+Les deux séparateurs acceptés : décision de Fab du 18 novembre 2026 (PO-T-09). Conséquence : dans les formules (BES-F-12), la virgule ne peut pas séparer les arguments d'une fonction ; le point-virgule est proposé (PO-T-14). Les noms de paramètres sans accents (spécification fonctionnelle, PO-06) restent compatibles.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -849,13 +896,13 @@ VERIFICATION: Inspection
 STATUT: Brouillon
 TITLE: Code commenté
 STATEMENT: >>>
-Chaque fichier source commence par un commentaire qui décrit son rôle. Chaque classe et chaque fonction publique a un commentaire de documentation dans un format extractible par un générateur de documentation (rôle, paramètres, unités, valeur renvoyée, erreurs).
+Chaque fichier source commence par un commentaire qui décrit son rôle. Chaque classe et chaque fonction publique a un commentaire de documentation dans un format extractible par un générateur de documentation (rôle, paramètres, unités, valeur renvoyée, erreurs). Les commentaires et les identifiants du code propre au projet sont en français ; les identifiants s'écrivent sans accents.
 <<<
 ACCEPTATION: >>>
-Le générateur de documentation, lancé en intégration continue, ne signale aucun élément public non documenté.
+Le générateur de documentation, lancé en intégration continue, ne signale aucun élément public non documenté. Revue de code : commentaires et identifiants en français.
 <<<
 COMMENT: >>>
-Outil de documentation et langue des commentaires et identifiants à choisir (point ouvert PO-T-07).
+Français retenu par Fab le 18 novembre 2026 (PO-T-07). Identifiants sans accents proposés, pour éviter les problèmes d'encodage entre compilateurs et outils. L'outil de documentation relève de la conception.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -870,13 +917,13 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Tests automatisés
 STATEMENT: >>>
-Le dépôt contient des tests unitaires et d'intégration lancés par une seule commande. Chaque exigence vérifiée par test (EXF, EXT) est reliée à au moins un test par un commentaire @relation.
+Le dépôt contient des tests unitaires et d'intégration lancés par une seule commande. Chaque exigence vérifiée par test (EXF, EXT) est reliée à au moins un test par un commentaire @relation. Les tests automatisés couvrent au moins 95 % des lignes du code propre au projet (socle et modules métier).
 <<<
 ACCEPTATION: >>>
-La matrice de couverture StrictDoc montre un test relié pour 100 % des exigences dont la méthode de vérification est Test ; la commande unique lance tous les tests.
+La matrice de couverture StrictDoc montre un test relié pour 100 % des exigences dont la méthode de vérification est Test ; la commande unique lance tous les tests ; la mesure de couverture en intégration continue est supérieure ou égale à 95 % des lignes, et l'intégration continue échoue en dessous.
 <<<
 COMMENT: >>>
-Un seuil de couverture du code reste à fixer (point ouvert PO-T-08).
+Seuil de 95 % fixé par Fab le 18 novembre 2026 (PO-T-08).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -891,7 +938,7 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Intégration continue
 STATEMENT: >>>
-À chaque pull request et à chaque mise à jour de la branche principale, l'intégration continue compile sous Windows et sous Linux, lance tous les tests et valide les exigences StrictDoc. Une pull request en échec n'est pas fusionnée.
+À chaque pull request et à chaque mise à jour de la branche principale, l'intégration continue compile sous Windows et sous Linux, en x86-64 et en ARM64, lance tous les tests et valide les exigences StrictDoc. Une pull request en échec n'est pas fusionnée.
 <<<
 ACCEPTATION: >>>
 Une pull request de test qui casse un test est signalée en échec et sa fusion est bloquée.
@@ -932,7 +979,7 @@ STATEMENT: >>>
 Le logiciel se construit à partir d'un clone neuf du dépôt en suivant une procédure écrite, avec des versions de dépendances fixées.
 <<<
 ACCEPTATION: >>>
-L'intégration continue construit depuis un clone neuf, sans cache, sous Windows et sous Linux.
+L'intégration continue construit depuis un clone neuf, sans cache, sous Windows et sous Linux, en x86-64 et en ARM64.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -997,7 +1044,7 @@ ACCEPTATION: >>>
 Pour chaque cas de référence, l'écart relatif entre valeur calculée et valeur analytique est inférieur ou égal à 1e-6.
 <<<
 COMMENT: >>>
-Seuil de 1e-6 proposé, à valider (point ouvert PO-T-06).
+Seuil de 1e-6 validé par Fab le 18 novembre 2026 (PO-T-06).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1073,33 +1120,43 @@ RELATIONS:
 [[/SECTION]]
 
 [[SECTION]]
-TITLE: Points ouverts
+TITLE: Décisions et points ouverts
 
 [TEXT]
 STATEMENT: >>>
-PO-T-01 : Distribution Linux de référence (EXT-0101), déjà ouvert dans l'expression du besoin. Proposition : Ubuntu 24.04 LTS.
+Décisions de Fab du 18 novembre 2026 :
 
-PO-T-02 : Configuration matérielle de référence (processeur, mémoire, carte graphique) et contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) pour EXT-0501 et EXT-0502. Ils peuvent être fixés à l'issue du prototype viewer 3D.
+PO-T-01 : Ubuntu 24.04 LTS retenu ; architectures x86-64 et ARM64 (EXT-0101).
 
-PO-T-03 : Intervalle par défaut de la sauvegarde automatique (5 minutes proposé) et nombre de sauvegardes conservées (EXT-0401).
+PO-T-02 : Configuration de référence des performances : Surface Pro X au minimum ; configuration minimale requise : PC de 2020 (EXT-0104). Recalcul d'une opération simple en moins de 10 secondes (EXT-0502, BES-T-05 mis à jour).
 
-PO-T-04 : Stabilité de l'interface d'extension : binaire (un module compilé continue de se charger sans recompilation) ou source (le module se recompile sans modification) (EXT-0604). La stabilité binaire en C++ contraint fortement la conception de l'interface ; la stabilité source est plus simple. À relier au prototype « chargement des modules ».
+PO-T-03 : Intervalle et nombre de sauvegardes automatiques réglables par l'utilisateur (EXT-0401).
 
-PO-T-05 : Admission des licences GPL (EXT-0702). Le projet étant privé, la GPLv3 (SolveSpace) est utilisable ; s'en tenir à des licences au plus LGPL (PlaneGCS) garde ouverte une diffusion future sans changer de solveur. Le choix du solveur lui-même relève du prototype « solveur d'esquisse ».
+PO-T-04 : Compatibilité source de l'interface d'extension (EXT-0603, EXT-0604).
 
-PO-T-06 : Seuil d'écart relatif de 1e-6 proposé pour les mesures sur cas de référence (EXT-1003), et tolérances de EXT-1005.
+PO-T-05 : Dépôt public : licences GPL exclues, LGPL et MPL admises (EXT-0702, EXT-0703, EXT-0706 ; BES-T-07 mis à jour).
 
-PO-T-07 : Outil de documentation du code et langue des commentaires et des identifiants (français ou anglais) (EXT-0902).
+PO-T-06 : Seuil de 1e-6 validé (EXT-1003).
 
-PO-T-08 : Seuil minimal de couverture du code par les tests, par exemple pour le cœur géométrique (EXT-0903).
+PO-T-07 : Commentaires et identifiants en français (EXT-0902).
 
-PO-T-09 : Séparateur décimal à la saisie des cotes : virgule (français), point, ou les deux acceptés (EXT-0804).
+PO-T-08 : Couverture du code par les tests d'au moins 95 % (EXT-0903).
 
-PO-T-10 : Format du fichier projet (conteneur, texte ou binaire) : à décider en conception générale, dans le respect de EXT-0301 à EXT-0305.
+PO-T-09 : Virgule et point acceptés comme séparateur décimal (EXT-0804).
 
-PO-T-11 : Préparer le futur solveur maison : proposer en conception générale que le solveur d'esquisse soit appelé à travers une interface propre au projet, pour le remplacer sans toucher au reste du socle. Le corpus de EXT-1004 servira à comparer les deux solveurs.
+PO-T-10 : Chaque document est un fichier conteneur (EXT-0301).
 
-PO-T-12 : Méthodes de vérification renforcées : EXT-0201, EXT-0202, EXT-0802, EXT-0803, EXT-0804, EXT-1003 à EXT-1005 sont vérifiées par test alors que leur besoin prévoit une inspection ou une analyse. À valider.
+PO-T-11 : Validé : la conception générale prévoira d'appeler le solveur d'esquisse à travers une interface propre au projet, pour le remplacer par le solveur maison sans toucher au reste du socle ; le corpus de EXT-1004 servira à comparer les deux solveurs.
+
+PO-T-12 : Méthodes de vérification renforcées validées (EXT-0201, EXT-0202, EXT-0802, EXT-0803, EXT-0804, EXT-1003 à EXT-1005).
+
+Points qui restent ouverts :
+
+PO-T-02 : Reste à fixer : la machine précise de 2020 (processeur, mémoire, carte graphique), la variante de Surface Pro X (SQ1 ou SQ2, mémoire), et le contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) de EXT-0501 et EXT-0502.
+
+PO-T-13 : Licence de PersoCAO (EXT-0706), compatible avec les dépendances admises : par exemple LGPL 3, MPL 2.0 ou une licence permissive (MIT, Apache 2.0).
+
+PO-T-14 : Séparateur des arguments dans les formules : point-virgule proposé, puisque la virgule est acceptée comme séparateur décimal (EXT-0804). À reporter dans la spécification fonctionnelle (BES-F-12).
 <<<
 
 [[/SECTION]]
