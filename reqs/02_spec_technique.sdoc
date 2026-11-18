@@ -1,6 +1,6 @@
 [DOCUMENT]
 TITLE: PersoCAO – Spécification technique
-VERSION: 0.2
+VERSION: 1.0
 
 [GRAMMAR]
 ELEMENTS:
@@ -70,7 +70,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Systèmes d'exploitation cibles
 STATEMENT: >>>
 Le socle s'exécute sur Windows 10 (22H2), Windows 11 et Ubuntu 24.04 LTS, chacun en architecture x86-64 et ARM64. Aucune version 32 bits n'est produite.
@@ -91,7 +91,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Source unique multiplateforme
 STATEMENT: >>>
 Un même arbre source, sans branche ni copie par système ou par architecture, produit les exécutables Windows et Linux, en x86-64 et en ARM64. Le code propre à un système est isolé dans des fichiers dédiés, appelés uniquement à travers Qt 6 ou une interface interne du projet.
@@ -109,7 +109,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Portage macOS non bloqué
 STATEMENT: >>>
 Aucune dépendance ni aucun choix technique du socle n'exclut macOS : chaque dépendance retenue doit exister sous macOS (et en ARM64, EXT-0101), et aucun appel direct à une API Windows ou Linux n'est fait hors des fichiers isolés par EXT-0102.
@@ -127,7 +127,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Configurations matérielles
 STATEMENT: >>>
 Deux configurations matérielles sont définies. La configuration de référence des performances (EXT-0501, EXT-0502) est une Microsoft Surface Pro X avec processeur Microsoft SQ1 et 8 Go de mémoire (ARM64, Windows 11). La configuration de bureau requise est un PC x86-64 sous Windows 10, Windows 11 ou Ubuntu 24.04 LTS, avec 16 Go de mémoire, 5 Go d'espace disque libre, un processeur 4 cœurs et une carte graphique compatible OpenGL 4.5 : le socle s'y installe et toutes ses fonctions y marchent.
@@ -136,7 +136,7 @@ ACCEPTATION: >>>
 Le scénario de démonstration complet passe sur une machine de chaque configuration ; les bancs de performance de EXT-0501 et EXT-0502 passent sur la Surface Pro X.
 <<<
 COMMENT: >>>
-Décisions de Fab du 18 novembre 2026 (PO-T-02). La configuration de bureau reprend celle qu'Ansys recommande pour SCADE (16 Go de mémoire, environ 4,5 Go de disque, Windows 10 et 11, Ubuntu 22.04 et 24.04). Ansys ne fixe ni processeur ni carte graphique : le processeur 4 cœurs et OpenGL 4.5 sont proposés.
+Décisions de Fab du 18 novembre 2026 (PO-T-02). La configuration de bureau reprend celle qu'Ansys recommande pour SCADE (16 Go de mémoire, environ 4,5 Go de disque, Windows 10 et 11, Ubuntu 22.04 et 24.04). Ansys ne fixe ni processeur ni carte graphique : processeur 4 cœurs et OpenGL 4.5 validés par Fab.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -155,7 +155,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Fonctionnement sans réseau
 STATEMENT: >>>
 Toutes les fonctions du socle et des modules métier sont disponibles sans connexion réseau, de l'installation à la fermeture. L'installation d'un module métier se fait depuis un fichier local.
@@ -173,7 +173,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Aucune connexion réseau
 STATEMENT: >>>
 Le logiciel n'ouvre aucune connexion réseau, entrante ou sortante, y compris pour vérifier des mises à jour.
@@ -191,7 +191,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Aucun compte ni licence
 STATEMENT: >>>
 Le logiciel ne demande ni compte, ni clé, ni activation, et ne comporte aucune date d'expiration ni limitation de fonctions.
@@ -209,7 +209,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Aucune télémétrie
 STATEMENT: >>>
 Le logiciel ne collecte aucune donnée d'usage. Les journaux et rapports de plantage sont écrits uniquement dans des fichiers locaux, jamais transmis. Aucune dépendance n'est utilisée avec une fonction de télémétrie active.
@@ -227,7 +227,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Aide locale
 STATEMENT: >>>
 L'aide et la documentation utilisateur sont installées avec le logiciel et consultables hors ligne.
@@ -250,7 +250,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Format de projet documenté
 STATEMENT: >>>
 Chaque document enregistré (pièce, assemblage, mise en plan) est un fichier conteneur : une archive qui regroupe plusieurs fichiers internes (géométrie, historique paramétrique, paramètres, métadonnées). Ce format est décrit par une spécification versionnée, tenue dans le dépôt : structure du conteneur, encodage, unités, représentation de la géométrie et de l'historique. Elle suffit à écrire un lecteur indépendant du logiciel.
@@ -273,7 +273,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Version de format
 STATEMENT: >>>
 Chaque fichier projet porte le numéro de version de son format, lisible sans décoder le reste du fichier.
@@ -291,7 +291,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Lecture des projets des versions antérieures
 STATEMENT: >>>
 Toute version du logiciel ouvre sans perte tout projet enregistré par une version antérieure, à partir de la version 1.0 : géométrie, historique paramétrique, paramètres, assemblages et mises en plan.
@@ -314,7 +314,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Projet d'une version plus récente
 STATEMENT: >>>
 À l'ouverture d'un projet écrit dans une version de format plus récente que celle du logiciel, le logiciel affiche un message explicite (versions du fichier et du logiciel), ne plante pas et ne modifie pas le fichier.
@@ -334,7 +334,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Fichiers produits en format ouvert
 STATEMENT: >>>
 Tout fichier écrit par le logiciel est dans un format ouvert et documenté : format de projet (EXT-0301), format d'échange normalisé (STEP, IGES, STL, DXF, PDF) ou fichier texte (préférences, journaux).
@@ -357,7 +357,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Sauvegarde automatique
 STATEMENT: >>>
 Chaque document modifié est sauvegardé automatiquement à intervalle régulier. L'intervalle (5 minutes par défaut) et le nombre de sauvegardes automatiques conservées par document (3 par défaut) sont réglables par l'utilisateur. La sauvegarde automatique est écrite dans un fichier distinct et n'écrase jamais le fichier enregistré par l'utilisateur.
@@ -366,7 +366,7 @@ ACCEPTATION: >>>
 Après une modification, une sauvegarde automatique apparaît au plus tard à la fin de l'intervalle réglé ; le fichier de l'utilisateur est inchangé ; au-delà du nombre réglé, la sauvegarde la plus ancienne est remplacée.
 <<<
 COMMENT: >>>
-Valeurs réglables par l'utilisateur : décision de Fab du 18 novembre 2026 (PO-T-03). Les valeurs par défaut (5 minutes, 3 sauvegardes) sont proposées.
+Valeurs réglables par l'utilisateur : décision de Fab du 18 novembre 2026 (PO-T-03). Valeurs par défaut (5 minutes, 3 sauvegardes) validées.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -378,7 +378,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Enregistrement sans corruption
 STATEMENT: >>>
 Un enregistrement, manuel ou automatique, ne peut pas laisser un fichier à moitié écrit : une interruption à tout instant (plantage, arrêt forcé, coupure, disque plein) laisse soit l'ancienne version, soit la nouvelle version complète. En cas d'échec d'écriture, l'utilisateur est prévenu et l'ancienne version reste intacte.
@@ -396,7 +396,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Récupération après plantage
 STATEMENT: >>>
 Au démarrage qui suit un arrêt anormal, le logiciel détecte les sauvegardes automatiques plus récentes que les projets enregistrés et propose de les restaurer ou de les écarter. Écarter une sauvegarde ne la supprime qu'après confirmation.
@@ -414,7 +414,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Échec de calcul sans perte
 STATEMENT: >>>
 L'échec d'une opération (recalcul impossible, esquisse non résolue, booléen en échec, erreur d'un module métier) ne détruit ni ne corrompt le modèle : l'opération est signalée en erreur, le reste du modèle reste consultable et modifiable, et l'action peut être annulée (BES-F-03).
@@ -434,7 +434,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Fermeture protégée
 STATEMENT: >>>
 Le logiciel ne ferme jamais un document modifié et non enregistré sans demander confirmation, y compris à la fermeture de l'application ou à l'arrêt de la session du système.
@@ -457,7 +457,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Cadence d'affichage
 STATEMENT: >>>
 La rotation continue de la vue d'un assemblage de référence de 200 pièces se fait à au moins 30 images par seconde sur la configuration matérielle de référence.
@@ -466,7 +466,7 @@ ACCEPTATION: >>>
 Banc de performance automatisé sur la configuration de référence (EXT-0104) : rotation de 10 secondes, cadence moyenne mesurée supérieure ou égale à 30 images par seconde. L'assemblage de référence est conservé dans le dépôt.
 <<<
 COMMENT: >>>
-Configuration de référence : Surface Pro X (EXT-0104). Complexité des pièces de l'assemblage de référence à définir (PO-T-02).
+Configuration de référence : Surface Pro X (EXT-0104). La complexité des pièces de l'assemblage de référence sera fixée à l'issue du prototype viewer 3D (PO-T-02).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -478,7 +478,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Temps de recalcul
 STATEMENT: >>>
 Après modification d'une cote, le recalcul d'une opération simple (extrusion, poche, révolution, perçage, congé ou chanfrein sur une pièce de référence) et la mise à jour de l'affichage prennent moins de 10 secondes sur la configuration matérielle de référence (EXT-0104).
@@ -487,7 +487,7 @@ ACCEPTATION: >>>
 Banc de performance automatisé : pour chaque type d'opération simple, temps mesuré entre la validation de la cote et la fin de la mise à jour de l'affichage, inférieur à 10 secondes (valeur maximale sur 10 mesures).
 <<<
 COMMENT: >>>
-Seuil porté de 1 à 10 secondes par Fab le 18 novembre 2026 (PO-T-02), BES-T-05 mis à jour en conséquence. La pièce de référence reste à définir (PO-T-02).
+Seuil porté de 1 à 10 secondes par Fab le 18 novembre 2026 (PO-T-02), BES-T-05 mis à jour en conséquence. La pièce de référence sera fixée à l'issue du prototype viewer 3D (PO-T-02).
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -501,7 +501,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Interface réactive pendant les calculs longs
 STATEMENT: >>>
 Un calcul qui dure plus d'une seconde n'empêche pas l'interface de répondre : il affiche sa progression et peut être interrompu, l'interruption ramenant le modèle à son état précédent sans perte (EXT-0404).
@@ -519,7 +519,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Analyse
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Optimisations limitées à l'affichage
 STATEMENT: >>>
 Les moyens d'accélérer l'affichage (maillage plus grossier, niveaux de détail, simplification pendant le mouvement) n'agissent que sur la représentation affichée, jamais sur la géométrie utilisée par les calculs, les mesures et les exports exacts.
@@ -547,7 +547,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Interface d'extension délimitée
 STATEMENT: >>>
 L'interface d'extension est un ensemble déclaré et séparé d'éléments publics. Un module métier ne dépend que de cet ensemble, jamais des éléments internes du socle.
@@ -567,7 +567,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Versionnement de l'interface
 STATEMENT: >>>
 L'interface d'extension porte un numéro de version MAJEUR.MINEUR.CORRECTIF, distinct de celui du logiciel. Toute modification incompatible incrémente MAJEUR ; tout ajout compatible incrémente MINEUR.
@@ -585,7 +585,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Contrôle de compatibilité au chargement
 STATEMENT: >>>
 Chaque module métier déclare la version d'interface qu'il requiert et la version du socle avec laquelle il a été compilé. Le socle refuse de charger un module incompatible (version d'interface non offerte, ou module compilé pour une autre version du socle), avec un message qui nomme le module, les versions en cause et, s'il suffit de recompiler le module, l'indique. Le refus ne fait pas planter le socle et ne désactive pas les autres modules.
@@ -608,7 +608,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Modules conservés à travers les mises à jour
 STATEMENT: >>>
 Le code source d'un module métier écrit pour la version d'interface X.Y se recompile sans modification et fonctionne avec toute version du socle qui offre une interface X.Z où Z ≥ Y. La compatibilité binaire n'est pas exigée : après une mise à jour du socle, un module peut devoir être recompilé.
@@ -629,7 +629,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Documentation de l'interface
 STATEMENT: >>>
 Chaque élément public de l'interface d'extension est documenté (rôle, paramètres, unités, erreurs, version d'apparition), et un journal des changements est tenu pour chaque version.
@@ -647,7 +647,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Dépréciation avant retrait
 STATEMENT: >>>
 Un élément de l'interface n'est retiré qu'à une version majeure, après avoir été marqué déprécié pendant au moins une version mineure.
@@ -670,7 +670,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Inventaire des dépendances
 STATEMENT: >>>
 Le dépôt tient l'inventaire de toutes les dépendances tierces, y compris celles des modules métier : nom, version, licence, mode d'intégration (liaison dynamique, statique ou code inclus), usage dans le projet, origine, disponibilité sous macOS et en ARM64.
@@ -688,7 +688,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Licences admises
 STATEMENT: >>>
 Une dépendance n'est admise que si sa licence est permissive (MIT, BSD, Apache 2.0, zlib…) ou à copyleft faible (LGPL, MPL), et si son mode d'intégration respecte les obligations de cette licence (pour la LGPL : possibilité de remplacer la bibliothèque, en pratique par liaison dynamique). Sont exclus les licences GPL et AGPL, le code sans licence, les licences propriétaires et les licences limitant l'usage.
@@ -712,7 +712,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Revue des licences
 STATEMENT: >>>
 Chaque ajout ou mise à jour de dépendance, et chaque publication d'exécutables, est précédé d'une revue des obligations des licences concernées (mentions, fourniture des sources, possibilité de remplacer une bibliothèque LGPL).
@@ -733,7 +733,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Notices de licence
 STATEMENT: >>>
 Les textes de licence et mentions de droits d'auteur de toutes les dépendances sont regroupés dans le dépôt et installés avec le logiciel.
@@ -751,7 +751,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Code et ressources originaux
 STATEMENT: >>>
 Le code, les icônes, les images et les textes propres au projet sont créés pour lui. Un extrait repris d'un projet open source est traité comme une dépendance (EXT-0701), avec sa licence. Aucun code, aucune ressource et aucun format interne n'est repris d'un logiciel propriétaire.
@@ -769,7 +769,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Licence de PersoCAO
 STATEMENT: >>>
 Le code et les ressources propres à PersoCAO sont publiés sous la licence Mozilla Public License 2.0 (MPL 2.0). Chaque fichier source porte en en-tête l'avis de licence de l'annexe A de la MPL 2.0, ou la ligne SPDX-License-Identifier: MPL-2.0.
@@ -798,7 +798,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Interface en français
 STATEMENT: >>>
 Tous les textes visibles par l'utilisateur (menus, boîtes de dialogue, info-bulles, messages d'erreur, aide) sont en français, dans le socle comme dans les modules métier.
@@ -816,7 +816,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Textes externalisés
 STATEMENT: >>>
 Tous les textes visibles passent par le mécanisme de traduction de Qt 6 ; aucun texte n'est assemblé par concaténation de fragments traduits.
@@ -834,7 +834,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Ajout d'une langue sans recompilation
 STATEMENT: >>>
 Une nouvelle langue s'ajoute par un fichier de traduction, sans recompiler le socle ni les modules ; chaque module métier fournit ses propres fichiers.
@@ -852,7 +852,7 @@ NATURE: Technique
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Textes et noms de fichiers Unicode
 STATEMENT: >>>
 Les textes, noms de pièces, paramètres et chemins de fichiers acceptent tous les caractères Unicode, accents compris, sous Windows et sous Linux. À la saisie d'une valeur numérique, la virgule et le point sont tous deux acceptés comme séparateur décimal ; l'affichage suit la langue de l'interface (virgule en français).
@@ -878,7 +878,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Gestion de configuration sous Git
 STATEMENT: >>>
 Code, scripts de construction, tests, données de test, exigences et documents sont tenus dans le dépôt Git du projet. Toute modification de la branche principale passe par une pull request.
@@ -896,7 +896,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Code commenté
 STATEMENT: >>>
 Chaque fichier source commence par un commentaire qui décrit son rôle. Chaque classe et chaque fonction publique a un commentaire de documentation dans un format extractible par un générateur de documentation (rôle, paramètres, unités, valeur renvoyée, erreurs). Les commentaires et les identifiants du code propre au projet sont en français ; les identifiants s'écrivent sans accents.
@@ -905,7 +905,7 @@ ACCEPTATION: >>>
 Le générateur de documentation, lancé en intégration continue, ne signale aucun élément public non documenté. Revue de code : commentaires et identifiants en français.
 <<<
 COMMENT: >>>
-Français retenu par Fab le 18 novembre 2026 (PO-T-07). Identifiants sans accents proposés, pour éviter les problèmes d'encodage entre compilateurs et outils. L'outil de documentation relève de la conception.
+Français retenu par Fab le 18 novembre 2026 (PO-T-07). Identifiants sans accents, pour éviter les problèmes d'encodage entre compilateurs et outils. L'outil de documentation relève de la conception.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -917,7 +917,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Tests automatisés
 STATEMENT: >>>
 Le dépôt contient des tests unitaires et d'intégration lancés par une seule commande. Chaque exigence vérifiée par test (EXF, EXT) est reliée à au moins un test par un commentaire @relation. Les tests automatisés couvrent au moins 95 % des lignes du code propre au projet (socle et modules métier).
@@ -938,7 +938,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Intégration continue
 STATEMENT: >>>
 À chaque pull request et à chaque mise à jour de la branche principale, l'intégration continue compile sous Windows et sous Linux, en x86-64 et en ARM64, lance tous les tests et valide les exigences StrictDoc. Une pull request en échec n'est pas fusionnée.
@@ -958,7 +958,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Règles de codage
 STATEMENT: >>>
 Des règles de codage écrites (style, nommage, gestion des erreurs, avertissements du compilateur) sont tenues dans le dépôt, et leur partie automatisable est vérifiée en intégration continue.
@@ -976,7 +976,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Construction reproductible
 STATEMENT: >>>
 Le logiciel se construit à partir d'un clone neuf du dépôt en suivant une procédure écrite, avec des versions de dépendances fixées.
@@ -999,7 +999,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Analyse
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Calculs sur la géométrie exacte
 STATEMENT: >>>
 La modélisation, les mesures, les propriétés de masse, les booléens, la détection d'interférences et les exports STEP et IGES utilisent la représentation exacte (B-Rep) du noyau Open CASCADE, jamais le maillage d'affichage. Les maillages nécessaires (export STL, calcul de structure) sont générés à la demande à partir de la géométrie exacte, avec une finesse propre à leur usage.
@@ -1017,7 +1017,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Tolérances documentées
 STATEMENT: >>>
 Les tolérances numériques utilisées (confusion de points, tolérance angulaire, tolérances du solveur d'esquisse, des booléens, des maillages d'affichage et d'export) sont listées dans un document du dépôt avec leur valeur, leur unité, leur usage et leur justification. Les calculs utilisent des nombres flottants en double précision (IEEE 754, 64 bits) au moins.
@@ -1038,7 +1038,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Mesures vérifiées sur cas de référence
 STATEMENT: >>>
 Les distances, angles, aires, volumes, masses, centres de gravité et inerties sont vérifiés sur des cas de référence à solution analytique (cube, cylindre, sphère, tore, pièces avec congés et perçages, assemblage simple).
@@ -1061,7 +1061,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Respect des contraintes d'esquisse
 STATEMENT: >>>
 Après résolution d'une esquisse, chaque contrainte géométrique et chaque cote est satisfaite à la tolérance documentée du solveur (EXT-1002), quel que soit le solveur utilisé.
@@ -1084,7 +1084,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Fidélité des échanges STEP et IGES
 STATEMENT: >>>
 Un modèle exporté en STEP ou IGES puis réimporté conserve sa géométrie : volume, aire et centre de gravité égaux à la tolérance documentée.
@@ -1106,7 +1106,7 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Calcul de structure vérifié sur cas de référence
 STATEMENT: >>>
 Les résultats du module de calcul de structure (contraintes, déformations, flambement) sont vérifiés sur des cas de référence publiés (solutions analytiques de résistance des matériaux, cas de validation normalisés), avec l'écart admissible propre à chaque cas.
@@ -1123,7 +1123,7 @@ RELATIONS:
 [[/SECTION]]
 
 [[SECTION]]
-TITLE: Décisions et points ouverts
+TITLE: Décisions
 
 [TEXT]
 STATEMENT: >>>
@@ -1131,7 +1131,7 @@ Décisions de Fab du 18 novembre 2026 :
 
 PO-T-01 : Ubuntu 24.04 LTS retenu ; architectures x86-64 et ARM64 (EXT-0101).
 
-PO-T-02 : Configuration de référence des performances : Surface Pro X, processeur SQ1, 8 Go ; configuration de bureau requise : celle recommandée pour SCADE (EXT-0104). Recalcul d'une opération simple en moins de 10 secondes (EXT-0502, BES-T-05 mis à jour).
+PO-T-02 : Configuration de référence des performances : Surface Pro X, processeur SQ1, 8 Go ; configuration de bureau requise : celle recommandée pour SCADE, avec processeur 4 cœurs et OpenGL 4.5 (EXT-0104). Le contenu de l'assemblage et de la pièce de référence sera fixé à l'issue du prototype viewer 3D. Recalcul d'une opération simple en moins de 10 secondes (EXT-0502, BES-T-05 mis à jour).
 
 PO-T-03 : Intervalle et nombre de sauvegardes automatiques réglables par l'utilisateur (EXT-0401).
 
@@ -1157,9 +1157,7 @@ PO-T-13 : Licence de PersoCAO : MPL 2.0 (EXT-0706).
 
 PO-T-14 : Point-virgule comme séparateur des arguments dans les formules (EXT-0804), à reporter dans la spécification fonctionnelle (BES-F-12).
 
-Points qui restent ouverts :
-
-PO-T-02 : Reste à fixer : le contenu de l'assemblage et de la pièce de référence (nombre de faces par pièce) de EXT-0501 et EXT-0502, et à valider le processeur 4 cœurs et OpenGL 4.5 proposés pour la configuration de bureau (EXT-0104).
+Aucun point ne reste ouvert. Les exigences sont validées par Fab le 18 novembre 2026 (version 1.0).
 <<<
 
 [[/SECTION]]
