@@ -64,7 +64,7 @@ Vingt besoins de haut niveau, dont 14 indispensables pour le socle v1. Chacun se
 | BES-F-13 | Automatiser des tâches par script (macros). | Souhaitable | Socle v2 | CU-06 |
 | BES-F-14 | Calculer par éléments finis la tenue d'une pièce ou d'un assemblage (contraintes, déformations), dans un module complet qui inclut les outils de résistance des matériaux (poutres, flexion, torsion, flambement) avec leurs équations de référence, documentées et vérifiées sur des cas connus. | Souhaitable | Socle v2 | CU-01, CU-02 |
 | BES-F-15 | Préparer l'usinage d'une pièce (trajectoires d'outil, export pour machine à commande numérique). | Souhaitable | Socle v2 | CU-01 |
-| BES-F-16 | Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi. La nomenclature fait l'objet de BES-F-20 (Socle v1). | Important | Socle v2 | CU-02, CU-03 |
+| BES-F-16 | Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi. La nomenclature fait l'objet de BES-F-20 (Socle v1). | Souhaitable | Socle v2 | CU-02, CU-03 |
 | BES-F-17 | Disposer dans chaque pièce et chaque assemblage d'un repère absolu (origine, axes X, Y, Z, trois plans principaux). Pouvoir créer des repères locaux et positionner tout élément par rapport à l'un d'eux. Unités choisies par document (millimètre par défaut). | Indispensable | Socle v1 | CU-01, CU-02, CU-04 |
 | BES-F-18 | Reconstruire une pièce 3D à partir de sa mise en plan 2D (vues cotées). | Souhaitable | Socle v3 | CU-03 |
 | BES-F-19 | Créer une esquisse 2D contrainte sur une face plane ou un plan (principal, de repère local ou de coupe…), avec contraintes géométriques et cotes. | Indispensable | Socle v1 | CU-01, CU-02 |
@@ -158,10 +158,11 @@ Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 
 
 ## Points ouverts et prochaines étapes
 
-- [x] Valider ou corriger les besoins et leurs priorités (18 novembre 2026, sauf BES-T-10 et la priorité de BES-F-16).
+- [x] Valider ou corriger les besoins et leurs priorités (18 novembre 2026, sauf BES-T-10).
 - [x] Fixer la taille de modèle visée, qui dimensionne BES-T-05. Décision : seuils figés (30 images/s sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde).
+- [ ] Relire les méthodes de vérification (champ VERIFICATION) proposées pour les BES-F et BES-T.
 - [ ] Reformuler BES-T-10 (précision de calcul), jugé imprécis.
-- [ ] Trancher la priorité de BES-F-16 : « Important » (v1 si possible) avec une cible Socle v2.
+- [x] Trancher la priorité de BES-F-16 : passée en Souhaitable (cible Socle v2).
 - [ ] Décliner en exigences mesurables, dans la spécification, les besoins non vérifiables tels quels (BES-T-03, BES-T-04, BES-T-09 et les autres).
 - [ ] Étudier le cadre légal de la lecture et de l'écriture des formats propriétaires d'autres logiciels de CAO (interopérabilité), puis décider s'il entre dans une version ultérieure.
 - [ ] Choisir la distribution Linux de référence (par exemple Ubuntu LTS).

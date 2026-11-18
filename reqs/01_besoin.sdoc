@@ -374,7 +374,7 @@ RELATIONS:
 [REQUIREMENT]
 UID: BES-F-16
 NATURE: Fonctionnel
-PRIORITE: Important
+PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
 STATUT: Validé
