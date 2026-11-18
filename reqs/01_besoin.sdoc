@@ -1,6 +1,6 @@
 [DOCUMENT]
 TITLE: PersoCAO – Besoins
-VERSION: 0.4
+VERSION: 1.0
 
 [GRAMMAR]
 ELEMENTS:
@@ -587,13 +587,13 @@ NATURE: Technique
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Analyse
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Précision de calcul
 STATEMENT: >>>
 Privilégier la précision de calcul : géométrie exacte dans les calculs (jamais l'approximation en triangles de l'affichage), tolérances maîtrisées et documentées, résultats (mesures, masses, calculs de structure) vérifiés sur des cas de référence. En cas de conflit, la précision prime sur la fluidité.
 <<<
 COMMENT: >>>
-Point ouvert (18 novembre 2026) : énoncé jugé imprécis par Fab, à reformuler avant validation.
+Énoncé conservé tel quel et validé par Fab le 18 novembre 2026.
 <<<
 
 [[/SECTION]]

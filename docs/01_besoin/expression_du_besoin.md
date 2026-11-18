@@ -1,12 +1,12 @@
 # PersoCAO – Expression du besoin
 
-Version 0.4 · 18 novembre 2026 · Auteur : Fab
+Version 1.0 · 18 novembre 2026 · Auteur : Fab
 
 ## Objet du document
 
 Ce document fixe le besoin de PersoCAO : ce que le logiciel doit permettre, pour qui, et sous quelles contraintes. C'est la première étape du V descendant ; la spécification fonctionnelle, la spécification IHM et l'étude de faisabilité en découleront.
 
-Statut : v0.4, besoins validés par Fab sauf BES-T-10 (point ouvert). Passage en 1.0 une fois les points ouverts tranchés. Les besoins de ce document sont tenus dans `reqs/01_besoin.sdoc` (StrictDoc), qui fait foi en cas d'écart ; le tableur de synthèse en est généré.
+Statut : v1.0, tous les besoins validés par Fab le 18 novembre 2026. Les besoins de ce document sont tenus dans `reqs/01_besoin.sdoc` (StrictDoc), qui fait foi en cas d'écart ; le tableur de synthèse en est généré.
 
 ## Contexte et finalité
 
@@ -158,10 +158,10 @@ Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 
 
 ## Points ouverts et prochaines étapes
 
-- [x] Valider ou corriger les besoins et leurs priorités (18 novembre 2026, sauf BES-T-10).
+- [x] Valider ou corriger les besoins et leurs priorités (18 novembre 2026).
 - [x] Fixer la taille de modèle visée, qui dimensionne BES-T-05. Décision : seuils figés (30 images/s sur un assemblage de 200 pièces, recalcul d'une opération simple en moins d'une seconde).
 - [x] Relire les méthodes de vérification (champ VERIFICATION) des BES-F et BES-T : validées par Fab le 18 novembre 2026.
-- [ ] Reformuler BES-T-10 (précision de calcul), jugé imprécis.
+- [x] BES-T-10 (précision de calcul) : énoncé conservé tel quel et validé.
 - [x] Trancher la priorité de BES-F-16 : passée en Souhaitable (cible Socle v2).
 - [ ] Décliner en exigences mesurables, dans la spécification, les besoins non vérifiables tels quels (BES-T-03, BES-T-04, BES-T-09 et les autres).
 - [ ] Étudier le cadre légal de la lecture et de l'écriture des formats propriétaires d'autres logiciels de CAO (interopérabilité), puis décider s'il entre dans une version ultérieure.
