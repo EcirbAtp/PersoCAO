@@ -1,13 +1,21 @@
 name: Exigences
 
 # Vérifie que les fichiers StrictDoc sont valides (syntaxe, grammaire, liens
-# entre UID) et publie les vues générées comme artefact téléchargeable.
-# Sur main, le site HTML est aussi déployé sur GitHub Pages (job « publier »).
+# entre UID) et publie les vues générées :
+# - comme artefact téléchargeable, à chaque exécution ;
+# - sur GitHub Pages (branche gh-pages) :
+#     main          -> https://ecirbatp.github.io/PersoCAO/
+#     pull request  -> https://ecirbatp.github.io/PersoCAO/pr-preview/pr-<n>/
+#   L'aperçu d'une pull request est mis à jour à chaque push et supprimé à
+#   sa fermeture.
+# Prérequis : Settings > Pages > Source = « Deploy from a branch »,
+# branche gh-pages, dossier / (root).
 on:
   push:
     branches: [main]
   workflow_dispatch:
   pull_request:
+    types: [opened, reopened, synchronize, closed]
     paths:
       - "reqs/**"
       - "src/**"
@@ -21,8 +29,14 @@ on:
 permissions:
   contents: read
 
+# Une seule écriture à la fois sur la branche gh-pages.
+concurrency:
+  group: gh-pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
 jobs:
   vues:
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,33 +47,60 @@ jobs:
           cache-dependency-path: requirements-docs.txt
       - run: pip install -r requirements-docs.txt
       - run: ./tools/generer_vues.sh
+      # Sans ce fichier, GitHub Pages ignore les dossiers commençant par « _ »
+      # (_assets, _static…).
+      - run: touch build/html/.nojekyll
       - uses: actions/upload-artifact@v4
         with:
           name: exigences
           path: |
             build/html
             build/PersoCAO_exigences.xlsx
-      - name: Préparer le site pour GitHub Pages
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: build/html
+          include-hidden-files: true
 
-  # Déploie le site HTML des exigences sur GitHub Pages (main uniquement).
-  # Prérequis : Settings > Pages > Source = « GitHub Actions ».
+  # Site de main, à la racine de gh-pages ; les aperçus de PR sont conservés.
   publier:
     if: github.event_name != 'pull_request'
     needs: vues
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deploiement.outputs.page_url }}
+      contents: write
     steps:
-      - id: deploiement
-        uses: actions/deploy-pages@v4
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: exigences
+          path: build
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build/html
+          clean-exclude: pr-preview/
+          force: false
+
+  # Aperçu d'une PR dans pr-preview/pr-<n>/, avec un commentaire donnant le
+  # lien ; supprimé à la fermeture de la PR. Pas d'aperçu pour une PR venant
+  # d'un fork (jeton en lecture seule).
+  apercu:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      always() && (needs.vues.result == 'success' || github.event.action == 'closed')
+    needs: vues
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - if: github.event.action != 'closed'
+        uses: actions/download-artifact@v4
+        with:
+          name: exigences
+          path: build
+      - uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: build/html
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto

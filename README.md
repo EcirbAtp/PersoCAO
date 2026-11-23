@@ -44,10 +44,12 @@ Le script produit dans `build/` (non versionné) :
 
 La même génération tourne sur GitHub à chaque pull request qui touche aux exigences (workflow `Exigences`) : elle échoue si un `.sdoc` est invalide ou si un lien vise un UID inexistant, et les vues sont téléchargeables dans l'onglet *Actions*, artefact `exigences`.
 
-À chaque mise à jour de `main`, le site HTML est aussi publié sur GitHub Pages, consultable depuis un navigateur ou un téléphone : https://ecirbatp.github.io/PersoCAO/ (page d'un document : https://ecirbatp.github.io/PersoCAO/PersoCAO/reqs/01_besoin.html).
+Le site HTML est aussi publié sur GitHub Pages (branche `gh-pages`), consultable depuis un navigateur ou un téléphone :
 
-- Activation, une seule fois : *Settings > Pages > Build and deployment > Source* = **GitHub Actions**, puis relancer le workflow `Exigences` (*Actions > Exigences > Run workflow*).
-- GitHub Pages sur un dépôt privé demande un compte GitHub Pro (ou Team/Enterprise). Le site publié est alors **public** pour quiconque connaît l'adresse, même si le dépôt reste privé.
+- `main` : https://ecirbatp.github.io/PersoCAO/ (page d'un document : https://ecirbatp.github.io/PersoCAO/PersoCAO/reqs/01_besoin.html) ;
+- chaque pull request qui touche aux exigences : un aperçu sur https://ecirbatp.github.io/PersoCAO/pr-preview/pr-NUMERO/, dont le lien est posté en commentaire de la pull request. Il est mis à jour à chaque push et supprimé à la fermeture de la pull request. Pas d'aperçu pour une pull request venant d'un fork.
+
+Activation, une seule fois, après la première publication de `main` par ce workflow (la branche `gh-pages` doit exister) : *Settings > Pages > Build and deployment > Source* = **Deploy from a branch**, branche **gh-pages**, dossier **/ (root)**.
 
 ## Éditer les exigences
 
