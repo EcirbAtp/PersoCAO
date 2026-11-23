@@ -6,7 +6,7 @@ Version 1.1 · 23 novembre 2026 · Auteur : Fab
 
 Ce document fixe le besoin de PersoCAO : ce que le logiciel doit permettre, pour qui, et sous quelles contraintes. C'est la première étape du V descendant. La spécification fonctionnelle (EXF) et la spécification technique (EXT) en découlent et sont validées ; la spécification IHM et l'étude de faisabilité restent à faire.
 
-Statut : tous les besoins validés par Fab le 18 novembre 2026 (v1.0). La version 1.1 ne modifie aucun besoin : elle reporte les décisions prises depuis dans les spécifications (licence, plateformes, solveur d'esquisse, publication des exigences). Les besoins de ce document sont tenus dans `reqs/01_besoin.sdoc` (StrictDoc), qui fait foi en cas d'écart ; le tableur de synthèse en est généré.
+Statut : tous les besoins validés par Fab le 18 novembre 2026 (v1.0). La version 1.1 ne modifie aucun besoin : elle reporte les décisions prises depuis dans les spécifications (licence, plateformes, solveur d'esquisse, publication des exigences). Le texte complet de ce document et les besoins eux-mêmes sont tenus dans `reqs/01_besoin.sdoc` (StrictDoc), qui fait foi en cas d'écart ; ce fichier Markdown en est une copie de lecture et le tableur de synthèse en est généré.
 
 ## Contexte et finalité
 

@@ -18,7 +18,7 @@ Le projet suit un cycle en V : aucune implémentation avant la fin du V descenda
 
 | Étape | Document | Exigences | État |
 | --- | --- | --- | --- |
-| 1. Expression du besoin | `docs/01_besoin/expression_du_besoin.md` | `reqs/01_besoin.sdoc` (CU, BES-F, BES-T) | Validé v1.0 |
+| 1. Expression du besoin | `reqs/01_besoin.sdoc` (texte complet), copie de lecture `docs/01_besoin/expression_du_besoin.md` | `reqs/01_besoin.sdoc` (CU, BES-F, BES-T) | Validé v1.1 |
 | 2. Spécification fonctionnelle | `reqs/02_spec_fonctionnelle.sdoc` (EXF), `reqs/02_spec_technique.sdoc` (EXT) | EXF, EXT | EXF validées v1.0 |
 | 3. Spécification IHM et rendu | à venir | EXI | À faire |
 | 4. Faisabilité et conception générale | à venir | CON | À faire |
