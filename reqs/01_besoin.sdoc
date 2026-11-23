@@ -72,6 +72,96 @@ Il fonctionne sans cloud, sans gestion de licences et avec des formats ouverts u
 [[/SECTION]]
 
 [[SECTION]]
+TITLE: Périmètre
+
+[TEXT]
+STATEMENT: >>>
+Le logiciel se compose d'un socle de mécanique générale, livré en premier, et de modules métier qui s'y branchent par une interface d'extension publique. Un module métier n'utilise que cette interface : il ne modifie jamais le socle.
+
+Le champ « Cible » des besoins prend l'une des valeurs suivantes :
+
+- **Socle v1** : pièces, esquisses, assemblages, nomenclature, mises en plan, surfaces, mesures, paramètres, échanges de fichiers, gestionnaire de modules (jalons 1 à 5).
+- **Socle v2** : macros (BES-F-13), module de calcul de structure, résistance des matériaux et éléments finis (BES-F-14), usinage (BES-F-15), gestion de données produit légère (BES-F-16).
+- **Socle v3** : reconstruction d'une pièce depuis sa mise en plan (BES-F-18).
+- **Modules métier (après le socle v1)** : aéronautique, automobile, marine, spatial. Leur contenu sera spécifié module par module.
+- **Évolution très ultérieure** : portage macOS, puis un module pour graphistes (2D et 3D) lié à ce portage.
+
+.. image:: _assets/perimetre_socle_modules.png
+   :alt: Découpage socle et modules
+
+Le socle est livré seul en version 1 ; chaque module métier s'y branche ensuite sans le modifier.
+<<<
+
+[[/SECTION]]
+
+[[SECTION]]
+TITLE: Gestion des exigences
+
+[TEXT]
+STATEMENT: >>>
+Recommandation : tenir les exigences en fichiers texte dans le dépôt Git, et générer le tableur de synthèse à partir d'eux. Un tableur seul convient pour démarrer, mais sous Git c'est un fichier binaire : pas de diff lisible, fusions impossibles, et les liens de traçabilité s'y cassent facilement.
+
+L'outil proposé est ``StrictDoc <https://github.com/strictdoc-project/strictdoc>``_, open source, conçu pour ce besoin : exigences identifiées dans des fichiers texte, liens parent-enfant entre niveaux, matrice de traçabilité et vues HTML ou tableur générées. Les exigences sont tenues sous StrictDoc dans le dossier ``reqs/`` du dépôt ; le tableur et la matrice de traçabilité sont générés par ``tools/generer_vues.sh``.
+
+Chaque exigence porte un identifiant stable et le lien vers son parent :
+
+.. list-table::
+   :header-rows: 1
+
+   * - Préfixe
+     - Niveau du V
+     - Document
+   * - BES-F / BES-T
+     - Besoin
+     - Ce document (``reqs/01_besoin.sdoc``)
+   * - EXF
+     - Exigence fonctionnelle
+     - Spécification fonctionnelle (``reqs/02_spec_fonctionnelle.sdoc``)
+   * - EXI
+     - Exigence d'interface et de rendu
+     - Spécification IHM
+   * - EXT
+     - Exigence technique
+     - Spécification technique (``reqs/02_spec_technique.sdoc``)
+   * - CON
+     - Élément de conception
+     - Conception générale
+   * - TST
+     - Test de vérification
+     - Plans de test (branche montante du V)
+
+Une exigence sans parent, ou un besoin sans exigence ni test, est signalé automatiquement par la matrice. Exception assumée : les besoins techniques (BES-T) sont transverses et sont des racines ; ils n'ont pas de cas d'usage parent, sauf BES-T-06 rattaché à CU-06.
+
+État des exigences au 23 novembre 2026 :
+
+.. list-table::
+   :header-rows: 1
+
+   * - Document
+     - Version
+     - Exigences
+     - Statut
+   * - Besoins (``01_besoin.sdoc``)
+     - 1.0
+     - 6 CU, 20 BES-F, 10 BES-T
+     - Tous validés le 18 novembre 2026
+   * - Spécification fonctionnelle (``02_spec_fonctionnelle.sdoc``)
+     - 1.0
+     - 112 EXF
+     - 111 validées le 23 novembre 2026 ; EXF-1909 (résolution de l'esquisse) en Brouillon tant que PO-05 est ouvert
+   * - Spécification technique (``02_spec_technique.sdoc``)
+     - 1.0
+     - 51 EXT
+     - Toutes validées
+
+Une analyse de cohérence des besoins a été menée le 18 novembre 2026 (erreurs de saisie, contradictions, doublons, termes divergents) ; tous ses arbitrages ont été appliqués dans la version 1.0. Les points ouverts des spécifications ont été tranchés par Fab et reportés dans les exigences concernées (champ Commentaire) ; seul PO-05 reste ouvert.
+
+À chaque pull request qui touche aux exigences, le workflow GitHub ``Exigences`` valide les ``.sdoc`` et produit les vues ; à chaque mise à jour de ``main``, le site HTML des exigences est publié sur GitHub Pages : https://ecirbatp.github.io/PersoCAO/.
+<<<
+
+[[/SECTION]]
+
+[[SECTION]]
 TITLE: Cas d'usage
 
 [TEXT]
@@ -137,29 +227,6 @@ STATUT: Validé
 TITLE: Étendre le logiciel
 STATEMENT: >>>
 Le logiciel doit permettre la prise en charge de différents modules métier en vue de rajouter des outils de conception, sans avoir besoin de réinstaller le socle principal du logiciel.
-<<<
-
-[[/SECTION]]
-
-[[SECTION]]
-TITLE: Périmètre
-
-[TEXT]
-STATEMENT: >>>
-Le logiciel se compose d'un socle de mécanique générale, livré en premier, et de modules métier qui s'y branchent par une interface d'extension publique. Un module métier n'utilise que cette interface : il ne modifie jamais le socle.
-
-Le champ « Cible » des besoins prend l'une des valeurs suivantes :
-
-- **Socle v1** : pièces, esquisses, assemblages, nomenclature, mises en plan, surfaces, mesures, paramètres, échanges de fichiers, gestionnaire de modules (jalons 1 à 5).
-- **Socle v2** : macros (BES-F-13), module de calcul de structure, résistance des matériaux et éléments finis (BES-F-14), usinage (BES-F-15), gestion de données produit légère (BES-F-16).
-- **Socle v3** : reconstruction d'une pièce depuis sa mise en plan (BES-F-18).
-- **Modules métier (après le socle v1)** : aéronautique, automobile, marine, spatial. Leur contenu sera spécifié module par module.
-- **Évolution très ultérieure** : portage macOS, puis un module pour graphistes (2D et 3D) lié à ce portage.
-
-.. image:: _assets/perimetre_socle_modules.png
-   :alt: Découpage socle et modules
-
-Le socle est livré seul en version 1 ; chaque module métier s'y branche ensuite sans le modifier.
 <<<
 
 [[/SECTION]]
@@ -735,73 +802,6 @@ STATEMENT: >>>
 - Calcul par éléments finis, usinage et gestion de données produit, dans la version 1 : prévus dans le socle v2 (BES-F-14, BES-F-15 et BES-F-16).
 - macOS et le module pour graphistes, dans la version 1.
 - Ressemblance visuelle avec un logiciel existant.
-<<<
-
-[[/SECTION]]
-
-[[SECTION]]
-TITLE: Gestion des exigences
-
-[TEXT]
-STATEMENT: >>>
-Recommandation : tenir les exigences en fichiers texte dans le dépôt Git, et générer le tableur de synthèse à partir d'eux. Un tableur seul convient pour démarrer, mais sous Git c'est un fichier binaire : pas de diff lisible, fusions impossibles, et les liens de traçabilité s'y cassent facilement.
-
-L'outil proposé est ``StrictDoc <https://github.com/strictdoc-project/strictdoc>``_, open source, conçu pour ce besoin : exigences identifiées dans des fichiers texte, liens parent-enfant entre niveaux, matrice de traçabilité et vues HTML ou tableur générées. Les exigences sont tenues sous StrictDoc dans le dossier ``reqs/`` du dépôt ; le tableur et la matrice de traçabilité sont générés par ``tools/generer_vues.sh``.
-
-Chaque exigence porte un identifiant stable et le lien vers son parent :
-
-.. list-table::
-   :header-rows: 1
-
-   * - Préfixe
-     - Niveau du V
-     - Document
-   * - BES-F / BES-T
-     - Besoin
-     - Ce document (``reqs/01_besoin.sdoc``)
-   * - EXF
-     - Exigence fonctionnelle
-     - Spécification fonctionnelle (``reqs/02_spec_fonctionnelle.sdoc``)
-   * - EXI
-     - Exigence d'interface et de rendu
-     - Spécification IHM
-   * - EXT
-     - Exigence technique
-     - Spécification technique (``reqs/02_spec_technique.sdoc``)
-   * - CON
-     - Élément de conception
-     - Conception générale
-   * - TST
-     - Test de vérification
-     - Plans de test (branche montante du V)
-
-Une exigence sans parent, ou un besoin sans exigence ni test, est signalé automatiquement par la matrice. Exception assumée : les besoins techniques (BES-T) sont transverses et sont des racines ; ils n'ont pas de cas d'usage parent, sauf BES-T-06 rattaché à CU-06.
-
-État des exigences au 23 novembre 2026 :
-
-.. list-table::
-   :header-rows: 1
-
-   * - Document
-     - Version
-     - Exigences
-     - Statut
-   * - Besoins (``01_besoin.sdoc``)
-     - 1.0
-     - 6 CU, 20 BES-F, 10 BES-T
-     - Tous validés le 18 novembre 2026
-   * - Spécification fonctionnelle (``02_spec_fonctionnelle.sdoc``)
-     - 1.0
-     - 112 EXF
-     - 111 validées le 23 novembre 2026 ; EXF-1909 (résolution de l'esquisse) en Brouillon tant que PO-05 est ouvert
-   * - Spécification technique (``02_spec_technique.sdoc``)
-     - 1.0
-     - 51 EXT
-     - Toutes validées
-
-Une analyse de cohérence des besoins a été menée le 18 novembre 2026 (erreurs de saisie, contradictions, doublons, termes divergents) ; tous ses arbitrages ont été appliqués dans la version 1.0. Les points ouverts des spécifications ont été tranchés par Fab et reportés dans les exigences concernées (champ Commentaire) ; seul PO-05 reste ouvert.
-
-À chaque pull request qui touche aux exigences, le workflow GitHub ``Exigences`` valide les ``.sdoc`` et produit les vues ; à chaque mise à jour de ``main``, le site HTML des exigences est publié sur GitHub Pages : https://ecirbatp.github.io/PersoCAO/.
 <<<
 
 [[/SECTION]]
