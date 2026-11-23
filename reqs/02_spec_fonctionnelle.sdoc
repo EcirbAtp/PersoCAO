@@ -1041,10 +1041,10 @@ VERIFICATION: Test
 STATUT: Brouillon
 TITLE: Pile et enregistrement
 STATEMENT: >>>
-L'enregistrement d'un document ne doit pas vider sa pile d'annulation pendant la session. La pile n'est pas conservée après la fermeture du document : chaque ouverture repart d'une pile vide.
+L'enregistrement d'un document ne doit pas vider sa pile d'annulation pendant la session. La pile n'est pas conservée après la fermeture de la fenêtre d'édition : à la réouverture du document (pièce ou assemblage), la pile repart de zéro.
 <<<
 COMMENT: >>>
-PO-17, tranché par Fab le 18 novembre 2026. Question : Conserver ou non la pile d'annulation après fermeture et réouverture du document. Décision : non : chaque ouverture repart d'une pile vide.
+PO-17, tranché par Fab le 18 novembre 2026. Question : Conserver ou non la pile d'annulation après fermeture et réouverture du document. Décision : non : la pile repart de zéro à chaque réouverture.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -1325,10 +1325,13 @@ Le logiciel doit permettre de créer une nouvelle pièce dans un assemblage, en 
 
 Ces références entre pièces sont associatives, sauf les éléments prélevés dans une esquisse, qui sont des copies (EXF-1904). L'utilisateur peut rompre ces références pour rendre la pièce indépendante.
 
-Comme une pièce ne peut pas être modifiée seule pendant que l'assemblage est ouvert (EXF-0306), elle garde, ouverte seule, la dernière géométrie de ses références ; celles-ci se remettent à jour à la prochaine ouverture de l'assemblage.
+- Lancer la conception d'une pièce dans un assemblage crée un nouveau fichier de pièce dans le dossier projet (EXF-0704).
+- Les modifications faites sur la pièce depuis l'assemblage sont enregistrées dans le fichier de la pièce, comme celles faites sur la pièce ouverte seule.
+- La pièce ne peut pas être modifiée seule pendant que l'assemblage est ouvert (EXF-0306).
+- Après la fermeture de la fenêtre d'édition, la pile d'annulation repart de zéro à la réouverture de l'assemblage ou de la pièce (EXF-0305).
 <<<
 COMMENT: >>>
-PO-21, tranché par Fab le 18 novembre 2026. Question : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage. Décision : voir PO-18 ; ouverte seule, la pièce garde la dernière géométrie de ses références.
+PO-21, tranché par Fab le 18 novembre 2026. Question : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage. Décision : voir PO-18 ; la pièce conçue dans l'assemblage a son propre fichier dans le dossier projet, où sont enregistrées ses modifications ; la pile d'annulation repart de zéro à chaque réouverture.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -2381,11 +2384,11 @@ Points soulevés par la version 0.1, tranchés par Fab le 18 novembre 2026, sauf
 - **PO-14** (EXF-0301) : Afficher ou masquer un élément est-il une action annulable ? *Décision :* oui, afficher ou masquer est annulable.
 - **PO-15** (EXF-0302) : Profondeur minimale de la pile (100 proposé). *Décision :* 50 actions au minimum.
 - **PO-16** (EXF-0304) : En sortie d'esquisse, toute l'édition est-elle regroupée en une seule action dans la pile de la pièce ? *Décision :* la sortie d'esquisse est une action distincte ; enregistrer à la sortie ne retire rien de la pile.
-- **PO-17** (EXF-0305) : Conserver ou non la pile d'annulation après fermeture et réouverture du document. *Décision :* non : chaque ouverture repart d'une pile vide.
+- **PO-17** (EXF-0305) : Conserver ou non la pile d'annulation après fermeture et réouverture du document. *Décision :* non : la pile repart de zéro à chaque réouverture.
 - **PO-18** (EXF-0306) : Comportement de la pile de la pièce quand la modification a été faite depuis l'assemblage : à préciser. *Décision :* une seule fenêtre active, une pile par ouverture ; pas de modification d'une pièce seule pendant que l'assemblage est ouvert.
 - **PO-19** (EXF-0405) : Nombre de plans de coupe simultanés (au moins trois proposé), et coupe limitée à une sélection de composants. *Décision :* un à trois plans simultanés ; coupe limitée à une sélection : oui.
 - **PO-20** (EXF-0505) : Interférences volontaires à ignorer (ajustements serrés, filetages) : prévoir une liste d'exclusions ? *Décision :* arbitrage proposé à l'utilisateur pour chaque interférence (corriger ou déclarer voulue).
-- **PO-21** (EXF-0507) : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage. *Décision :* voir PO-18 ; ouverte seule, la pièce garde la dernière géométrie de ses références.
+- **PO-21** (EXF-0507) : Comportement d'une pièce qui a des références vers un assemblage quand elle est ouverte seule ou insérée dans un autre assemblage. *Décision :* voir PO-18 ; la pièce conçue dans l'assemblage a son propre fichier dans le dossier projet, où sont enregistrées ses modifications ; la pile d'annulation repart de zéro à chaque réouverture.
 - **PO-22** (EXF-1103) : Propriétés à prévoir dès la v1 pour préparer le calcul de structure (BES-F-14) : module d'Young, coefficient de Poisson, limite élastique ? *Décision :* non en v1 ; à voir au moment du calcul de structure.
 - **PO-23** (EXF-1103) : Pièce sans matériau : signaler la masse inconnue (proposé) ou utiliser une masse volumique par défaut ? *Décision :* masse signalée inconnue.
 - **PO-24** (EXF-1104) : Écart maximal admis par rapport aux valeurs analytiques : à fixer dans les exigences techniques (EXT issues de BES-T-10). *Décision :* écart fixé par EXT-1003.
