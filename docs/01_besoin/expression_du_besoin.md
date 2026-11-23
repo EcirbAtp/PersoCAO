@@ -1,16 +1,16 @@
 # PersoCAO – Expression du besoin
 
-Version 1.0 · 18 novembre 2026 · Auteur : Fab
+Version 1.1 · 23 novembre 2026 · Auteur : Fab
 
 ## Objet du document
 
-Ce document fixe le besoin de PersoCAO : ce que le logiciel doit permettre, pour qui, et sous quelles contraintes. C'est la première étape du V descendant ; la spécification fonctionnelle, la spécification IHM et l'étude de faisabilité en découleront.
+Ce document fixe le besoin de PersoCAO : ce que le logiciel doit permettre, pour qui, et sous quelles contraintes. C'est la première étape du V descendant. La spécification fonctionnelle (EXF) et la spécification technique (EXT) en découlent et sont validées ; la spécification IHM et l'étude de faisabilité restent à faire.
 
-Statut : v1.0, tous les besoins validés par Fab le 18 novembre 2026. Les besoins de ce document sont tenus dans `reqs/01_besoin.sdoc` (StrictDoc), qui fait foi en cas d'écart ; le tableur de synthèse en est généré.
+Statut : tous les besoins validés par Fab le 18 novembre 2026 (v1.0). La version 1.1 ne modifie aucun besoin : elle reporte les décisions prises depuis dans les spécifications (licence, plateformes, solveur d'esquisse, publication des exigences). Les besoins de ce document sont tenus dans `reqs/01_besoin.sdoc` (StrictDoc), qui fait foi en cas d'écart ; le tableur de synthèse en est généré.
 
 ## Contexte et finalité
 
-PersoCAO est un logiciel de modélisation 3D de mécanique générale, pour un usage personnel. Son code est original ; il s'appuie sur des bibliothèques open source (noyau géométrique, interface, solveur d'esquisse) dont la licence est compatible avec un dépôt public (BES-T-07). Il offre un socle de CAO mécanique complet, auquel s'ajoutent des modules métier installables séparément (aéronautique, automobile, marine, spatial).
+PersoCAO est un logiciel de modélisation 3D de mécanique générale, pour un usage personnel. Son code est original ; il s'appuie sur des bibliothèques open source (noyau géométrique, interface, solveur d'esquisse) dont la licence est compatible avec un dépôt public (BES-T-07) : licences permissives ou à copyleft faible (LGPL, MPL) admises, GPL et AGPL exclues (EXT-0702). Le code propre au projet est publié sous licence MPL 2.0 (EXT-0706). Il offre un socle de CAO mécanique complet, auquel s'ajoutent des modules métier installables séparément (aéronautique, automobile, marine, spatial).
 
 Il fonctionne sans cloud, sans gestion de licences et avec des formats ouverts uniquement. Aucune ressemblance avec un logiciel existant n'est recherchée ; l'aspect graphique sera travaillé en détail au niveau 3 du développement.
 
@@ -91,7 +91,9 @@ Les besoins techniques sont transverses : ils ne sont pas rattachés à un cas d
 
 ## Contraintes de développement
 
-Le logiciel est développé directement en C++20 avec Qt 6 pour l'interface et Open CASCADE pour le noyau géométrique. Python n'intervient qu'à deux endroits : des prototypes jetables qui lèvent les risques techniques avant le codage, et le langage de script et de modules métier (BES-F-13). La gestion de configuration se fait sous Git ; le dépôt PersoCAO a été créé par Fab sur GitHub ; il est public.
+Le logiciel est développé directement en C++20 avec Qt 6 pour l'interface et Open CASCADE pour le noyau géométrique. Python n'intervient qu'à deux endroits : des prototypes jetables qui lèvent les risques techniques avant le codage, et le langage de script et de modules métier (BES-F-13). La gestion de configuration se fait sous Git ; le dépôt PersoCAO a été créé par Fab sur GitHub ; il est public depuis le 18 novembre 2026.
+
+La spécification technique précise ces contraintes : Windows 10 (22H2), Windows 11 et Ubuntu 24.04 LTS, en x86-64 et en ARM64 (EXT-0101) ; une Surface Pro X (SQ1, 8 Go) comme configuration de référence des performances et un PC de bureau à 16 Go comme configuration requise (EXT-0104) ; commentaires et identifiants du code en français, sans accents dans les identifiants ; au moins 95 % des lignes couvertes par les tests automatisés.
 
 ### Pourquoi pas un prototype Python porté ensuite
 
@@ -103,8 +105,8 @@ Chaque prototype répond à une seule question, puis il est jeté : seuls ses en
 
 | Prototype | Question à trancher | Langage |
 | --- | --- | --- |
-| Viewer 3D | Peut-on afficher, naviguer et sélectionner faces et arêtes avec fluidité dans une fenêtre Qt, sur Windows et sur Linux ? | Python (PySide6 et OCP), pour aller vite |
-| Solveur d'esquisse | Quelle bibliothèque existante (planegcs, SolveSpace) résout de façon stable les esquisses visées ? | Selon la bibliothèque |
+| Viewer 3D | Peut-on afficher, naviguer et sélectionner faces et arêtes avec fluidité dans une fenêtre Qt, sur Windows et sur Linux ? Le prototype fixe aussi le contenu de l'assemblage et de la pièce de référence des bancs de performance (EXT-0104). | Python (PySide6 et OCP), pour aller vite |
+| Solveur d'esquisse | Une bibliothèque existante à licence compatible (PlaneGCS, LGPL ; SolveSpace, GPLv3, est exclu) résout-elle de façon stable les esquisses visées ? Le prototype fixe aussi le critère de stabilité du solveur (PO-05, EXF-1909). | Selon la bibliothèque |
 | Historique et désignation des faces | Une face référencée par une opération garde-t-elle son identité quand on modifie une cote en amont ? | Python |
 | Chargement des modules | Peut-on charger un module compilé séparément, sans recompiler le socle, sur les deux systèmes ? | C++ |
 
@@ -129,14 +131,26 @@ Chaque exigence porte un identifiant stable et le lien vers son parent :
 
 | Préfixe | Niveau du V | Document |
 | --- | --- | --- |
-| BES-F / BES-T | Besoin | Ce document |
-| EXF | Exigence fonctionnelle | Spécification fonctionnelle |
+| BES-F / BES-T | Besoin | Ce document (`reqs/01_besoin.sdoc`) |
+| EXF | Exigence fonctionnelle | Spécification fonctionnelle (`reqs/02_spec_fonctionnelle.sdoc`) |
 | EXI | Exigence d'interface et de rendu | Spécification IHM |
-| EXT | Exigence technique | Spécification fonctionnelle |
+| EXT | Exigence technique | Spécification technique (`reqs/02_spec_technique.sdoc`) |
 | CON | Élément de conception | Conception générale |
 | TST | Test de vérification | Plans de test (branche montante du V) |
 
 Une exigence sans parent, ou un besoin sans exigence ni test, est signalé automatiquement par la matrice. Exception assumée : les besoins techniques (BES-T) sont transverses et sont des racines ; ils n'ont pas de cas d'usage parent, sauf BES-T-06 rattaché à CU-06.
+
+État des exigences au 23 novembre 2026 :
+
+| Document | Version | Exigences | Statut |
+| --- | --- | --- | --- |
+| Besoins (`01_besoin.sdoc`) | 1.0 | 6 CU, 20 BES-F, 10 BES-T | Tous validés le 18 novembre 2026 |
+| Spécification fonctionnelle (`02_spec_fonctionnelle.sdoc`) | 1.0 | 112 EXF | 111 validées le 23 novembre 2026 ; EXF-1909 (résolution de l'esquisse) en Brouillon tant que PO-05 est ouvert |
+| Spécification technique (`02_spec_technique.sdoc`) | 1.0 | 51 EXT | Toutes validées |
+
+Une analyse de cohérence des besoins a été menée le 18 novembre 2026 (erreurs de saisie, contradictions, doublons, termes divergents) ; tous ses arbitrages ont été appliqués dans la version 1.0. Les points ouverts des spécifications ont été tranchés par Fab et reportés dans les exigences concernées (champ Commentaire) ; seul PO-05 reste ouvert.
+
+À chaque pull request qui touche aux exigences, le workflow GitHub `Exigences` valide les `.sdoc` et produit les vues ; à chaque mise à jour de `main`, le site HTML des exigences est publié sur GitHub Pages : https://ecirbatp.github.io/PersoCAO/.
 
 ## Jalons de développement
 
@@ -153,8 +167,9 @@ Les jalons démarrent une fois le V descendant terminé. Les jalons 1 à 5 forme
 | 7. Socle v3 | Reconstruction d'une pièce depuis sa mise en plan. | BES-F-18 |
 | 8. Modules métier | Aéronautique (profils d'ailes, import de profils), automobile, marine, spatial. | Besoins propres à chaque module |
 | 9. macOS | Portage macOS, puis module pour graphistes 2D et 3D. | Hors version 1 |
+| 10. Solveur maison | Solveur de contraintes d'esquisse propre au projet, inspiré des solveurs existants, puis amélioré ; comparé au solveur de bibliothèque sur le corpus d'esquisses de EXT-1004. | BES-F-19 |
 
-Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 ; il est prévu de réutiliser une bibliothèque existante. L'ordre entre les jalons 6 à 8 reste à confirmer ; l'interface d'extension (BES-F-08) est posée dès le jalon 1 pour que le jalon 7 soit possible sans toucher au socle.
+Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2. La version finale est d'abord construite avec une bibliothèque existante (PlaneGCS, sous LGPL, est la piste retenue ; le choix définitif relève de la conception générale), appelée à travers une interface propre au projet. Le jalon 10, postérieur à la version finale, la remplace par un solveur maison sans toucher au reste du socle (PO-T-11). L'ordre entre les jalons 6 à 10 reste à confirmer ; l'interface d'extension (BES-F-08) est posée dès le jalon 1 pour que le jalon 7 soit possible sans toucher au socle.
 
 ## Points ouverts et prochaines étapes
 
@@ -163,12 +178,13 @@ Le solveur de contraintes d'esquisse est la partie la plus difficile du jalon 2 
 - [x] Relire les méthodes de vérification (champ VERIFICATION) des BES-F et BES-T : validées par Fab le 18 novembre 2026.
 - [x] BES-T-10 (précision de calcul) : énoncé conservé tel quel et validé.
 - [x] Trancher la priorité de BES-F-16 : passée en Souhaitable (cible Socle v2).
-- [ ] Décliner en exigences mesurables, dans la spécification, les besoins non vérifiables tels quels (BES-T-03, BES-T-04, BES-T-09 et les autres).
+- [x] Décliner en exigences mesurables les besoins non vérifiables tels quels : fait dans la spécification fonctionnelle (EXF, v1.0) et la spécification technique (EXT, v1.0), validées le 23 novembre 2026, sauf EXF-1909.
 - [ ] Étudier le cadre légal de la lecture et de l'écriture des formats propriétaires d'autres logiciels de CAO (interopérabilité), puis décider s'il entre dans une version ultérieure.
-- [ ] Choisir la distribution Linux de référence (par exemple Ubuntu LTS).
-- [x] Décider si PersoCAO restera privé ou pourra être publié un jour : cela conditionne le choix de licence et les obligations liées à Qt et Open CASCADE. Décision initiale : PersoCAO restera privé. Décision du 18 novembre 2026 : le dépôt est public ; les licences GPL sont exclues des dépendances (spécification technique, EXT-0702).
+- [x] Choisir la distribution Linux de référence : Ubuntu 24.04 LTS, en x86-64 et en ARM64 (EXT-0101, 18 novembre 2026).
+- [x] Décider si PersoCAO restera privé ou pourra être publié un jour : cela conditionne le choix de licence et les obligations liées à Qt et Open CASCADE. Décision initiale : PersoCAO restera privé. Décision du 18 novembre 2026 : le dépôt est public ; les licences GPL sont exclues des dépendances (spécification technique, EXT-0702) et PersoCAO est publié sous MPL 2.0 (EXT-0706).
 - [ ] Valider la liste des prototypes de levée de risque.
 - [ ] Préciser ce que recouvrent les niveaux de développement (le niveau 3 étant celui du travail graphique détaillé).
 - [x] Choisir le nom définitif (« PersoCAO » est un nom de travail).
+- [ ] Fixer le critère mesurable de stabilité du solveur d'esquisse (PO-05) à l'issue du prototype « Solveur d'esquisse », puis valider EXF-1909.
 
-Après validation : spécification fonctionnelle du socle (exigences EXF et EXT), puis spécification IHM et étude de faisabilité.
+Prochaines étapes : spécification IHM (exigences EXI), puis étude de faisabilité et conception générale (CON), qui planifie les prototypes de levée de risque.
