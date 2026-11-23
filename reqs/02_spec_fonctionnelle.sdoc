@@ -1,6 +1,6 @@
 [DOCUMENT]
 TITLE: PersoCAO – Spécification fonctionnelle
-VERSION: 0.2
+VERSION: 1.0
 
 [GRAMMAR]
 ELEMENTS:
@@ -59,7 +59,7 @@ Conventions :
 - **Identifiant** : ``EXF-bbnn``, où ``bb`` est le numéro du besoin parent principal (EXF-1901 détaille BES-F-19) et ``nn`` un numéro d'ordre. Un identifiant n'est jamais réutilisé.
 - **Parents** : le premier parent est le besoin détaillé ; une exigence qui contribue aussi à d'autres besoins les cite en parents supplémentaires.
 - **Priorité et cible** : héritées du besoin parent principal, sauf mention contraire.
-- **Statut** : toutes les exigences sont au statut Brouillon jusqu'à leur relecture par Fab.
+- **Statut** : exigences validées par Fab le 23 novembre 2026, sauf EXF-1909, qui reste en Brouillon tant que PO-05 est ouvert.
 - **Points ouverts** : un point à trancher est noté dans le champ Commentaire de l'exigence (« Point ouvert PO-xx »), avec sa décision une fois tranché, et repris dans la dernière section.
 - **Tolérance de modélisation** : écart en dessous duquel deux positions sont considérées comme confondues ; sa valeur est fixée par les exigences techniques issues de BES-T-10.
 - Les besoins des socles v2 et v3 (BES-F-13 à BES-F-16, BES-F-18) ne font l'objet ici que d'un cadrage, à détailler avant leur jalon.
@@ -81,7 +81,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Repère absolu
 STATEMENT: >>>
 À la création d'une pièce ou d'un assemblage, le logiciel doit créer un repère absolu composé d'une origine, de trois axes X, Y, Z orthonormés directs et des trois plans principaux XY, YZ et ZX.
@@ -99,7 +99,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Repères locaux
 STATEMENT: >>>
 Le logiciel doit permettre de créer des repères locaux dans une pièce ou un assemblage, définis de l'une des façons suivantes :
@@ -120,7 +120,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Positionnement par rapport à un repère
 STATEMENT: >>>
 Le logiciel doit permettre de positionner tout élément (point, plan, axe, esquisse, composant d'assemblage) par rapport à un repère choisi, absolu ou local.
@@ -139,7 +139,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Éléments de référence
 STATEMENT: >>>
 Le logiciel doit permettre de créer des plans, des axes et des points de référence, utilisables comme supports d'esquisse, directions ou références de cote :
@@ -162,7 +162,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Unités par document
 STATEMENT: >>>
 Le logiciel doit associer à chaque document (pièce, assemblage, mise en plan) un système d'unités choisi par l'utilisateur, avec par défaut le millimètre pour les longueurs, le degré pour les angles et le kilogramme pour les masses.
@@ -186,7 +186,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Unités entre documents
 STATEMENT: >>>
 Le logiciel doit conserver les dimensions physiques quand des documents d'unités différentes sont combinés : une pièce en pouces insérée dans un assemblage en millimètres garde sa taille réelle, et un fichier importé est lu dans les unités qu'il déclare (BES-F-06).
@@ -215,7 +215,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Support d'esquisse
 STATEMENT: >>>
 Le logiciel doit permettre de créer une esquisse sur un plan principal, un plan de référence, un plan d'un repère local, une face plane d'un solide ou un plan de coupe.
@@ -234,7 +234,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Éléments géométriques d'esquisse
 STATEMENT: >>>
 Le logiciel doit permettre de tracer dans une esquisse au minimum : point, segment, polyligne, rectangle, polygone régulier, cercle, arc (par trois points, par centre et extrémités, tangent), ellipse et arc d'ellipse, rainure oblongue, spline (par points de passage et par pôles).
@@ -254,7 +254,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Géométrie de construction
 STATEMENT: >>>
 Le logiciel doit permettre de marquer tout élément d'esquisse comme élément de construction : il peut porter des contraintes et des cotes, mais il n'entre jamais dans les profils utilisés par les opérations 3D.
@@ -269,7 +269,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Éléments prélevés dans l'esquisse
 STATEMENT: >>>
 Le logiciel doit permettre de prélever dans une esquisse des sommets, des arêtes et des contours du modèle 3D ou d'autres esquisses, par projection sur le plan de l'esquisse.
@@ -288,7 +288,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Contraintes géométriques
 STATEMENT: >>>
 Le logiciel doit proposer au minimum les contraintes géométriques suivantes : coïncidence, point sur courbe, horizontalité, verticalité, parallélisme, perpendicularité, tangence, concentricité, égalité (de longueurs ou de rayons), symétrie par rapport à une droite, milieu, fixation.
@@ -303,7 +303,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Cotes d'esquisse
 STATEMENT: >>>
 Le logiciel doit proposer au minimum les cotes suivantes : distance entre deux points, distance d'un point à une droite, distance horizontale et verticale, longueur, rayon, diamètre, angle.
@@ -324,7 +324,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Création automatique de contraintes
 STATEMENT: >>>
 Pendant le tracé, le logiciel doit pouvoir créer automatiquement les contraintes déductibles du geste de l'utilisateur (coïncidence avec un point existant, horizontalité, verticalité, tangence). Cette aide est désactivable, et toute contrainte ainsi créée est visible et supprimable comme une autre.
@@ -342,7 +342,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: État de contrainte de l'esquisse
 STATEMENT: >>>
 Le logiciel doit calculer et indiquer en permanence l'état de contrainte de l'esquisse et de chacun de ses éléments :
@@ -386,7 +386,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Profils et régions
 STATEMENT: >>>
 Le logiciel doit détecter automatiquement, dans une esquisse, les contours fermés et les régions qu'ils délimitent (y compris les contours intérieurs formant des trous).
@@ -416,7 +416,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Paramètres nommés
 STATEMENT: >>>
 Le logiciel doit permettre de définir dans un document des paramètres nommés, chacun avec un nom, un type (longueur, angle, masse, sans dimension, entier, booléen), une valeur ou une formule, et un commentaire optionnel.
@@ -440,7 +440,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Formules
 STATEMENT: >>>
 Le logiciel doit évaluer des formules combinant nombres avec unité, paramètres et cotes nommées, avec au minimum :
@@ -463,7 +463,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Grandeurs pilotables
 STATEMENT: >>>
 Le logiciel doit permettre de piloter par un paramètre ou une formule toute valeur numérique d'une esquisse, d'une opération ou d'un assemblage : cotes, profondeurs, angles, rayons, nombres d'instances de répétition, décalages de contraintes d'assemblage.
@@ -484,7 +484,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Dépendances circulaires
 STATEMENT: >>>
 Le logiciel doit refuser, au moment de la saisie, toute formule qui crée une dépendance circulaire entre paramètres ou cotes, et afficher le cycle détecté (par exemple A → B → C → A).
@@ -499,7 +499,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Propagation d'un changement de paramètre
 STATEMENT: >>>
 Quand la valeur d'un paramètre change, le logiciel doit réévaluer toutes les formules qui en dépendent, puis recalculer les esquisses et opérations concernées (EXF-0202).
@@ -519,7 +519,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Paramètres entre documents
 STATEMENT: >>>
 Le logiciel doit permettre à un assemblage de piloter des paramètres de ses pièces, pour qu'une cote commune (par exemple un entraxe) soit définie une seule fois.
@@ -549,7 +549,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Corps de la pièce
 STATEMENT: >>>
 Le logiciel doit construire une pièce comme un solide résultant de la suite de ses opérations. Une opération de forme ajoute ou retire de la matière à ce solide ; la première opération qui ajoute de la matière crée le solide.
@@ -569,7 +569,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Extrusion
 STATEMENT: >>>
 Le logiciel doit créer un volume par extrusion d'une ou plusieurs régions d'esquisse.
@@ -589,7 +589,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Poche
 STATEMENT: >>>
 Le logiciel doit retirer de la matière par extrusion d'une ou plusieurs régions d'esquisse, avec les mêmes directions, limites et options que l'extrusion (EXF-0102). Une poche qui ne coupe aucune matière est signalée.
@@ -604,7 +604,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Révolution et gorge
 STATEMENT: >>>
 Le logiciel doit créer (révolution) ou retirer (gorge) un volume par rotation d'une ou plusieurs régions d'esquisse autour d'un axe.
@@ -623,7 +623,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Perçage
 STATEMENT: >>>
 Le logiciel doit créer des trous positionnés par des points d'esquisse sur une face, avec au minimum :
@@ -646,7 +646,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Congé
 STATEMENT: >>>
 Le logiciel doit arrondir des arêtes sélectionnées avec un rayon constant.
@@ -667,7 +667,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Chanfrein
 STATEMENT: >>>
 Le logiciel doit chanfreiner des arêtes sélectionnées, défini par deux distances ou par une distance et un angle, avec propagation optionnelle aux arêtes tangentes.
@@ -682,7 +682,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Dépouille
 STATEMENT: >>>
 Le logiciel doit incliner des faces sélectionnées d'un angle donné par rapport à une direction de démoulage, autour d'un plan ou d'une face neutre. Un angle hors de l'intervalle ]−90°, 90°[ est refusé.
@@ -697,7 +697,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Coque
 STATEMENT: >>>
 Le logiciel doit évider un solide pour lui donner une épaisseur de paroi constante, vers l'intérieur ou l'extérieur, en ouvrant les faces choisies (aucune face ouverte donne un solide creux fermé).
@@ -717,7 +717,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Répétitions
 STATEMENT: >>>
 Le logiciel doit répéter une ou plusieurs opérations :
@@ -742,7 +742,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Symétrie
 STATEMENT: >>>
 Le logiciel doit créer le symétrique d'une ou plusieurs opérations, ou de tout le solide, par rapport à un plan ou une face plane. Le résultat reste associatif à ses sources.
@@ -757,7 +757,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v3
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Pièce multi-corps
 STATEMENT: >>>
 Le logiciel doit permettre qu'une pièce contienne plusieurs solides (corps), disjoints ou combinés entre eux par des opérations booléennes (union, soustraction, intersection).
@@ -775,7 +775,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v3
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Congés avancés
 STATEMENT: >>>
 Le logiciel doit créer des congés à rayon variable le long d'une arête, et des congés entre deux faces non adjacentes.
@@ -793,7 +793,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v3
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Coque à épaisseurs multiples
 STATEMENT: >>>
 Le logiciel doit permettre de donner à certaines faces d'une coque une épaisseur différente de l'épaisseur générale.
@@ -821,7 +821,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Arbre de construction
 STATEMENT: >>>
 Le logiciel doit présenter l'historique de chaque pièce sous forme d'une liste ordonnée des éléments de référence, esquisses et opérations, dans l'ordre où ils sont évalués.
@@ -838,7 +838,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Modification à tout moment
 STATEMENT: >>>
 Le logiciel doit permettre de modifier à tout moment une cote, une contrainte, une esquisse ou les paramètres de toute opération de l'historique, puis recalculer automatiquement tous les éléments qui en dépendent, directement ou indirectement.
@@ -855,7 +855,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Point d'insertion et réordonnancement
 STATEMENT: >>>
 Le logiciel doit permettre de placer un point d'insertion à n'importe quelle étape de l'historique : le modèle est alors affiché dans son état à cette étape et les nouvelles opérations sont insérées à cet endroit.
@@ -872,7 +872,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Supprimer ou désactiver une étape
 STATEMENT: >>>
 Le logiciel doit permettre de supprimer une étape de l'historique, après avoir affiché la liste de ses dépendants et laissé le choix de les supprimer aussi ou de les conserver en erreur.
@@ -891,7 +891,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Désignation persistante des entités
 STATEMENT: >>>
 Quand une opération référence une face, une arête ou un sommet, le logiciel doit conserver cette référence sur la même entité géométrique après toute modification en amont, tant que cette entité existe encore dans le nouveau résultat (par exemple après changement d'une cote, ajout d'un trou ou d'un congé en amont).
@@ -913,7 +913,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Comportement en cas d'échec de recalcul
 STATEMENT: >>>
 Si une étape échoue au recalcul (géométrie impossible, référence perdue, esquisse non résoluble), le logiciel doit :
@@ -936,7 +936,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Recalcul complet
 STATEMENT: >>>
 Le logiciel doit permettre de forcer le recalcul complet d'un document depuis sa première étape ; le résultat doit être identique à celui du recalcul incrémental, à la tolérance de modélisation près.
@@ -961,7 +961,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Actions annulables
 STATEMENT: >>>
 Le logiciel doit permettre d'annuler toute action qui modifie un document : création, modification, suppression, désactivation ou déplacement d'une esquisse, d'une contrainte, d'une cote, d'une opération, d'un paramètre, d'un composant ou d'une contrainte d'assemblage, d'un élément de mise en plan, d'une propriété ou d'un matériau.
@@ -983,7 +983,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Annuler et rétablir successifs
 STATEMENT: >>>
 Le logiciel doit tenir, pour chaque document ouvert, une pile d'actions annulables d'au moins 50 actions. Après avoir annulé, l'utilisateur peut rétablir les actions annulées tant qu'il n'a pas fait de nouvelle modification ; une nouvelle modification vide la liste des actions à rétablir.
@@ -1001,7 +1001,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Restauration exacte
 STATEMENT: >>>
 Annuler une action doit remettre le document exactement dans l'état qui la précédait : géométrie, historique, paramètres, désignations des entités et état de contrainte. Annuler N actions puis rétablir N actions doit redonner l'état de départ.
@@ -1018,7 +1018,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Granularité
 STATEMENT: >>>
 Une commande validée par l'utilisateur doit constituer une seule action annulable, même si elle modifie plusieurs éléments. Pendant l'édition d'une esquisse, chaque ajout ou modification est annulable séparément.
@@ -1038,7 +1038,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Pile et enregistrement
 STATEMENT: >>>
 L'enregistrement d'un document ne doit pas vider sa pile d'annulation pendant la session. La pile n'est pas conservée après la fermeture de la fenêtre d'édition : à la réouverture du document (pièce ou assemblage), la pile repart de zéro.
@@ -1056,7 +1056,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Actions touchant plusieurs documents
 STATEMENT: >>>
 Une seule fenêtre du logiciel est active à la fois, et chaque ouverture d'un document a sa propre pile d'annulation.
@@ -1089,7 +1089,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Démonstration
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Navigation
 STATEMENT: >>>
 Le logiciel doit permettre de faire tourner, zoomer et déplacer la vue du modèle, de l'ajuster au modèle entier ou à la sélection, et de choisir une vue standard (face, arrière, dessus, dessous, gauche, droite, isométrique) ou la vue normale à une face plane.
@@ -1106,7 +1106,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Démonstration
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Modes de rendu
 STATEMENT: >>>
 Le logiciel doit proposer au minimum les modes de rendu ombré, ombré avec arêtes, filaire, et filaire avec arêtes cachées supprimées.
@@ -1121,7 +1121,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Sélection d'entités
 STATEMENT: >>>
 Le logiciel doit permettre de sélectionner une face, une arête, un sommet, une pièce, une esquisse ou un élément de référence dans la vue, avec :
@@ -1143,7 +1143,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Afficher et masquer
 STATEMENT: >>>
 Le logiciel doit permettre d'afficher ou de masquer individuellement des pièces, des composants, des faces, des esquisses et des éléments de référence. Masquer un élément ne le supprime pas et ne change ni les calculs ni les mesures.
@@ -1163,7 +1163,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Démonstration
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Coupes de visualisation
 STATEMENT: >>>
 Le logiciel doit permettre de couper la vue du modèle par un à trois plans de coupe simultanés, chacun positionné et orienté librement, déplaçable de façon interactive, avec une option d'affichage de la section remplie. La coupe peut être limitée à une sélection de composants.
@@ -1183,7 +1183,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Démonstration
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Indicateur d'orientation
 STATEMENT: >>>
 Le logiciel doit afficher en permanence l'orientation des axes du repère absolu dans la vue, et pouvoir afficher les repères locaux.
@@ -1210,7 +1210,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Composants
 STATEMENT: >>>
 Le logiciel doit permettre d'insérer dans un assemblage des pièces et des sous-assemblages, sur autant de niveaux que nécessaire, et plusieurs instances d'un même document.
@@ -1227,7 +1227,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Composant fixe
 STATEMENT: >>>
 Le logiciel doit fixer par défaut le premier composant inséré dans le repère de l'assemblage, et permettre de fixer ou libérer tout composant.
@@ -1242,7 +1242,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Contraintes d'assemblage
 STATEMENT: >>>
 Le logiciel doit proposer au minimum les contraintes de position suivantes entre faces, arêtes, axes, points et éléments de référence de composants différents : coïncidence, contact (faces opposées), distance, angle, parallélisme, perpendicularité, concentricité.
@@ -1261,7 +1261,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Résolution de l'assemblage
 STATEMENT: >>>
 Le logiciel doit positionner les composants pour satisfaire toutes les contraintes, et indiquer pour chaque composant son état : sous-contraint (degrés de liberté restants), totalement contraint, sur-contraint, avec les contraintes en conflit.
@@ -1279,7 +1279,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Détection des interférences
 STATEMENT: >>>
 Le logiciel doit détecter, sur demande, les interférences entre les composants d'un assemblage (tous ou une sélection) et donner pour chacune les deux composants concernés, le volume commun et sa visualisation.
@@ -1301,7 +1301,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Modification d'une pièce depuis l'assemblage
 STATEMENT: >>>
 Le logiciel doit permettre de modifier une pièce depuis l'assemblage qui la contient, puis mettre à jour l'assemblage. La modification est enregistrée dans le document de la pièce.
@@ -1318,7 +1318,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Conception d'une pièce dans l'assemblage
 STATEMENT: >>>
 Le logiciel doit permettre de créer une nouvelle pièce dans un assemblage, en s'appuyant sur la géométrie des autres composants (esquisse sur leurs faces, projection de leurs arêtes, limite d'extrusion jusqu'à leurs faces).
@@ -1355,7 +1355,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Propriétés des articles
 STATEMENT: >>>
 Le logiciel doit permettre de renseigner pour chaque pièce et chaque assemblage au moins une référence et une désignation, utilisées par la nomenclature. La référence est initialisée par défaut au nom du document.
@@ -1370,7 +1370,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Contenu de la nomenclature
 STATEMENT: >>>
 Le logiciel doit établir la nomenclature d'un assemblage sous forme d'une liste d'articles comportant au minimum : numéro de repère, référence, désignation, quantité, et matériau quand il est défini (BES-F-11).
@@ -1389,7 +1389,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Niveaux de nomenclature
 STATEMENT: >>>
 Le logiciel doit proposer trois présentations de la nomenclature : premier niveau seul (un sous-assemblage compte comme un article), multi-niveaux indentée, et pièces seules (quantités cumulées sur tous les niveaux).
@@ -1404,7 +1404,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Mise à jour de la nomenclature
 STATEMENT: >>>
 La nomenclature doit se mettre à jour automatiquement quand des composants sont ajoutés, supprimés ou remplacés, ou quand leurs propriétés changent. Un numéro de repère attribué à un article est conservé tant que l'article reste dans l'assemblage.
@@ -1419,7 +1419,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Exclusion d'un composant
 STATEMENT: >>>
 Le logiciel doit permettre de marquer un composant comme exclu de la nomenclature (par exemple une pièce de référence ou un montage de contrôle), sans le retirer de l'assemblage.
@@ -1434,7 +1434,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Report dans la mise en plan
 STATEMENT: >>>
 Le logiciel doit permettre d'insérer la nomenclature d'un assemblage sous forme de tableau dans une mise en plan, avec choix des colonnes, et de placer sur les vues des bulles de repère liées aux composants.
@@ -1463,7 +1463,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Mesures géométriques
 STATEMENT: >>>
 Le logiciel doit mesurer, entre des entités choisies (sommets, arêtes, faces, composants) :
@@ -1486,7 +1486,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Propriétés de masse
 STATEMENT: >>>
 Le logiciel doit calculer, pour une pièce, un ensemble de pièces sélectionnées ou un assemblage : volume, aire totale, masse, centre de gravité, matrice d'inertie au centre de gravité et dans un repère choisi, moments et axes principaux d'inertie.
@@ -1503,7 +1503,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Affectation d'un matériau
 STATEMENT: >>>
 Le logiciel doit permettre d'affecter un matériau à chaque pièce, choisi dans une bibliothèque fournie ou créé par l'utilisateur. Un matériau porte au minimum un nom et une masse volumique.
@@ -1525,7 +1525,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Exactitude des mesures
 STATEMENT: >>>
 Les mesures et propriétés de masse doivent être calculées sur la géométrie exacte, jamais sur le maillage d'affichage, et vérifiées sur des cas de référence à résultat analytique (cube, cylindre, sphère, tore, assemblage de solides simples de matériaux différents). L'écart admis est fixé par EXT-1003 (écart relatif inférieur ou égal à 1e-6).
@@ -1553,7 +1553,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Document de mise en plan
 STATEMENT: >>>
 Le logiciel doit permettre de créer une mise en plan d'une pièce ou d'un assemblage, composée d'une ou plusieurs feuilles. Chaque feuille a un format (A4 à A0, ou personnalisé), une orientation, une échelle par défaut et un cartouche dont les champs se remplissent à partir des propriétés du modèle.
@@ -1573,7 +1573,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Vues projetées et vues libres
 STATEMENT: >>>
 Le logiciel doit générer à partir du modèle 3D :
@@ -1595,7 +1595,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Vues en coupe
 STATEMENT: >>>
 Le logiciel doit générer des vues en coupe à partir d'un trait de coupe tracé sur une vue (droit ou brisé), avec hachures dépendant du matériau et désignation de la coupe (par exemple A-A).
@@ -1615,7 +1615,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Associativité des vues
 STATEMENT: >>>
 Les vues doivent se mettre à jour quand le modèle change. Si la mise à jour n'est pas faite automatiquement, la feuille est signalée comme obsolète et les vues ne sont jamais présentées comme à jour à tort.
@@ -1632,7 +1632,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Cotation et annotations
 STATEMENT: >>>
 Le logiciel doit permettre de coter les vues : cotes linéaires, angulaires, de rayon et de diamètre, associatives à la géométrie de la vue, et reprise des cotes du modèle. Il doit aussi permettre d'ajouter des textes et des repères.
@@ -1658,7 +1658,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Export PDF
 STATEMENT: >>>
 Le logiciel doit exporter une mise en plan en PDF vectoriel, une page par feuille, au format de la feuille, de sorte qu'une impression à 100 % respecte l'échelle indiquée.
@@ -1673,7 +1673,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Export DXF
 STATEMENT: >>>
 Le logiciel doit exporter une feuille de mise en plan en DXF, la géométrie étant écrite en vraie grandeur dans l'unité du document, avec des calques distincts au minimum pour les traits visibles, les traits cachés, les axes, les cotes, les hachures et le cadre.
@@ -1695,7 +1695,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v3
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Export d'une vue seule en vraie grandeur
 STATEMENT: >>>
 Le logiciel doit exporter en DXF une vue seule, sans cadre ni cartouche, en vraie grandeur, par exemple pour une découpe.
@@ -1723,7 +1723,7 @@ NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Courbes 3D
 STATEMENT: >>>
 Le logiciel doit permettre de créer des courbes 3D servant de trajectoires et de guides : spline 3D passant par des points, hélice, courbe projetée sur une surface, intersection de deux surfaces.
@@ -1741,7 +1741,7 @@ NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Balayage
 STATEMENT: >>>
 Le logiciel doit créer une surface ou un solide par balayage d'un profil le long d'une trajectoire, avec le choix de l'orientation du profil (normal à la trajectoire, direction fixe, ou piloté par une courbe guide).
@@ -1758,7 +1758,7 @@ NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Lissage
 STATEMENT: >>>
 Le logiciel doit créer une surface ou un solide par lissage entre au moins deux sections, avec courbes guides optionnelles et conditions de continuité imposables aux sections extrêmes (position, tangence).
@@ -1773,7 +1773,7 @@ NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Raccordement
 STATEMENT: >>>
 Le logiciel doit créer une surface de raccordement entre deux surfaces, avec une continuité choisie sur chaque bord : position (G0), tangence (G1) ou courbure (G2).
@@ -1788,7 +1788,7 @@ NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Opérations sur surfaces
 STATEMENT: >>>
 Le logiciel doit permettre de remplir un contour fermé par une surface, d'extruder et de faire tourner un profil en surface, de couper, prolonger et coudre des surfaces.
@@ -1803,7 +1803,7 @@ NATURE: Fonctionnel
 PRIORITE: Important
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Conversion en solide
 STATEMENT: >>>
 Le logiciel doit convertir en solide un ensemble de surfaces qui délimite un volume fermé, et épaissir une surface ouverte d'une épaisseur donnée.
@@ -1822,7 +1822,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Analyse de continuité
 STATEMENT: >>>
 Le logiciel doit permettre de vérifier la continuité entre deux surfaces (écarts de position, de tangence et de courbure le long du bord commun).
@@ -1850,7 +1850,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Import STEP
 STATEMENT: >>>
 Le logiciel doit importer un fichier STEP (AP203, AP214 et AP242) contenant des pièces ou des assemblages :
@@ -1871,7 +1871,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Export STEP
 STATEMENT: >>>
 Le logiciel doit exporter une pièce ou un assemblage en STEP, en conservant la géométrie exacte, la structure d'assemblage, les noms et les couleurs. Le protocole est choisi à l'export : AP242 par défaut, AP214 en option pour les logiciels plus anciens.
@@ -1889,7 +1889,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Import et export IGES
 STATEMENT: >>>
 Le logiciel doit importer et exporter des surfaces et des solides au format IGES 5.3.
@@ -1904,7 +1904,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Export STL
 STATEMENT: >>>
 Le logiciel doit exporter une pièce ou un assemblage en STL (binaire ou ASCII), avec une finesse de maillage réglable (écart maximal à la surface et écart angulaire) et dans une unité choisie. L'utilisateur est informé que le STL est une approximation de la géométrie.
@@ -1919,7 +1919,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Import STL
 STATEMENT: >>>
 Le logiciel doit importer un fichier STL comme maillage. À l'import, il propose à l'utilisateur, avec un aperçu du rendu, trois usages :
@@ -1941,7 +1941,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Rapport d'import
 STATEMENT: >>>
 Après chaque import, le logiciel doit indiquer les entités lues, celles qui n'ont pas pu l'être et les réparations effectuées. Un solide importé invalide est signalé comme tel ; il n'est pas utilisé comme base d'opérations tant qu'il n'est pas réparé.
@@ -1956,7 +1956,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Aller-retour STEP
 STATEMENT: >>>
 Une pièce exportée en STEP puis réimportée doit avoir la même géométrie, à la tolérance de modélisation près, et les mêmes propriétés de masse (volume, centre de gravité) à cette tolérance.
@@ -1983,7 +1983,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Contenu enregistré
 STATEMENT: >>>
 Le logiciel doit enregistrer tout ce qui est nécessaire pour reprendre le travail à l'identique : documents, historique complet (éléments de référence, esquisses, contraintes, cotes, opérations et leur ordre, état d'activation), paramètres et formules, composants et contraintes d'assemblage, mises en plan, propriétés, matériaux, unités. L'état d'affichage n'est pas enregistré (EXF-0404).
@@ -2002,7 +2002,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Réouverture fidèle
 STATEMENT: >>>
 Rouvrir un projet enregistré doit redonner le même modèle : même historique, mêmes valeurs, et une géométrie recalculée identique à celle de l'enregistrement, à la tolérance de modélisation près.
@@ -2017,7 +2017,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Inspection
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Format ouvert et documenté
 STATEMENT: >>>
 Le format de projet doit être décrit par une spécification livrée avec le logiciel, suffisante pour qu'un programme tiers puisse lire l'historique et les paramètres sans PersoCAO. Chaque fichier indique la version du format qui l'a produit.
@@ -2037,7 +2037,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Références entre documents
 STATEMENT: >>>
 Les références d'un assemblage ou d'une mise en plan vers leurs documents sources doivent survivre au déplacement ou à la copie du dossier projet complet dans un autre dossier ou sur une autre machine : un document est désigné par son chemin à l'intérieur du dossier projet.
@@ -2058,7 +2058,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Données des modules métier
 STATEMENT: >>>
 Les données créées par un module métier doivent être enregistrées dans le projet. Un projet qui contient des données d'un module absent ou désactivé doit s'ouvrir quand même : ces données sont signalées, conservées intactes et réécrites telles quelles à l'enregistrement.
@@ -2085,7 +2085,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Installer un module
 STATEMENT: >>>
 Le logiciel doit installer un module métier à partir d'un fichier local, sans connexion réseau, sans recompiler ni réinstaller le socle.
@@ -2102,7 +2102,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Activer, désactiver, désinstaller
 STATEMENT: >>>
 Le logiciel doit permettre d'activer, de désactiver et de désinstaller un module. Un module désactivé n'est pas chargé et n'apporte aucune commande ; il reste installé.
@@ -2122,7 +2122,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Liste des modules
 STATEMENT: >>>
 Le logiciel doit afficher la liste des modules installés avec, pour chacun, son nom, sa version, son auteur, la version d'interface requise et son état (actif, désactivé, en erreur).
@@ -2137,7 +2137,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Module défaillant
 STATEMENT: >>>
 Un module qui échoue au chargement ne doit pas empêcher le socle de démarrer : il est désactivé et signalé en erreur avec la cause.
@@ -2152,7 +2152,7 @@ NATURE: Fonctionnel
 PRIORITE: Indispensable
 CIBLE: Socle v1
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Intégration des fonctions d'un module
 STATEMENT: >>>
 Les éléments créés par une fonction d'un module (opérations, esquisses, données) doivent être intégrés à l'historique (BES-F-02), à l'annulation (BES-F-03) et à l'enregistrement (BES-F-07) comme ceux du socle.
@@ -2183,7 +2183,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Exécution de scripts
 STATEMENT: >>>
 Le logiciel doit permettre d'écrire, d'enregistrer et d'exécuter des scripts qui accèdent aux fonctions de modélisation (création et modification d'esquisses, d'opérations, de paramètres, d'assemblages), dans le langage de script du logiciel.
@@ -2217,7 +2217,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Outils de résistance des matériaux
 STATEMENT: >>>
 Le logiciel doit fournir des outils de calcul de poutres (flexion, torsion, flambement) qui affichent les équations de référence utilisées et leurs hypothèses, et dont les résultats sont vérifiés sur des cas connus.
@@ -2232,7 +2232,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Calcul par éléments finis
 STATEMENT: >>>
 Le logiciel doit calculer en élasticité linéaire statique les déplacements et les contraintes d'une pièce ou d'un assemblage, à partir du matériau des pièces (BES-F-11), de conditions aux limites et de chargements définis par l'utilisateur, et vérifier ses résultats sur des cas de référence.
@@ -2262,7 +2262,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Préparation de l'usinage
 STATEMENT: >>>
 Le logiciel doit calculer des trajectoires d'outil à partir de la géométrie d'une pièce, d'un brut et d'outils définis par l'utilisateur, les simuler, et les exporter dans un programme pour machine à commande numérique.
@@ -2290,7 +2290,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Référence et indice de révision
 STATEMENT: >>>
 Le logiciel doit associer à chaque pièce et chaque assemblage une référence et un indice de révision, et permettre de créer une nouvelle révision en conservant la précédente.
@@ -2307,7 +2307,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: État d'un article
 STATEMENT: >>>
 Le logiciel doit attribuer à chaque article un état parmi « en cours », « validé » et « périmé », et empêcher la modification d'un article validé sans création d'une nouvelle révision.
@@ -2322,7 +2322,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v2
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Cas d'emploi
 STATEMENT: >>>
 Le logiciel doit indiquer, pour une pièce ou un sous-assemblage, la liste des assemblages du projet qui l'utilisent.
@@ -2347,7 +2347,7 @@ NATURE: Fonctionnel
 PRIORITE: Souhaitable
 CIBLE: Socle v3
 VERIFICATION: Test
-STATUT: Brouillon
+STATUT: Validé
 TITLE: Reconstruction depuis une mise en plan
 STATEMENT: >>>
 Le logiciel doit proposer de reconstruire une pièce 3D à partir de vues 2D cotées (issues d'une mise en plan ou d'un DXF), en produisant un historique paramétrique modifiable, et signaler les vues incohérentes entre elles.
