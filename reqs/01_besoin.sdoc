@@ -616,7 +616,7 @@ Propositions à valider par Fab :
 - Raccourcis : Ctrl+Z et Ctrl+Y (ou Ctrl+Maj+Z) annuler et rétablir ; Ctrl+N, Ctrl+O, Ctrl+S, Ctrl+Maj+S nouveau, ouvrir, enregistrer, enregistrer sous ; Ctrl+W fermer ; Suppr supprimer la sélection ; Échap interrompre la commande en cours ou vider la sélection ; Entrée valider ; F2 renommer dans l'arbre ; F ajuster la vue au modèle ; touches dédiées aux vues standard (face, dessus, droite, isométrique) ; Ctrl+F rechercher dans l'arbre ; F1 aide sur l'outil actif ; Espace répéter la dernière commande. Tous les raccourcis sont personnalisables et listés dans une fenêtre d'aide.
 - Thèmes : thème du système suivi par défaut ; fond de la vue 3D, couleurs de sélection, de survol et d'état (sous-contraint, sur-contraint, en erreur) définis pour chaque thème.
 - Accessibilité : contrastes du texte d'au moins 4,5:1 (niveau AA des règles WCAG) dans les deux thèmes ; aucune information portée par la couleur seule (forme ou icône en plus, palette lisible par les daltoniens) ; toutes les commandes accessibles au clavier, avec un focus visible ; info-bulle sur chaque icône ; échelle de l'interface et taille du texte réglables, écrans à haute densité gérés ; noms accessibles pour les lecteurs d'écran (mécanisme d'accessibilité de Qt 6) ; sensibilité de la navigation 3D réglable.
-- Tactile et stylet : la configuration de référence (Surface Pro X, EXT-0104) a un écran tactile et un stylet. Faut-il les prendre en charge en version 1 (navigation 3D au doigt, cibles assez grandes) ?
+- Tactile et stylet, décidé par Fab le 23 novembre 2026 : en version 1, toucher simple et stylet utilisés comme la souris (émulation fournie par Qt 6, survol au stylet compris), échelle de l'interface réglable, et une couche d'entrée du viewer qui sépare les gestes (souris, doigt, stylet) des actions de navigation, prévue dès le jalon 1. En version 3 : navigation 3D par gestes (pincer, deux doigts), remplacement du survol au doigt, disposition adaptée au tactile.
 <<<
 RELATIONS:
 - TYPE: Parent
@@ -909,7 +909,7 @@ STATEMENT: >>>
 - ☑ Choisir la distribution Linux de référence : Ubuntu 24.04 LTS, en x86-64 et en ARM64 (EXT-0101, 18 novembre 2026).
 - ☑ Décider si PersoCAO restera privé ou pourra être publié un jour : cela conditionne le choix de licence et les obligations liées à Qt et Open CASCADE. Décision initiale : PersoCAO restera privé. Décision du 18 novembre 2026 : le dépôt est public ; les licences GPL sont exclues des dépendances (spécification technique, EXT-0702) et PersoCAO est publié sous MPL 2.0 (EXT-0706).
 - ☐ Valider la liste des prototypes de levée de risque.
-- ☐ Valider BES-F-21 (ergonomie de l'interface) : raccourcis, accessibilité, prise en charge du tactile et du stylet.
+- ☐ Valider BES-F-21 (ergonomie de l'interface) : raccourcis et accessibilité. Tactile et stylet tranchés (minimum en v1, mode tactile complet en v3).
 - ☐ Préciser ce que recouvrent les niveaux de développement (le niveau 3 étant celui du travail graphique détaillé).
 - ☑ Choisir le nom définitif (« PersoCAO » est un nom de travail).
 - ☐ Fixer le critère mesurable de stabilité du solveur d'esquisse (PO-05) à l'issue du prototype « Solveur d'esquisse », puis valider EXF-1909.
