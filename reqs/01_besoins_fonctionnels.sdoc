@@ -1,0 +1,403 @@
+[DOCUMENT]
+TITLE: PersoCAO – Besoins fonctionnels
+VERSION: 1.0
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: TEXT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: NATURE
+    TYPE: SingleChoice(Cas d'usage, Fonctionnel, Technique, Interface, Conception, Test)
+    REQUIRED: True
+  - TITLE: PRIORITE
+    TYPE: SingleChoice(Indispensable, Important, Souhaitable)
+    REQUIRED: False
+  - TITLE: CIBLE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: VERIFICATION
+    TYPE: SingleChoice(Test, Analyse, Inspection, Démonstration)
+    REQUIRED: False
+  - TITLE: STATUT
+    TYPE: SingleChoice(Brouillon, Validé, Rejeté, Reporté)
+    REQUIRED: True
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: COMMENT
+    TYPE: String
+    REQUIRED: False
+  RELATIONS:
+  - TYPE: Parent
+
+[TEXT]
+STATEMENT: >>>
+Besoins fonctionnels (BES-F) de l'expression du besoin (``01_besoin.sdoc``, chapitre « Besoins fonctionnels »). Vingt besoins de haut niveau, dont 14 indispensables pour le socle v1, chacun rattaché à un ou plusieurs cas d'usage (CU) et détaillé en exigences vérifiables dans la spécification fonctionnelle (``02_spec_fonctionnelle.sdoc``). Priorités : Indispensable (sans lui, pas de version 1), Important (version 1 si possible), Souhaitable (plus tard). Besoins validés par Fab le 18 novembre 2026.
+<<<
+
+[REQUIREMENT]
+UID: BES-F-01
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Pièce paramétrique
+STATEMENT: >>>
+Créer une pièce 3D à partir d'une esquisse 2D contrainte (BES-F-19), avec au minimum les opérations suivantes : extrusion, poche, révolution, perçage, congé, chanfrein, dépouille, coque, répétitions, symétrie.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+
+[REQUIREMENT]
+UID: BES-F-02
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Historique modifiable
+STATEMENT: >>>
+Visualiser les liens entre les opérations 3D et leurs esquisses, et modifier à tout moment une cote, une esquisse ou une étape de l'historique, avec recalcul automatique de tout ce qui en dépend.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+
+[REQUIREMENT]
+UID: BES-F-03
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Annuler et rétablir
+STATEMENT: >>>
+Annuler et rétablir toute action de modélisation.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03
+- TYPE: Parent
+  VALUE: CU-05
+
+[REQUIREMENT]
+UID: BES-F-04
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Démonstration
+STATUT: Validé
+TITLE: Visualisation 3D
+STATEMENT: >>>
+Visualiser le modèle en 3D, naviguer (rotation, zoom, déplacement) et sélectionner faces, arêtes et sommets ; afficher ou masquer des pièces et des faces ; réaliser des coupes (un ou plusieurs plans de coupe).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03
+- TYPE: Parent
+  VALUE: CU-04
+- TYPE: Parent
+  VALUE: CU-05
+
+[REQUIREMENT]
+UID: BES-F-05
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Assemblages
+STATEMENT: >>>
+Assembler des pièces par contraintes de position et détecter les interférences. L'assemblage est un modèle modifiable, qui peut servir de base pour la conception d'une nouvelle pièce.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-02
+
+[REQUIREMENT]
+UID: BES-F-06
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Échanges STEP, IGES, STL
+STATEMENT: >>>
+Importer et exporter en STEP, IGES et STL.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-04
+
+[REQUIREMENT]
+UID: BES-F-07
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Format de projet ouvert
+STATEMENT: >>>
+Enregistrer et rouvrir un projet dans un format ouvert, avec tout son historique paramétrique.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03
+- TYPE: Parent
+  VALUE: CU-04
+- TYPE: Parent
+  VALUE: CU-05
+- TYPE: Parent
+  VALUE: CU-06
+
+[REQUIREMENT]
+UID: BES-F-08
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Modules métier installables
+STATEMENT: >>>
+Installer, activer et désactiver des modules métier sans recompiler ni réinstaller le socle.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-06
+
+[REQUIREMENT]
+UID: BES-F-09
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Mises en plan
+STATEMENT: >>>
+Produire des mises en plan 2D cotées (vues, coupes, nomenclature) exportées en PDF et DXF.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-03
+
+[REQUIREMENT]
+UID: BES-F-10
+NATURE: Fonctionnel
+PRIORITE: Important
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Surfaces complexes
+STATEMENT: >>>
+Créer des surfaces complexes (balayage, lissage, raccordement) et les convertir en solide.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-05
+
+[REQUIREMENT]
+UID: BES-F-11
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Mesures et analyses
+STATEMENT: >>>
+Mesurer et analyser : distances, angles, volume, masse, centre de gravité, inerties. Affecter un matériau à chaque pièce.
+<<<
+RATIONALE: >>>
+Pour l'affichage et les autres analyses.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+
+[REQUIREMENT]
+UID: BES-F-12
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Paramètres et formules
+STATEMENT: >>>
+Définir des paramètres nommés et des formules qui pilotent les cotes.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+
+[REQUIREMENT]
+UID: BES-F-13
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Macros
+STATEMENT: >>>
+Automatiser des tâches par script (macros).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-06
+
+[REQUIREMENT]
+UID: BES-F-14
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Calcul de structure
+STATEMENT: >>>
+Calculer par éléments finis la tenue d'une pièce ou d'un assemblage (contraintes, déformations), dans un module complet qui inclut les outils de résistance des matériaux (poutres, flexion, torsion, flambement) avec leurs équations de référence, documentées et vérifiées sur des cas connus.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+
+[REQUIREMENT]
+UID: BES-F-15
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Usinage
+STATEMENT: >>>
+Préparer l'usinage d'une pièce (trajectoires d'outil, export pour machine à commande numérique).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+
+[REQUIREMENT]
+UID: BES-F-16
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v2
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Gestion de données produit légère
+STATEMENT: >>>
+Gérer les données produit pour un utilisateur seul : référence et indice de révision de chaque pièce, état (en cours, validé, périmé), cas d'emploi. La nomenclature fait l'objet de BES-F-20 (Socle v1).
+<<<
+COMMENT: >>>
+Validé par Fab le 16 octobre 2026. Nomenclature séparée en BES-F-20 et remise en v1 le 18 novembre 2026.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03
+
+[REQUIREMENT]
+UID: BES-F-17
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Repérage
+STATEMENT: >>>
+Disposer dans chaque pièce et chaque assemblage d'un repère absolu (origine, axes X, Y, Z, trois plans principaux). Pouvoir créer des repères locaux et positionner tout élément par rapport à l'un d'eux. Unités choisies par document (millimètre par défaut).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-04
+
+[REQUIREMENT]
+UID: BES-F-18
+NATURE: Fonctionnel
+PRIORITE: Souhaitable
+CIBLE: Socle v3
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Reconstruction depuis une mise en plan
+STATEMENT: >>>
+Reconstruire une pièce 3D à partir de sa mise en plan 2D (vues cotées).
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-03
+
+[REQUIREMENT]
+UID: BES-F-19
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Esquisses paramétriques
+STATEMENT: >>>
+Créer une esquisse 2D contrainte sur une face plane ou un plan (principal, de repère local ou de coupe…), avec contraintes géométriques et cotes.
+<<<
+COMMENT: >>>
+Les outils d'esquisse seront à valider par Fab.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+
+[REQUIREMENT]
+UID: BES-F-20
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Test
+STATUT: Validé
+TITLE: Nomenclature
+STATEMENT: >>>
+Établir la nomenclature d'un assemblage (pièces, quantités, références) et la reporter dans les mises en plan (BES-F-09).
+<<<
+RATIONALE: >>>
+Nécessaire à BES-F-09 en v1, alors que la gestion de données produit (BES-F-16) est prévue en v2.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03

@@ -1,6 +1,6 @@
 # PersoCAO – Expression du besoin
 
-L'expression du besoin (texte complet, cas d'usage, besoins BES-F et BES-T) est tenue dans [`reqs/01_besoin.sdoc`](../../reqs/01_besoin.sdoc), au format StrictDoc. Ce fichier fait foi.
+L'expression du besoin (texte complet et cas d'usage) est tenue dans [`reqs/01_besoin.sdoc`](../../reqs/01_besoin.sdoc), au format StrictDoc ; les besoins sont dans [`reqs/01_besoins_fonctionnels.sdoc`](../../reqs/01_besoins_fonctionnels.sdoc) (BES-F) et [`reqs/01_besoins_techniques.sdoc`](../../reqs/01_besoins_techniques.sdoc) (BES-T). Ces fichiers font foi.
 
 Pour la lire :
 

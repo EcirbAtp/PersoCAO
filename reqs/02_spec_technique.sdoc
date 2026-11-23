@@ -52,7 +52,7 @@ ELEMENTS:
 
 [TEXT]
 STATEMENT: >>>
-Cette spécification décline chaque besoin technique (BES-T) de reqs/01_besoin.sdoc, version 1.0, en exigences techniques (EXT) mesurables. Chaque exigence donne son énoncé, son critère d'acceptation (champ ACCEPTATION) et sa méthode de vérification, et cite son ou ses besoins parents. Les UID suivent le besoin principal : EXT-0101 à EXT-0199 pour BES-T-01, EXT-1001 et suivants pour BES-T-10.
+Cette spécification décline chaque besoin technique (BES-T) de reqs/01_besoins_techniques.sdoc, version 1.0, en exigences techniques (EXT) mesurables. Chaque exigence donne son énoncé, son critère d'acceptation (champ ACCEPTATION) et sa méthode de vérification, et cite son ou ses besoins parents. Les UID suivent le besoin principal : EXT-0101 à EXT-0199 pour BES-T-01, EXT-1001 et suivants pour BES-T-10.
 
 La priorité d'une exigence est celle de son besoin principal. Une exigence peut être vérifiée par une méthode plus forte que son besoin (un test là où le besoin prévoit une inspection) quand un critère mesurable existe.
 
