@@ -54,7 +54,7 @@ TITLE: Objet du document
 STATEMENT: >>>
 Ce document fixe le besoin de PersoCAO : ce que le logiciel doit permettre, pour qui, et sous quelles contraintes. C'est la première étape du V descendant. La spécification fonctionnelle (EXF) et la spécification technique (EXT) en découlent et sont validées ; la spécification IHM et l'étude de faisabilité restent à faire.
 
-Statut : tous les besoins validés par Fab le 18 novembre 2026 (v1.0). La version 1.1 ne modifie aucun besoin : elle reporte les décisions prises depuis dans les spécifications (licence, plateformes, solveur d'esquisse, publication des exigences). Ce fichier StrictDoc (``reqs/01_besoin.sdoc``) fait foi : il porte à la fois le texte de l'expression du besoin et les besoins eux-mêmes. Le tableur de synthèse et le site HTML en sont générés.
+Statut : tous les besoins validés par Fab le 18 novembre 2026 (v1.0). BES-F-21 (ergonomie de l'interface), ajouté le 23 novembre 2026 en vue de la spécification IHM, est en Brouillon. Pour le reste, la version 1.1 ne modifie aucun besoin : elle reporte les décisions prises depuis dans les spécifications (licence, plateformes, solveur d'esquisse, publication des exigences). Ce fichier StrictDoc (``reqs/01_besoin.sdoc``) fait foi : il porte à la fois le texte de l'expression du besoin et les besoins eux-mêmes. Le tableur de synthèse et le site HTML en sont générés.
 <<<
 
 [[/SECTION]]
@@ -143,8 +143,8 @@ Une exigence sans parent, ou un besoin sans exigence ni test, est signalé autom
      - Statut
    * - Besoins (``01_besoin.sdoc``)
      - 1.0
-     - 6 CU, 20 BES-F, 10 BES-T
-     - Tous validés le 18 novembre 2026
+     - 6 CU, 21 BES-F, 10 BES-T
+     - Validés le 18 novembre 2026, sauf BES-F-21 (ergonomie, ajouté le 23 novembre 2026) en Brouillon
    * - Spécification fonctionnelle (``02_spec_fonctionnelle.sdoc``)
      - 1.0
      - 112 EXF
@@ -236,7 +236,7 @@ TITLE: Besoins fonctionnels
 
 [TEXT]
 STATEMENT: >>>
-Vingt besoins de haut niveau, dont 14 indispensables pour le socle v1. Chacun sera détaillé en exigences vérifiables dans la spécification fonctionnelle. Priorités : Indispensable (sans lui, pas de version 1), Important (version 1 si possible), Souhaitable (plus tard).
+Vingt et un besoins de haut niveau, dont 15 indispensables pour le socle v1. Chacun sera détaillé en exigences vérifiables dans la spécification fonctionnelle. Priorités : Indispensable (sans lui, pas de version 1), Important (version 1 si possible), Souhaitable (plus tard).
 <<<
 
 [REQUIREMENT]
@@ -589,6 +589,45 @@ RELATIONS:
 - TYPE: Parent
   VALUE: CU-03
 
+[REQUIREMENT]
+UID: BES-F-21
+NATURE: Fonctionnel
+PRIORITE: Indispensable
+CIBLE: Socle v1
+VERIFICATION: Démonstration
+STATUT: Brouillon
+TITLE: Ergonomie de l'interface
+STATEMENT: >>>
+Offrir une interface organisée, rapide à utiliser au clavier comme à la souris, lisible et accessible :
+
+- une fenêtre principale organisée en zones fixes : au centre, la vue de travail sur la pièce ou l'assemblage ; à gauche, l'arborescence (arbre de construction) ; à droite, un bandeau d'outils (esquisse, contraintes, mesures, etc.) sur deux colonnes d'icônes, regroupés par groupes, le groupe affiché étant choisi dans une liste déroulante en haut du bandeau ; en haut, la barre des menus classiques d'un logiciel de CAO ; en bas, une barre d'état avec des indicateurs (position de l'élément sélectionné dans le repère, nom, nature, autres à définir) ;
+- des raccourcis clavier pour les commandes courantes, dont annuler et rétablir ;
+- un thème clair et un thème sombre, chacun adapté pour garder une bonne lisibilité de l'interface et une bonne visualisation du modèle ;
+- une interface accessible (lisibilité, usage au clavier, indépendance vis-à-vis de la couleur seule).
+<<<
+RATIONALE: >>>
+Les EXF et EXT imposent déjà de nombreux éléments visibles (vue 3D, arbre, retours d'état, dialogues, langue, réactivité), mais aucun besoin ne portait l'organisation de la fenêtre, les raccourcis, les thèmes ni l'accessibilité : sans ce besoin, les exigences d'interface (EXI) correspondantes n'auraient pas de parent.
+<<<
+COMMENT: >>>
+Organisation de la fenêtre, raccourcis annuler/rétablir et thèmes clair et sombre : choix de Fab du 23 novembre 2026. Le détail relève de la spécification IHM (EXI).
+
+Propositions à valider par Fab :
+
+- Raccourcis : Ctrl+Z et Ctrl+Y (ou Ctrl+Maj+Z) annuler et rétablir ; Ctrl+N, Ctrl+O, Ctrl+S, Ctrl+Maj+S nouveau, ouvrir, enregistrer, enregistrer sous ; Ctrl+W fermer ; Suppr supprimer la sélection ; Échap interrompre la commande en cours ou vider la sélection ; Entrée valider ; F2 renommer dans l'arbre ; F ajuster la vue au modèle ; touches dédiées aux vues standard (face, dessus, droite, isométrique) ; Ctrl+F rechercher dans l'arbre ; F1 aide sur l'outil actif ; Espace répéter la dernière commande. Tous les raccourcis sont personnalisables et listés dans une fenêtre d'aide.
+- Thèmes : thème du système suivi par défaut ; fond de la vue 3D, couleurs de sélection, de survol et d'état (sous-contraint, sur-contraint, en erreur) définis pour chaque thème.
+- Accessibilité : contrastes du texte d'au moins 4,5:1 (niveau AA des règles WCAG) dans les deux thèmes ; aucune information portée par la couleur seule (forme ou icône en plus, palette lisible par les daltoniens) ; toutes les commandes accessibles au clavier, avec un focus visible ; info-bulle sur chaque icône ; échelle de l'interface et taille du texte réglables, écrans à haute densité gérés ; noms accessibles pour les lecteurs d'écran (mécanisme d'accessibilité de Qt 6) ; sensibilité de la navigation 3D réglable.
+- Tactile et stylet : la configuration de référence (Surface Pro X, EXT-0104) a un écran tactile et un stylet. Faut-il les prendre en charge en version 1 (navigation 3D au doigt, cibles assez grandes) ?
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: CU-01
+- TYPE: Parent
+  VALUE: CU-02
+- TYPE: Parent
+  VALUE: CU-03
+- TYPE: Parent
+  VALUE: CU-05
+
 [TEXT]
 STATEMENT: >>>
 Les besoins propres aux modules métier (profils d'aile, carènes et hydrostatique, etc.) seront exprimés dans un document par module.
@@ -821,7 +860,7 @@ Les jalons démarrent une fois le V descendant terminé. Les jalons 1 à 5 forme
      - Besoins couverts
    * - 1. Base
      - Fenêtre principale, viewer 3D (rotation, zoom, déplacement), sélection, arbre de spécifications, compas, repères, chargement des modules.
-     - BES-F-04, 08, 17
+     - BES-F-04, 08, 17, 21
    * - 2. Pièces
      - Esquisses 2D contraintes, extrusion, poche, révolution, congés, chanfreins, dépouilles, répétitions, symétrie, historique paramétrique modifiable.
      - BES-F-01, 02, 03, 06, 07, 12, 19
@@ -870,6 +909,7 @@ STATEMENT: >>>
 - ☑ Choisir la distribution Linux de référence : Ubuntu 24.04 LTS, en x86-64 et en ARM64 (EXT-0101, 18 novembre 2026).
 - ☑ Décider si PersoCAO restera privé ou pourra être publié un jour : cela conditionne le choix de licence et les obligations liées à Qt et Open CASCADE. Décision initiale : PersoCAO restera privé. Décision du 18 novembre 2026 : le dépôt est public ; les licences GPL sont exclues des dépendances (spécification technique, EXT-0702) et PersoCAO est publié sous MPL 2.0 (EXT-0706).
 - ☐ Valider la liste des prototypes de levée de risque.
+- ☐ Valider BES-F-21 (ergonomie de l'interface) : raccourcis, accessibilité, prise en charge du tactile et du stylet.
 - ☐ Préciser ce que recouvrent les niveaux de développement (le niveau 3 étant celui du travail graphique détaillé).
 - ☑ Choisir le nom définitif (« PersoCAO » est un nom de travail).
 - ☐ Fixer le critère mesurable de stabilité du solveur d'esquisse (PO-05) à l'issue du prototype « Solveur d'esquisse », puis valider EXF-1909.
