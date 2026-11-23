@@ -52,7 +52,7 @@ TITLE: Objet et conventions
 
 [TEXT]
 STATEMENT: >>>
-Ce document décline chaque besoin fonctionnel (BES-F) de ``01_besoins_fonctionnels.sdoc`` en exigences fonctionnelles (EXF) vérifiables : comportement attendu, entrées et sorties, règles et cas limites. Il ne fixe pas l'architecture ni le choix des bibliothèques, qui relèvent de la conception (CON). Les exigences techniques (EXT) sont dans ``02_spec_technique.sdoc`` et les exigences d'interface et de rendu (EXI) viendront avec la spécification IHM.
+Ce document décline chaque besoin fonctionnel (BES-F) de ``01_besoin.sdoc`` en exigences fonctionnelles (EXF) vérifiables : comportement attendu, entrées et sorties, règles et cas limites. Il ne fixe pas l'architecture ni le choix des bibliothèques, qui relèvent de la conception (CON). Les exigences techniques (EXT) sont dans ``02_spec_technique.sdoc`` et les exigences d'interface et de rendu (EXI) viendront avec la spécification IHM.
 
 Conventions :
 
